@@ -14,13 +14,14 @@ const NavBar = () => {
         <Link to="write" className="nav-link">
           <Button variant="light">Write</Button>
         </Link>
-
-        <Button variant="dark">
-          <span className="log-in-icon">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-          </span>
-          Log in
-        </Button>
+        <Link to="auth">
+          <Button variant="dark">
+            <span className="log-in-icon">
+              <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </span>
+            Log in
+          </Button>
+        </Link>
       </nav>
       <Outlet />
     </>
