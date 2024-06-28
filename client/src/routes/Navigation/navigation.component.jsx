@@ -14,7 +14,7 @@ const NavBar = () => {
         <Link to="write" className="nav-link">
           <Button variant="light">Write</Button>
         </Link>
-        <Link to="auth">
+        <Link to="authentication">
           <Button variant="dark">
             <span className="log-in-icon">
               <i class="fa-solid fa-arrow-right-to-bracket"></i>
