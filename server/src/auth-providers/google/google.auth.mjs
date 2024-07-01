@@ -4,8 +4,8 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 dotenv.config();
 
 const config = {
-  CLIENT_ID: process.env.CLIENT_ID,
-  CLIENT_SECRET: process.env.CLIENT_SECRET,
+  CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+  CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 };
 
 const AUTH_OPTIONS = {
@@ -22,7 +22,7 @@ const verifyCallback = (accessToken, refreshToken, profile, done) => {
 passport.use(new GoogleStrategy(AUTH_OPTIONS, verifyCallback));
 
 export const googleAuth = passport.authenticate("google", {
-  scope: ["email", "profile"],
+  scope: ["email"],
 });
 
 export const googleCallback = passport.authenticate("google", {
