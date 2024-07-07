@@ -1,15 +1,15 @@
+import { Link } from "react-router-dom";
 import { URL } from "../../api-requests.js/requests";
-import "./sign-in-page.styles.css";
+import "./sign-in-form.styles.css";
 
 const providers = [
   { name: "Google", id: "google" },
-  { name: "Facebook", id: "facebook" },
-  { name: "Twitter", id: "twitter" },
+  { name: "Email and password", id: "local" },
 ];
 
-const SignInPage = () => {
+const SignInForm = () => {
   const handleClick = (provider) => {
-    window.location.href = `${URL}/auth/${provider}`;
+    window.location.href = `${URL}/auth/${provider}/signin`;
   };
 
   return (
@@ -27,9 +27,13 @@ const SignInPage = () => {
             </button>
           ))}
         </div>
+        <p>
+          Dont have an account?{" "}
+          <Link to="../authentication/sign-up">Sign up</Link>
+        </p>
       </section>
     </div>
   );
 };
 
-export default SignInPage;
+export default SignInForm;
