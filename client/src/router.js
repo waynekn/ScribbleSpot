@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import NavBar from "./routes/navigation/navigation.component";
 import AboutUs from "./components/about-us/about-us.component";
 import Article from "./components/article/read.component";
-import SignInPage from "./components/sign-in-page/sign-in-page";
+import SignInForm from "./components/sign-in-page/sign-in-form.component";
+import SignUpForm from "./components/sign-up-page/sign-up-form.component";
 import Editor from "./routes/editor/editor.component";
 import Home from "./routes/home/home";
 
@@ -17,8 +18,12 @@ export const router = createBrowserRouter([
     element: <AboutUs />,
   },
   {
-    path: "authentication",
-    element: <SignInPage />,
+    path: "authentication/sign-in",
+    element: <SignInForm />,
+  },
+  {
+    path: "authentication/sign-up",
+    element: <SignUpForm />,
   },
   {
     path: "stories",
