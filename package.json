@@ -2,7 +2,7 @@
   "name": "blogging-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.mjs",
   "scripts": {
     "watch": "npm run build --prefix client && npm run watch --prefix server",
     "test": "echo \"Error: no test specified\" && exit 1"
