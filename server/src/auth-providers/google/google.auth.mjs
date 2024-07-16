@@ -17,13 +17,6 @@ const AUTH_OPTIONS = {
   passReqToCallback: true,
 };
 
-const generateToken = (user) => {
-  const payload = {
-    name: user.name,
-  };
-  return jwt.sign(payload, process.env.JWT_SECRET);
-};
-
 const verifyCallback = async (
   req,
   accessToken,
@@ -45,8 +38,12 @@ const verifyCallback = async (
       if (existingUser) {
         done(null, false, { message: "Email already registered" });
       } else {
-        const newUser = await createUser(profile);
-        done(null, newUser);
+        try {
+          const newUser = await createUser(profile);
+          done(null, newUser);
+        } catch (error) {
+          done(error, null);
+        }
       }
     }
   } catch (error) {
@@ -64,6 +61,13 @@ export const googleAuth = (req, res, next, action) => {
   authenticator(req, res, next);
 };
 
+const generateToken = (user) => {
+  const payload = {
+    displayName: user.displayName,
+  };
+  return jwt.sign(payload, process.env.JWT_SECRET);
+};
+
 export const googleCallback = (req, res, next) => {
   passport.authenticate("google", (err, user, info) => {
     if (err || !user) {
@@ -73,7 +77,17 @@ export const googleCallback = (req, res, next) => {
     const token = generateToken(user);
     res.cookie("ssjwt", token, {
       httpOnly: true,
+      sameSite: "Strict",
     });
-    res.redirect(`/authentication/success/`);
+    res.redirect(`/authentication/success`);
   })(req, res, next);
+};
+
+export const signOutUser = (req, res, next) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
 };
