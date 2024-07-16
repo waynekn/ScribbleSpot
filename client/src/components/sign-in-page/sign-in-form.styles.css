@@ -3,6 +3,7 @@
   width: 100vw;
   display: grid;
   place-items: center;
+  position: relative;
 }
 .sign-in-buttons-container {
   width: 40vw;
@@ -34,4 +35,11 @@
 
 .provider-button:hover {
   box-shadow: 0 0 5px #333;
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
 }

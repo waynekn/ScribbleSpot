@@ -6,7 +6,12 @@ import {
 
 const authRouter = express.Router();
 
-authRouter.get("/google", googleAuth);
+authRouter.get("/google/signin", (req, res, next) => {
+  googleAuth(req, res, next, "signin");
+});
+authRouter.get("/google/signup", (req, res, next) => {
+  googleAuth(req, res, next, "signup");
+});
 authRouter.get("/google/callback", googleCallback);
 
 export default authRouter;

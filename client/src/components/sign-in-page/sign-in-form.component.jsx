@@ -1,5 +1,7 @@
-import { Link } from "react-router-dom";
-import { URL } from "../../api-requests.js/requests";
+import { Link, useLocation } from "react-router-dom";
+import MessageToast from "../toast/toast.component";
+import { authenticateUser } from "../../api-requests/requests";
+
 import "./sign-in-form.styles.css";
 
 const providers = [
@@ -8,8 +10,13 @@ const providers = [
 ];
 
 const SignInForm = () => {
-  const handleClick = (provider) => {
-    window.location.href = `${URL}/auth/${provider}/signin`;
+  const location = useLocation();
+  const message = location?.state?.message;
+
+  const getTime = () => {
+    const date = new Date(Date.now());
+    const displayTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    return displayTime;
   };
 
   return (
@@ -21,17 +28,26 @@ const SignInForm = () => {
             <button
               key={provider.id}
               className="provider-button"
-              onClick={() => handleClick(provider.id)}
+              onClick={() => authenticateUser(provider.id, "signin")}
             >
               Sign in with {provider.name}
             </button>
           ))}
         </div>
         <p>
-          Dont have an account?{" "}
+          Don't have an account?
           <Link to="../authentication/sign-up">Sign up</Link>
         </p>
       </section>
+      {message && (
+        <div className="toast-container">
+          <MessageToast
+            className="toast-container"
+            time={getTime()}
+            message={message}
+          />
+        </div>
+      )}
     </div>
   );
 };

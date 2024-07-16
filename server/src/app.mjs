@@ -1,9 +1,13 @@
 import path from "node:path";
+import { fileURLToPath } from "url";
 import express from "express";
 import passport from "passport";
 import morgan from "morgan";
 import cors from "cors";
-const authRouter = require("./routers/authentication/auth");
+import authRouter from "./routes/authentication/auth.router.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
