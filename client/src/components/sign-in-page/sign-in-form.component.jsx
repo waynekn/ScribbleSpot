@@ -13,12 +13,6 @@ const SignInForm = () => {
   const location = useLocation();
   const message = location?.state?.message;
 
-  const getTime = () => {
-    const date = new Date(Date.now());
-    const displayTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    return displayTime;
-  };
-
   return (
     <div className="sign-in-page">
       <section className="sign-in-buttons-container">
@@ -41,11 +35,7 @@ const SignInForm = () => {
       </section>
       {message && (
         <div className="toast-container">
-          <MessageToast
-            className="toast-container"
-            time={getTime()}
-            message={message}
-          />
+          <MessageToast className="toast-container" message={message} />
         </div>
       )}
     </div>
