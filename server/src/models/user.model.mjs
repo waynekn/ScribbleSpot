@@ -4,25 +4,28 @@ export const userExists = (email) => {
   return users.findOne({ email });
 };
 
-const getName = (email) => {
-  let name = "";
+//helper to generate default name for the user
+const generateName = (email) => {
+  let displayName = "";
   for (const char of email) {
-    if (char === "@") return name;
-    name += char;
+    if (char === "@") return displayName;
+    displayName += char;
   }
-  return name;
+  return displayName;
 };
 
 export const createUser = async (profile) => {
   const newUser = {
     email: profile.emails[0].value,
-    name: getName(profile.emails[0].value),
+    displayName: generateName(profile.emails[0].value),
   };
-
   try {
-    const result = await users.create(newUser);
-    return result;
+    await users.create(newUser);
   } catch (error) {
-    console.warn(error);
+    throw error;
   }
+};
+
+export const findUserProfile = async (displayName) => {
+  return users.findOne({ displayName });
 };
