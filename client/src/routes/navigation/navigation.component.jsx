@@ -7,7 +7,13 @@ import { signOutUser } from "../../api-requests/requests";
 
 import "./navigation.styles.css";
 const NavBar = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+
+  const handleSignOut = () => {
+    signOutUser();
+    setCurrentUser(null);
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -21,7 +27,7 @@ const NavBar = () => {
           <Button variant="light">Write</Button>
         </Link>
         {currentUser ? (
-          <Button variant="dark" onClick={() => signOutUser()}>
+          <Button variant="dark" onClick={handleSignOut}>
             Sign out
           </Button>
         ) : (
