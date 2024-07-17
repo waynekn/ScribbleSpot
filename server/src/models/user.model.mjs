@@ -1,8 +1,8 @@
 import users from "./user.schema.mjs";
 
-export const userExists = (email) => {
-  return users.findOne({ email });
-};
+export const userExists = (email) => users.findOne({ email });
+
+export const findUserProfile = (displayName) => users.findOne({ displayName });
 
 //helper to generate default name for the user
 const generateName = (email) => {
@@ -24,8 +24,4 @@ export const createUser = async (profile) => {
   } catch (error) {
     throw error;
   }
-};
-
-export const findUserProfile = async (displayName) => {
-  return users.findOne({ displayName });
 };
