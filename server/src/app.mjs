@@ -3,13 +3,12 @@ import { fileURLToPath } from "url";
 import express from "express";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-import jwt from "jsonwebtoken";
 import morgan from "morgan";
 import cors from "cors";
-
 import authRouter from "./routes/authentication/auth.router.mjs";
 import userRouter from "./routes/user/user.router.mjs";
-import chalk from "chalk";
+
+import { authenticateJWT } from "./middleware/auth-middleware/auth.middleware.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,24 +21,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("combined"));
 app.use(express.static(path.join(__dirname, "..", "public")));
-
-const authenticateJWT = (req, res, next) => {
-  const token = req.cookies.ssjwt;
-
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-      //assign the decoded token to the req.user object
-      req.user = user;
-      console.log(chalk.blue(req.user.displayName));
-      next();
-    });
-  } else {
-    res.sendStatus(401);
-  }
-};
 
 app.use("/auth", authRouter);
 app.use("/users", authenticateJWT, userRouter);
