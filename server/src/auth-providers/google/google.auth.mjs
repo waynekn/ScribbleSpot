@@ -84,10 +84,6 @@ export const googleCallback = (req, res, next) => {
 };
 
 export const signOutUser = (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/");
-  });
+  res.clearCookie("ssjwt");
+  res.redirect("/");
 };
