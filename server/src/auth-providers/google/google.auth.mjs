@@ -1,8 +1,9 @@
 import passport from "passport";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { userExists, createUser } from "../../models/user.model.mjs";
+import generateToken from "../../utils/jwt/token.mjs";
+
 dotenv.config();
 
 const config = {
@@ -61,15 +62,8 @@ export const googleAuth = (req, res, next, action) => {
   authenticator(req, res, next);
 };
 
-const generateToken = (user) => {
-  const payload = {
-    displayName: user.displayName,
-  };
-  return jwt.sign(payload, process.env.JWT_SECRET);
-};
-
 export const googleCallback = (req, res, next) => {
-  passport.authenticate("google", (err, user, info) => {
+  passport.authenticate("google", (err, user) => {
     if (err || !user) {
       return res.redirect(`/authentication/failure`);
     }
