@@ -14,13 +14,11 @@ const AuthStatus = () => {
       if (status === "success") {
         try {
           const profile = await getUserProfile();
-          const currentUser = {
-            email: profile.email,
-            displayName: profile.displayName,
-          };
-          setCurrentUser(currentUser);
+          setCurrentUser(profile);
           navigate("/", { replace: true });
-        } catch (error) {}
+        } catch (error) {
+          navigate("/", { replace: true });
+        }
       } else {
         navigate("/authentication/sign-in", {
           replace: true,
