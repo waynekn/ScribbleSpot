@@ -1,10 +1,9 @@
-import users from "./user.schema.mjs";
+import users from "../schemas/user.schema.mjs";
 
 export const userExists = (email) => users.findOne({ email });
 
-export const findUserProfile = (displayName) => users.findOne({ displayName });
+export const findUserProfile = (id) => users.findOne({ _id: id });
 
-//helper to generate default name for the user
 const generateName = (email) => {
   let displayName = "";
   for (const char of email) {
@@ -14,14 +13,12 @@ const generateName = (email) => {
   return displayName;
 };
 
-export const createUser = async (profile) => {
+export const createUser = (profile) => {
   const newUser = {
     email: profile.emails[0].value,
     displayName: generateName(profile.emails[0].value),
+    dateJoined: new Date(),
+    profilePicture: "DEFAULT_PROFILE_PICTURE", //key of default profile picture on s3 bucket
   };
-  try {
-    await users.create(newUser);
-  } catch (error) {
-    throw error;
-  }
+  return users.create(newUser);
 };
