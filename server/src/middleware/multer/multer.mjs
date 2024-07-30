@@ -1,6 +1,5 @@
 import path from "node:path";
 import multer from "multer";
-import { uploadImage } from "../../services/aws/s3.mjs";
 
 const storage = new multer.memoryStorage();
 
@@ -24,20 +23,11 @@ const upload = multer({
   },
 }).single("profile-picture");
 
-export const getImageBuffer = (req, res, next) => {
-  upload(req, res, async (err) => {
+export const processForm = (req, res, next) => {
+  upload(req, res, (err) => {
     if (err) {
       return res.status(400).json({ error: err.message });
     }
-
-    try {
-      if (req.file) {
-        await uploadImage(req.user.id, req.file.buffer, req.file.mimetype);
-      }
-
-      req.body.displayName ? next() : res.status(200);
-    } catch (error) {
-      res.status(500);
-    }
+    next();
   });
 };
