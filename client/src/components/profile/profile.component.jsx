@@ -20,10 +20,9 @@ const Profile = () => {
     setErrorMessage("");
 
     const formData = new FormData(form);
-    const userName = formData.get("username");
+    const userName = formData.get("displayName");
     try {
-      validateUserName(userName);
-      console.log(formData);
+      if (userName) validateUserName(userName);
       await axios.post("http://localhost:8000/users/profile", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -41,8 +40,8 @@ const Profile = () => {
         onSubmit={handleSubmit}
       >
         <div className="form-group">
-          <label htmlFor="trial">Enter your name</label>
-          <input type="text" name="username" id="trial" required />
+          <label htmlFor="displayName">Enter your name</label>
+          <input type="text" name="displayName" id="displayName" />
           {errorMessage.length > 0 && (
             <p className="error-message">{errorMessage}</p>
           )}
