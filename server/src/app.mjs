@@ -8,7 +8,7 @@ import cors from "cors";
 import authRouter from "./routes/authentication/auth.router.mjs";
 import userRouter from "./routes/user/user.router.mjs";
 
-import { authenticateJWT } from "./middleware/auth-middleware/auth.middleware.mjs";
+import { authenticateJWT } from "./middleware/auth.middleware.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
