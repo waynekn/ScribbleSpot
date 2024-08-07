@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.mjs",
   "scripts": {
+    "build-client": "npm run build --prefix client",
     "watch": "concurrently \"npm run build --prefix client\" \"npm run watch --prefix server\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
