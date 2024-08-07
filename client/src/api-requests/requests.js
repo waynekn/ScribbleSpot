@@ -6,10 +6,19 @@ export const authenticateUser = (provider, action) => {
 };
 
 export const getUserProfile = async () => {
-  const res = await axios.get(`${URL}/users/profile`);
-  return res.data;
+  return axios.get(`${URL}/users/profile`);
 };
 
 export const signOutUser = () => {
-  axios.post(`${URL}/auth/logout`);
+  return axios.post(`${URL}/auth/logout`);
+};
+
+export const checkAuthStatus = () => {
+  return axios.post(`${URL}/auth-status`);
+};
+
+export const getImageUrl = async (imageKey) => {
+  return await axios.post(`${URL}/users/profile/profile-picture`, {
+    imageKey,
+  });
 };
