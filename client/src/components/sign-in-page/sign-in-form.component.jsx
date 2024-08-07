@@ -1,5 +1,7 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MessageToast from "../toast/toast.component";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 import { authenticateUser } from "../../api-requests/requests";
 
 import "./sign-in-form.styles.css";
@@ -10,8 +12,7 @@ const providers = [
 ];
 
 const SignInForm = () => {
-  const location = useLocation();
-  const message = location?.state?.message;
+  const currentUser = useSelector(selectCurrentUser);
 
   return (
     <div className="sign-in-page">
@@ -33,9 +34,12 @@ const SignInForm = () => {
           <Link to="../authentication/sign-up">Sign up</Link>
         </p>
       </section>
-      {message && (
+      {currentUser.error && (
         <div className="toast-container">
-          <MessageToast className="toast-container" message={message} />
+          <MessageToast
+            className="toast-container"
+            message={currentUser.error}
+          />
         </div>
       )}
     </div>
