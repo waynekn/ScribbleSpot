@@ -1,7 +1,7 @@
 import passport from "passport";
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { userExists, createUser } from "../../models/user.model.mjs";
+import { userExists, createUser } from "../../models/user/user.model.mjs";
 import generateToken from "../../utils/jwt/token.mjs";
 
 dotenv.config();
@@ -77,7 +77,7 @@ export const googleCallback = (req, res, next) => {
   })(req, res, next);
 };
 
-export const signOutUser = (req, res, next) => {
+export const signOutUser = (req, res) => {
   res.clearCookie("ssjwt");
   res.redirect("/");
 };
