@@ -7,6 +7,7 @@ import AuthStatus from "./utils/auth-status.util";
 import SignInForm from "./components/sign-in-page/sign-in-form.component";
 import SignUpForm from "./components/sign-up-page/sign-up-form.component";
 import Editor from "./components/editor/editor.component";
+import SettingsForm from "./components/settings-form/settings-form.component";
 import Home from "./routes/home/home";
 
 export const router = createBrowserRouter([
