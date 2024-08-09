@@ -3,6 +3,7 @@ import {
   findUserProfile,
   updateDisplayName,
 } from "../models/user/user.model.mjs";
+import { getCache, updateCache } from "../models/cache/url-cache.model.mjs";
 
 export const fetchUserProfile = async (req, res) => {
   try {
