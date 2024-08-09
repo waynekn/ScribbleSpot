@@ -1,34 +1,34 @@
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
-import { UserContext } from "../contexts/user.context";
-import { getUserProfile } from "../api-requests/requests";
+import { useDispatch } from "react-redux";
+import { fetchCurrentUser } from "../store/user/user.slice";
 
 const AuthStatus = () => {
+  const dispatch = useDispatch();
   const { status } = useParams();
   const navigate = useNavigate();
-  const { setCurrentUser } = useContext(UserContext);
-
   useEffect(() => {
     const handleAuthStatus = async () => {
       if (status === "success") {
-        try {
-          const profile = await getUserProfile();
-          setCurrentUser(profile);
-          navigate("/", { replace: true });
-        } catch (error) {
-          navigate("/", { replace: true });
-        }
+        dispatch(fetchCurrentUser())
+          .unwrap()
+          .then(() => {
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+            navigate("/authentication/sign-in");
+          });
+        navigate("/", { replace: true });
       } else {
         navigate("/authentication/sign-in", {
           replace: true,
-          state: { message: "Wrong username or password" },
         });
       }
     };
 
     handleAuthStatus();
-  }, [status, navigate, setCurrentUser]);
+  });
 
   return null;
 };
