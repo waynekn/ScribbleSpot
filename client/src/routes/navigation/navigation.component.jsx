@@ -19,6 +19,13 @@ const NavBar = () => {
         <Link to="write" className="nav-link">
           <Button variant="light">Write</Button>
         </Link>
+        {currentUser.isLoggedIn ? (
+          <DropDown />
+        ) : (
+          <Link to="authentication/sign-in" className="nav-link">
+            <Button variant="dark">Sign in</Button>
+          </Link>
+        )}
       </nav>
       <Outlet />
     </>
