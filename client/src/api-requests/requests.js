@@ -22,3 +22,9 @@ export const getImageUrl = async (imageKey) => {
     imageKey,
   });
 };
+
+export const uploadSettingsForm = (formData) => {
+  return axios.post(`${URL}/users/profile`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
