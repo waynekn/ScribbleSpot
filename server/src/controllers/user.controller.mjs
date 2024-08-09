@@ -1,13 +1,15 @@
 import { uploadImage, getSignedImageUrl } from "../services/aws/s3.mjs";
-import { findUserProfile, updateDisplayName } from "../models/user.model.mjs";
 
 export const fetchUserProfile = async (req, res) => {
   try {
     const profile = await findUserProfile(req.user.id);
-    profile.profilePicture = await getSignedImageUrl(profile.profilePicture);
-    res.status(200).json({ profile });
+    if (profile) {
+      res.status(200).json({ profile });
+    } else {
+      res.status(404).json({ error: "Profile not found" });
+    }
   } catch (error) {
-    res.status(404).send("Profile not found");
+    res.status(500).json({ error: "Server error" });
   }
 };
 
@@ -21,6 +23,8 @@ export const updateProfile = async (req, res) => {
     }
     res.status(200);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({
+      error: "Could complete request. Please try again in a while",
+    });
   }
 };
