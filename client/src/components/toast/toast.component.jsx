@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Toast from "react-bootstrap/Toast";
+import "./toast.styles.css";
 
 const MessageToast = ({ message }) => {
   const [show, setShow] = useState(true);
@@ -20,7 +21,12 @@ const MessageToast = ({ message }) => {
   }, []);
 
   return (
-    <Toast onClose={toggleShow} show={show} animation={false}>
+    <Toast
+      onClose={toggleShow}
+      show={show}
+      animation={false}
+      className="toast-bottom-right"
+    >
       <Toast.Header>
         <strong className="me-auto">ScribbleSpot</strong>
         <small>{displayTime}</small>
