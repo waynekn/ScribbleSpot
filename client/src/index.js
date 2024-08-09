@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store/store";
 import App from "./App";
-import { DeltaProvider } from "./contexts/delta.context";
-import { UserProvider } from "./contexts/user.context";
 
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -10,11 +11,11 @@ import reportWebVitals from "./reportWebVitals";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <DeltaProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
         <App />
-      </DeltaProvider>
-    </UserProvider>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 
