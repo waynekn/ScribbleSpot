@@ -1,0 +1,12 @@
+.toast-bottom-right {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: auto;
+  max-width: 300px;
+  z-index: 1050;
+}
+
+.toast-bottom-right .toast {
+  width: 100%;
+}
