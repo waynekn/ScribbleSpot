@@ -1,19 +1,12 @@
-import { useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../store/user/user.selector";
 import Button from "react-bootstrap/Button";
-
-import { UserContext } from "../../contexts/user.context";
-import { signOutUser } from "../../api-requests/requests";
+import DropDown from "../../components/dropdown/dropdown.component";
 
 import "./navigation.styles.css";
 const NavBar = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-
-  const handleSignOut = () => {
-    signOutUser();
-    setCurrentUser(null);
-  };
-
+  const currentUser = useSelector(selectCurrentUser);
   return (
     <>
       <nav className="navbar">
@@ -26,15 +19,6 @@ const NavBar = () => {
         <Link to="write" className="nav-link">
           <Button variant="light">Write</Button>
         </Link>
-        {currentUser ? (
-          <Button variant="dark" onClick={handleSignOut}>
-            Sign out
-          </Button>
-        ) : (
-          <Link to="authentication/sign-in" className="nav-link">
-            <Button variant="dark">Sign in</Button>
-          </Link>
-        )}
       </nav>
       <Outlet />
     </>
