@@ -25,8 +25,8 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 app.use("/auth", authRouter);
 app.use("/users", authenticateJWT, userRouter);
 
-app.get("/secret", authenticateJWT, (req, res) => {
-  res.json({ success: true });
+app.post("/auth-status", authenticateJWT, (req, res) => {
+  res.json(200);
 });
 
 app.get("/*", (req, res) => {
