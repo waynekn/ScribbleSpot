@@ -1,4 +1,8 @@
 import { uploadImage, getSignedImageUrl } from "../services/aws/s3.mjs";
+import {
+  findUserProfile,
+  updateDisplayName,
+} from "../models/user/user.model.mjs";
 
 export const fetchUserProfile = async (req, res) => {
   try {
