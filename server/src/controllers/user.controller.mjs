@@ -32,3 +32,30 @@ export const updateProfile = async (req, res) => {
     });
   }
 };
+
+export const getImageUrl = async (req, res) => {
+  const imageKey = req.body.imageKey;
+  const userId = req.user.id;
+
+  try {
+    const cache = await getCache(userId);
+
+    if (cache && cache.imageKey === imageKey && cache.expiresAt > Date.now()) {
+      const imageUrl = cache.imageUrl;
+      return res.status(200).json({ imageUrl });
+    }
+
+    const imageUrl = await getSignedImageUrl(imageKey);
+
+    const newCache = {
+      userId: userId,
+      imageKey: imageKey,
+      imageUrl: imageUrl,
+      expiresAt: new Date(Date.now() + 3500 * 1000),
+    };
+    await updateCache(newCache);
+    return res.status(200).json({ imageUrl });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
