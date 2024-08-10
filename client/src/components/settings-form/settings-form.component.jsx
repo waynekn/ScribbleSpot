@@ -5,7 +5,17 @@ import { selectCurrentUser } from "../../store/user/user.selector";
 import { uploadSettingsForm } from "../../api-requests/requests";
 import { getImageUrl } from "../../api-requests/requests";
 
-import "./settings-form.component.styles.css";
+import {
+  FormContainer,
+  Form,
+  FormGroup,
+  FormLabel,
+  FormInput,
+  FileInput,
+  ProfilePicture,
+  SubmitButton,
+  ErrorMessage,
+} from "./settings-form.styles";
 
 const SettingsForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -61,55 +71,47 @@ const SettingsForm = () => {
   };
 
   return (
-    <div className="form-container">
-      <form
-        ref={formRef}
-        className="form"
-        encType="multipart/form-data"
-        onSubmit={handleSubmit}
-      >
-        <div className="form-group">
-          <label htmlFor="displayName">User name</label>
-          <input
+    <FormContainer>
+      <Form ref={formRef} encType="multipart/form-data" onSubmit={handleSubmit}>
+        <FormGroup>
+          <FormLabel htmlFor="displayName">User name</FormLabel>
+          <FormInput
             type="text"
             name="displayName"
             id="displayName"
             value={currentUser.displayName}
-            className="form-input"
           />
           {errorMessage.length > 0 && (
-            <p className="error-message">{errorMessage}</p>
+            <ErrorMessage>{errorMessage}</ErrorMessage>
           )}
-        </div>
+        </FormGroup>
 
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
+        <FormGroup>
+          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormInput
             type="email"
             name="email"
             id="email"
             value={currentUser.email}
-            className="form-input"
           />
-        </div>
+        </FormGroup>
 
-        <div className="form-group">
-          <label htmlFor="profile-picture">Change profile picture</label>
-          <input
+        <FormGroup>
+          <FormLabel htmlFor="profile-picture">
+            Change profile picture
+          </FormLabel>
+          <FileInput
             type="file"
             id="profile-picture"
             name="profile-picture"
             accept="image/*"
-            className="file-input"
           />
-          <img src={imageUrl} alt="Profile" className="profile-picture" />
-        </div>
+          <ProfilePicture src={imageUrl} alt="Profile" />
+        </FormGroup>
 
-        <button type="submit" className="submit-button">
-          Submit
-        </button>
-      </form>
-    </div>
+        <SubmitButton type="submit">Submit</SubmitButton>
+      </Form>
+    </FormContainer>
   );
 };
 
