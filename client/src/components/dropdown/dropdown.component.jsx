@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import {
   clearCurrentUser,
   updateCurrentUser,
 } from "../../store/user/user.slice";
 import { signOutUser, getImageUrl } from "../../api-requests/requests";
-import "./dropdown.component.styles.css";
+import {
+  DropDownContainer,
+  DropDownContent,
+  DropDownLink,
+  DropDownButton,
+  ProfilePicture,
+} from "./dropdown.styles";
 
 const DropDown = () => {
   const dispatch = useDispatch();
@@ -45,14 +50,14 @@ const DropDown = () => {
   };
 
   return (
-    <div className="dropdown">
-      <img className="profile-picture" src={imageUrl} alt="Profile" />
-      <div className="dropdown-content">
-        <Link to="profile">View profile</Link>
-        <Link to="settings">Settings</Link>
-        <button onClick={handleSignOut}>Sign Out</button>
-      </div>
-    </div>
+    <DropDownContainer>
+      <ProfilePicture src={imageUrl} alt="Profile" />
+      <DropDownContent>
+        <DropDownLink to="profile">View profile</DropDownLink>
+        <DropDownLink to="settings">Settings</DropDownLink>
+        <DropDownButton onClick={handleSignOut}>Sign Out</DropDownButton>
+      </DropDownContent>
+    </DropDownContainer>
   );
 };
 
