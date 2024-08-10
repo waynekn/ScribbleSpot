@@ -1,32 +1,32 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import Button from "react-bootstrap/Button";
 import DropDown from "../../components/dropdown/dropdown.component";
 
-import "./navigation.styles.css";
+import { Nav, NavLink } from "./navigation.styles";
 const NavBar = () => {
   const currentUser = useSelector(selectCurrentUser);
   return (
     <>
-      <nav className="navbar">
-        <Link to="about-us" className="nav-link">
+      <Nav>
+        <NavLink to="about-us">
           <Button variant="light">About us</Button>
-        </Link>
-        <Link to="stories" className="nav-link">
+        </NavLink>
+        <NavLink to="stories">
           <Button variant="light">Read</Button>
-        </Link>
-        <Link to="write" className="nav-link">
+        </NavLink>
+        <NavLink to="write">
           <Button variant="light">Write</Button>
-        </Link>
+        </NavLink>
         {currentUser.isLoggedIn ? (
           <DropDown />
         ) : (
-          <Link to="authentication/sign-in" className="nav-link">
+          <NavLink to="authentication/sign-in">
             <Button variant="dark">Sign in</Button>
-          </Link>
+          </NavLink>
         )}
-      </nav>
+      </Nav>
       <Outlet />
     </>
   );
