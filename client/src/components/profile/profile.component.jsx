@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import MessageToast from "../toast/toast.component";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -11,7 +11,16 @@ import {
   updateCurrentUser,
 } from "../../store/user/user.slice";
 
-import "./profile.component.styles.css";
+import {
+  ProfilePageContainer,
+  ProfilePicture,
+  SideBar,
+  SidebarButton,
+  SidebarLink,
+  Paragraph,
+  DisplayName,
+  Main,
+} from "./profile.styles";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -56,25 +65,25 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="profile-page">
-      <aside className="sidebar">
-        <img src={imageUrl} alt="profile" className="profile-pic" />
-        <p className="display-name">{currentUser.displayName}</p>
-        <p className="account-age">{accountAge}</p>
-        <p className="email">{currentUser.email}</p>
-        <Link to="posts">Posts</Link>
-        <Link to="../editor" target="_blank">
+    <ProfilePageContainer>
+      <SideBar>
+        <ProfilePicture src={imageUrl} alt="profile" />
+        <DisplayName>{currentUser.displayName}</DisplayName>
+        <Paragraph>{accountAge}</Paragraph>
+        <Paragraph>{currentUser.email}</Paragraph>
+        <SidebarLink to="posts">Posts</SidebarLink>
+        <SidebarLink to="../editor" target="_blank">
           Editor
-        </Link>
-        <Link to="settings">Settings</Link>
-        <button onClick={handleSignOut}>Sign Out</button>
-      </aside>
+        </SidebarLink>
+        <SidebarLink to="settings">Settings</SidebarLink>
+        <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
+      </SideBar>
 
       {currentUser.error && <MessageToast message={currentUser.error} />}
-      <main className="main-content">
+      <Main>
         <Outlet />
-      </main>
-    </div>
+      </Main>
+    </ProfilePageContainer>
   );
 };
 
