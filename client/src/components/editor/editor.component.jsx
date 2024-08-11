@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
+import CustomToolbar from "../../editor-formats/toolbar";
 import "react-quill/dist/quill.snow.css";
+import { Article, Title } from "./editor.styles.jsx";
 
 import Button from "react-bootstrap/Button";
 const Editor = () => {
@@ -24,42 +26,11 @@ const Editor = () => {
     }
   };
 
-  const handlePublishClick = () => {
+  const handlePost = () => {
     const delta = getDelta();
     console.log(delta);
     navigate("/stories");
   };
-
-  const ConfirmButton = () => <i className="fa-solid fa-check"></i>;
-
-  const CustomToolbar = () => (
-    <div className="custom-toolbar">
-      <select
-        className="ql-header"
-        defaultValue=""
-        onChange={(e) => e.persist()}
-      >
-        <option value="1" />
-        <option value="2" />
-        <option selected />
-      </select>
-      <button className="ql-bold" />
-      <button className="ql-italic" />
-      <select className="ql-color">
-        <option value="red" />
-        <option value="green" />
-        <option value="blue" />
-        <option value="orange" />
-        <option value="violet" />
-        <option value="#d0d1d2" />
-        <option selected />
-      </select>
-      <button className="ql-link" />
-      <button className="ql-confirm">
-        <ConfirmButton />
-      </button>
-    </div>
-  );
 
   const modules = {
     toolbar: {
@@ -73,18 +44,23 @@ const Editor = () => {
     },
   };
   return (
-    <>
-      <Button variant="success" onClick={handlePublishClick}>
-        Publish
-      </Button>
-
+    <Article>
+      <Title type="text" placeholder="Write the title of your post here" />
       <div className="text-editor">
         <CustomToolbar />
         <div className="editor">
-          <ReactQuill ref={quillRef} modules={modules} />
+          <ReactQuill
+            ref={quillRef}
+            modules={modules}
+            placeholder="Write the body here..."
+          />
         </div>
       </div>
-    </>
+
+      <Button variant="dark" onClick={handlePost}>
+        Post
+      </Button>
+    </Article>
   );
 };
 
