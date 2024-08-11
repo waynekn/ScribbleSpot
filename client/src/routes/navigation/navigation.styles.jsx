@@ -10,17 +10,3 @@ export const Nav = styled.nav`
 export const NavLink = styled(Link)`
   margin: 0 5px;
 `;
-
-// .navbar {
-//   margin: 5px 10px;
-//   display: flex;
-//   justify-content: flex-end;
-// }
-
-// .log-in-icon {
-//   margin-right: 5px;
-// }
-
-// .nav-link {
-//   margin: 0 5px;
-// }
