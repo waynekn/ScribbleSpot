@@ -16,7 +16,7 @@ const NavBar = () => {
         <NavLink to="stories">
           <Button variant="light">Read</Button>
         </NavLink>
-        <NavLink to="write">
+        <NavLink to="editor">
           <Button variant="light">Write</Button>
         </NavLink>
         {currentUser.isLoggedIn ? (
