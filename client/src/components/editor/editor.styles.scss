@@ -1,0 +1,53 @@
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 40px 0;
+}
+
+.tiptap {
+  outline: none;
+}
+
+.editor-title {
+  width: 100%;
+  max-width: 700px;
+  font-size: 2.5em;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin-bottom: 20px;
+  color: #333;
+  background-color: transparent;
+  text-align: center;
+
+  &::placeholder {
+    color: #aaa;
+  }
+}
+
+.editor-content {
+  width: 100%;
+  max-width: 700px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: "Georgia", serif;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.prose p {
+  margin-bottom: 1.5em;
+}
+
+.prose strong {
+  font-weight: bold;
+}
+
+.prose em {
+  font-style: italic;
+}
