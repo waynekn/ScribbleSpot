@@ -1,0 +1,31 @@
+.bubble-menu {
+  background-color: white;
+  border: 1px solid var(--gray-1);
+  z-index: 500;
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  padding: 0.2rem;
+
+  button {
+    background-color: unset;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #e0e0e0;
+    }
+
+    &.is-active {
+      background-color: #dcdcdc;
+      font-weight: bold;
+
+      &:hover {
+        background-color: #dcdcdc85;
+      }
+    }
+  }
+}
