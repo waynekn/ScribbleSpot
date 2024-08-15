@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { ToastBottomRight } from "./toast.styles";
 
 const MessageToast = ({ message }) => {
@@ -33,6 +34,10 @@ const MessageToast = ({ message }) => {
       <ToastBottomRight.Body>{message}</ToastBottomRight.Body>
     </ToastBottomRight>
   );
+};
+
+MessageToast.propTypes = {
+  message: PropTypes.string,
 };
 
 export default MessageToast;
