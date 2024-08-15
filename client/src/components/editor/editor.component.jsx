@@ -1,66 +1,60 @@
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import ReactQuill from "react-quill";
-import CustomToolbar from "../../editor-formats/toolbar";
-import "react-quill/dist/quill.snow.css";
-import { Article, Title } from "./editor.styles.jsx";
+import { useState } from "react";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import Text from "@tiptap/extension-text";
+import { Color } from "@tiptap/extension-color";
+import Heading from "@tiptap/extension-heading";
+import Paragraph from "@tiptap/extension-paragraph";
+import Underline from "@tiptap/extension-underline";
+import TextStyle from "@tiptap/extension-text-style";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Superscript from "@tiptap/extension-superscript";
+import Subscript from "@tiptap/extension-subscript";
 
-import Button from "react-bootstrap/Button";
+import BubbleMenuComponent from "./modules/bubble-menu/bubble-menu";
+import Toolbar from "./modules/toolbar/toolbar.component";
+
+import "./editor.styles.scss";
+
+const extensions = [
+  StarterKit,
+  Color,
+  Paragraph,
+  Text,
+  TextStyle,
+  Underline,
+  Heading,
+  BulletList,
+  OrderedList,
+  Subscript,
+  Superscript,
+];
+
 const Editor = () => {
-  const quillRef = useRef(null);
-  const navigate = useNavigate();
+  const [title, setTitle] = useState("");
 
-  const getDelta = () => {
-    if (quillRef.current) {
-      const editor = quillRef.current.getEditor();
-      return editor.getContents();
-    }
-  };
+  const editor = useEditor({
+    extensions,
+  });
 
-  const handleConfirm = () => {
-    if (quillRef.current) {
-      const editor = quillRef.current.getEditor();
-      const cursorPosition = editor.getSelection().index;
-      editor.insertText(cursorPosition, "✔");
-      editor.setSelection(cursorPosition + 1);
-    }
-  };
+  if (!editor) return null;
 
-  const handlePost = () => {
-    const delta = getDelta();
-    console.log(delta);
-    navigate("/stories");
-  };
-
-  const modules = {
-    toolbar: {
-      container: ".custom-toolbar",
-      handlers: {
-        confirm: handleConfirm,
-      },
-    },
-    clipboard: {
-      matchVisual: false,
-    },
-  };
   return (
-    <Article>
-      <Title type="text" placeholder="Write the title of your post here" />
-      <div className="text-editor">
-        <CustomToolbar />
-        <div className="editor">
-          <ReactQuill
-            ref={quillRef}
-            modules={modules}
-            placeholder="Write the body here..."
-          />
-        </div>
+    <div className="editor-container">
+      <input
+        type="text"
+        placeholder="Title"
+        className="editor-title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+      />
+      <div className="editor-content">
+        <Toolbar editor={editor} />
+        <BubbleMenuComponent editor={editor} />
+        <EditorContent editor={editor} />
       </div>
-
-      <Button variant="dark" onClick={handlePost}>
-        Post
-      </Button>
-    </Article>
+    </div>
   );
 };
 
