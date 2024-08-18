@@ -1,8 +1,16 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { clearCurrentUser } from "../../store/user/user.slice";
+import { useDispatch, useSelector } from "react-redux";
+import MessageToast from "../../components/toast/toast.component";
+import { AuthError } from "../../api-requests/request-errors/errors";
+import { AxiosError } from "axios";
+import {
+  clearCurrentUser,
+  updateCurrentUser,
+} from "../../store/user/user.slice";
+import { selectCurrentUser } from "../../store/user/user.selector";
 import { checkAuthStatus } from "../../api-requests/requests";
 const Home = () => {
+  const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -10,7 +18,17 @@ const Home = () => {
       try {
         await checkAuthStatus();
       } catch (error) {
-        dispatch(clearCurrentUser());
+        if (error instanceof AuthError) {
+          dispatch(clearCurrentUser());
+        } else if (error instanceof AxiosError) {
+          dispatch(updateCurrentUser({ error: "Network error" }));
+        } else {
+          dispatch(
+            updateCurrentUser({
+              error: "Unknown error. Please try again after a while",
+            })
+          );
+        }
       }
     };
     getAuthStatus();
@@ -20,6 +38,7 @@ const Home = () => {
     <>
       <h1>Welcome to ScribbleSpot</h1>
       <p> Explore in Beta</p>
+      {currentUser.error && <MessageToast />}
     </>
   );
 };
