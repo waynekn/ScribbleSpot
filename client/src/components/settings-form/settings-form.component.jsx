@@ -27,8 +27,8 @@ const SettingsForm = () => {
   useEffect(() => {
     const fetchImageUrl = async (imageKey) => {
       try {
-        const res = await getImageUrl(imageKey);
-        return res.data.imageUrl;
+        const { imageUrl } = await getImageUrl(imageKey);
+        return imageUrl;
       } catch (error) {
         return "";
       }
