@@ -13,13 +13,12 @@ const AuthStatus = () => {
         dispatch(fetchCurrentUser())
           .unwrap()
           .then(() => {
-            navigate("/");
+            navigate("/", { replace: true });
           })
           .catch((error) => {
             console.log(error);
-            navigate("/authentication/sign-in");
+            navigate("/authentication/sign-in", { replace: true });
           });
-        navigate("/", { replace: true });
       } else {
         navigate("/authentication/sign-in", {
           replace: true,
