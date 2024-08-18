@@ -57,6 +57,13 @@ export const getImageUrl = async (req, res) => {
     await updateCache(newCache);
     return res.status(200).json({ imageUrl });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    if (error.code) {
+      // S3 errors have a code property
+      return res.status(500).json({ error: "Could not get image" });
+    } else if (error.name === "MongoError") {
+      return res.status(500).json({ error: `A database error occured` });
+    } else {
+      return res.status(500).json({ error: "An unknown error occurred" });
+    }
   }
 };
