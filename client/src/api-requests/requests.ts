@@ -1,6 +1,6 @@
 import axios from "axios";
 import { AxiosError } from "axios";
-import { AuthError, FormError } from "./request-errors/errors";
+import { AuthError } from "./request-errors/errors";
 export const URL = `http://localhost:8000`;
 
 export type User = {
