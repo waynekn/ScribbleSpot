@@ -59,7 +59,7 @@ export const checkAuthStatus = async () => {
       const statusCode = axiosError.response?.status;
 
       if (statusCode === 401 || statusCode === 403) {
-        throw new AuthError("You are not signed in");
+        throw new AuthError();
       }
     }
 
