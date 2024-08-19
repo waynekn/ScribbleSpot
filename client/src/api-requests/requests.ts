@@ -52,8 +52,7 @@ export const signOutUser = () => {
 
 export const checkAuthStatus = async () => {
   try {
-    const res = await axios.post(`${URL}/auth-status`);
-    return res;
+    await axios.get(`${URL}/auth-status`);
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
