@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Color } from "@tiptap/extension-color";
@@ -11,11 +11,11 @@ import Subscript from "@tiptap/extension-subscript";
 import BubbleMenuComponent from "./modules/bubble-menu/bubble-menu";
 import Toolbar from "./modules/toolbar/toolbar.component";
 
-// import MessageToast from "../toast/toast.component";
+import MessageToast from "../toast/toast.component";
 
 import { postBlog } from "../../store/blog/blog-post.slice";
 import { setNotificationMessage } from "../../store/blog/blog-post.slice";
-// import { selectBlogPost } from "../../store/blog/blog-post.selector";
+import { selectBlogPost } from "../../store/blog/blog-post.selector";
 
 import "./editor.styles.scss";
 
@@ -31,7 +31,7 @@ const extensions = [
 const Editor = () => {
   const [title, setTitle] = useState("");
   const disptach = useDispatch();
-  // const blogPost = useSelector(selectBlogPost);
+  const blogPost = useSelector(selectBlogPost);
 
   const editor = useEditor({
     extensions,
@@ -72,9 +72,9 @@ const Editor = () => {
         <BubbleMenuComponent editor={editor} />
         <EditorContent editor={editor} />
       </div>
-      {/* {blogPost.notification && (
+      {blogPost.notification && (
         <MessageToast message={blogPost.notification} />
-      )} */}
+      )}
     </div>
   );
 };
