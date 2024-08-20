@@ -18,7 +18,7 @@ const MessageToast = ({ message }) => {
 
   useEffect(() => {
     setDisplayTime(getTime());
-    // setShow(true);
+    setShow(true);
   }, [message]);
 
   return (
