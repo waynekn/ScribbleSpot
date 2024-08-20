@@ -91,3 +91,21 @@ export const uploadSettingsForm = (formData: FormDataEntryValue) => {
     headers: { "Content-Type": "multipart/form-data" },
   });
 };
+
+export const uploadContent = async (title: string, htmlContent: string) => {
+  try {
+    const response = await axios.post<{ message: string }>(`${URL}/post/blog`, {
+      title,
+      htmlContent,
+    });
+    return response.data;
+  } catch (error) {
+    console.warn(error);
+    if (error instanceof AxiosError) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      const errorMessage = axiosError.response?.data.error;
+      throw new Error(errorMessage);
+    }
+    throw new Error("Unknown error occured");
+  }
+};
