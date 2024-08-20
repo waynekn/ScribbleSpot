@@ -8,7 +8,7 @@ export type CurrentUser = User & {
   error: string | null;
 };
 
-const INITIAL_USER_STATE: CurrentUser = {
+const initialState: CurrentUser = {
   email: "",
   displayName: "",
   profilePicture: "",
@@ -43,7 +43,7 @@ export const fetchCurrentUser = createAsyncThunk(
 
 const userSlice = createSlice({
   name: "user",
-  initialState: INITIAL_USER_STATE,
+  initialState,
   reducers: {
     updateCurrentUser(
       state: CurrentUser,
@@ -52,7 +52,7 @@ const userSlice = createSlice({
       return { ...state, ...action.payload };
     },
     clearCurrentUser() {
-      return INITIAL_USER_STATE;
+      return initialState;
     },
   },
   extraReducers: (builder) => {
