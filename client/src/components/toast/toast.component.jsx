@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { ToastBottomRight } from "./toast.styles";
 
 const MessageToast = ({ message }) => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [displayTime, setDisplayTime] = useState("");
   const toggleShow = () => setShow(!show);
 
@@ -18,6 +18,7 @@ const MessageToast = ({ message }) => {
 
   useEffect(() => {
     setDisplayTime(getTime());
+    // setShow(true);
   }, [message]);
 
   return (
