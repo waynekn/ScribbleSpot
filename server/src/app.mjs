@@ -7,6 +7,7 @@ import morgan from "morgan";
 import cors from "cors";
 import authRouter from "./routes/authentication/auth.router.mjs";
 import userRouter from "./routes/user/user.router.mjs";
+import { postsRouter } from "./routes/posts/posts.router.mjs";
 
 import { authenticateJWT } from "./middleware/auth/jwt.auth.mjs";
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, "..", "public")));
 
 app.use("/auth", authRouter);
 app.use("/users", authenticateJWT, userRouter);
+app.use("/post", postsRouter);
 
 app.get("/auth-status", authenticateJWT, (req, res) => {
   res.json(200);
