@@ -4,7 +4,7 @@ import {
   fetchUserProfile,
   updateProfile,
   getImageUrl,
-} from "../../controllers/user.controller.mjs";
+} from "../../controllers/user/user.controller.mjs";
 import { processForm } from "../../middleware/multer/multer.mjs";
 
 const userRouter = express.Router();
