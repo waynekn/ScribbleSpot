@@ -17,8 +17,8 @@ const MessageToast = ({ message }) => {
   };
 
   useEffect(() => {
-    setDisplayTime(getTime);
-  }, []);
+    setDisplayTime(getTime());
+  }, [message]);
 
   return (
     <ToastBottomRight
