@@ -9,6 +9,7 @@ import SignUpForm from "./components/sign-up/sign-up-form.component";
 import Editor from "./components/editor/editor.component";
 import SettingsForm from "./components/settings-form/settings-form.component";
 import ProfilePage from "./components/profile/profile.component";
+import ArticlePreview from "./components/article-preview/article-preview.component";
 import Home from "./routes/home/home";
 
 export const router = createBrowserRouter([
@@ -40,7 +41,10 @@ export const router = createBrowserRouter([
   {
     path: "profile",
     element: <ProfilePage />,
-    children: [{ path: "settings", element: <SettingsForm /> }],
+    children: [
+      { path: "settings", element: <SettingsForm /> },
+      { path: "posts", element: <ArticlePreview /> },
+    ],
   },
   { path: "editor", element: <Editor /> },
   {
