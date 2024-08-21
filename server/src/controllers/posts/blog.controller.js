@@ -1,4 +1,4 @@
-import { uploadBlog } from "../../models/posts/blog.model.mjs";
+import { uploadBlog } from "../../models/posts/blog.model.js";
 export const postBlog = async (req, res) => {
   try {
     const authorId = req.user.id;

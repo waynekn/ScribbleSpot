@@ -1,4 +1,4 @@
-import users from "../../schemas/user/user.schema.mjs";
+import users from "../../schemas/user/user.schema.js";
 
 export const userExists = (email) => users.findOne({ email });
 

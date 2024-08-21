@@ -3,7 +3,7 @@ import {
   googleAuth,
   googleCallback,
   signOutUser,
-} from "../../auth-providers/google/google.auth.mjs";
+} from "../../auth-providers/google/google.auth.js";
 
 const authRouter = express.Router();
 

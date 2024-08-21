@@ -1,8 +1,8 @@
 import passport from "passport";
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { userExists, createUser } from "../../models/user/user.model.mjs";
-import generateToken from "../../utils/jwt/token.mjs";
+import { userExists, createUser } from "../../models/user/user.model.js";
+import generateToken from "../../utils/jwt/token.js";
 
 dotenv.config();
 

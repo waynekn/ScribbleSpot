@@ -5,11 +5,11 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from "cors";
-import authRouter from "./routes/authentication/auth.router.mjs";
-import userRouter from "./routes/user/user.router.mjs";
-import { postsRouter } from "./routes/posts/posts.router.mjs";
+import authRouter from "./routes/authentication/auth.router.js";
+import userRouter from "./routes/user/user.router.js";
+import { postsRouter } from "./routes/posts/posts.router.js";
 
-import { authenticateJWT } from "./middleware/auth/jwt.auth.mjs";
+import { authenticateJWT } from "./middleware/auth/jwt.auth.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -1,7 +1,7 @@
 import http from "node:http";
 import dotenv from "dotenv";
-import app from "./app.mjs";
-import mongoConnect from "./services/mongodb/mongo.mjs";
+import app from "./app.js";
+import mongoConnect from "./services/mongodb/mongo.js";
 
 dotenv.config();
 const PORT = 8000;

@@ -1,4 +1,4 @@
-import posts from "../../schemas/post/post.schema.mjs";
+import posts from "../../schemas/post/post.schema.js";
 
 export const uploadBlog = async (authorId, title, htmlContent) => {
   try {

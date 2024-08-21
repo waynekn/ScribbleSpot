@@ -1,9 +1,9 @@
-import { uploadImage, getSignedImageUrl } from "../../services/aws/s3.mjs";
+import { uploadImage, getSignedImageUrl } from "../../services/aws/s3.js";
 import {
   findUserProfile,
   updateDisplayName,
-} from "../../models/user/user.model.mjs";
-import { getCache, updateCache } from "../../models/cache/url-cache.model.mjs";
+} from "../../models/user/user.model.js";
+import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
 
 export const fetchUserProfile = async (req, res) => {
   try {
