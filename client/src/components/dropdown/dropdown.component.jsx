@@ -53,7 +53,9 @@ const DropDown = () => {
     <DropDownContainer>
       <ProfilePicture src={imageUrl} alt="Profile" />
       <DropDownContent>
-        <DropDownLink to="profile">View profile</DropDownLink>
+        <DropDownLink to={`profile/${currentUser.displayName}`}>
+          View profile
+        </DropDownLink>
         <DropDownLink to="settings">Settings</DropDownLink>
         <DropDownButton onClick={handleSignOut}>Sign Out</DropDownButton>
       </DropDownContent>
