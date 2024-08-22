@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
     element: <Article />,
   },
   {
-    path: "profile",
+    path: "profile/:displayName",
     element: <ProfilePage />,
     children: [
       { path: "settings", element: <SettingsForm /> },
