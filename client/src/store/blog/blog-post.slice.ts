@@ -48,6 +48,7 @@ const blogSlice = createSlice({
     builder
       .addCase(postBlog.pending, (state: BlogState) => {
         state.isLoading = true;
+        state.notification = null;
       })
       .addCase(
         postBlog.fulfilled,
