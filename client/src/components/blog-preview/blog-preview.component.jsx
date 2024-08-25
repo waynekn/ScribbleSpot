@@ -23,12 +23,7 @@ const BlogPreview = () => {
   return (
     <div>
       {blogTitles.map((blogPost) => (
-        <BlogLink
-          key={blogPost.title}
-          to={blogPost.title}
-          target="_parent"
-          className="blog-link"
-        >
+        <BlogLink key={blogPost.title} to={blogPost.title}>
           {blogPost.title}
         </BlogLink>
       ))}
