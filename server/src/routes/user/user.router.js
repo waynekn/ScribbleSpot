@@ -1,7 +1,7 @@
 import express from "express";
 
 import {
-  fetchUserProfile,
+  getUserProfile,
   updateProfile,
   getImageUrl,
 } from "../../controllers/user/user.controller.js";
@@ -9,7 +9,7 @@ import { processForm } from "../../middleware/multer/multer.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/profile", fetchUserProfile);
+userRouter.get("/profile", getUserProfile);
 userRouter.post("/profile", processForm, updateProfile);
 userRouter.post("/profile/profile-picture", getImageUrl);
 
