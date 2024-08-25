@@ -1,30 +1,21 @@
-import posts from "../../schemas/post/post.schema.js";
+import blogs from "../../schemas/post/blog.schema.js";
 
-export const uploadBlog = async (authorId, title, htmlContent) => {
-  try {
-    const authorPost = await posts.findOne({ authorId });
+export const checkExistingTitle = async (authorId, title) => {
+  return blogs.findOne({ authorId, title });
+};
 
-    if (authorPost) {
-      const existingBlog = authorPost.blogs.find(
-        (blog) => blog.title === title
-      );
+export const uploadBlog = async (authorId, displayName, title, content) => {
+  await blogs.create({ authorId, displayName, title, content });
+};
 
-      if (existingBlog) {
-        throw new Error("Can't have posts with the same title");
-      }
+export const fetchBlogTitles = async (authorId) => {
+  return blogs.find({ authorId }, { _id: 0, title: 1 });
+};
 
-      authorPost.blogs.push({ title, content: htmlContent });
-      await authorPost.save();
-    } else {
-      const newPost = new posts({
-        authorId,
-        blogs: [{ title, content: htmlContent }],
-      });
-
-      await newPost.save();
-    }
-  } catch (error) {
-    console.error("Error uploading blog:", error);
-    throw new Error("Error uploading blog");
-  }
+export const fetchBlogContent = async (authorId, title) => {
+  const posts = await blogs.findOne(
+    { authorId, title },
+    { _id: 0, content: 1, displayName: 1 }
+  );
+  return posts;
 };
