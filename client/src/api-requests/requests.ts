@@ -18,12 +18,6 @@ export type ErrorResponse = {
   error: string;
 };
 
-type Blogs = {
-  displayName: string;
-  title: string;
-  content: string;
-};
-
 export const authenticateUser = (provider: string, action: string) => {
   window.location.href = `${URL}/auth/${provider}/${action}`;
 };
@@ -100,32 +94,21 @@ export const uploadSettingsForm = (formData: FormDataEntryValue) => {
 
 export const uploadContent = async (title: string, htmlContent: string) => {
   try {
-    const response = await axios.post<{ message: string }>(`${URL}/post/blog`, {
-      title,
-      htmlContent,
-    });
+    const response = await axios.post<{ message: string }>(
+      `${URL}/posts/blog`,
+      {
+        title,
+        htmlContent,
+      }
+    );
     return response.data;
   } catch (error) {
-    console.warn(error);
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
-      const errorMessage = axiosError.response?.data.error;
+      const errorMessage =
+        axiosError.response?.data?.error || "An unknown error occurred";
       throw new Error(errorMessage);
     }
     throw new Error("Unknown error occured");
-  }
-};
-
-export const fetchBlogs = async () => {
-  try {
-    const res = await axios.get<{ blogs: Blogs[] }>(`${URL}/post/my-blogs`);
-    return res.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      const axiosError = error as AxiosError<ErrorResponse>;
-      const errorMessage = axiosError.response?.data.error;
-      throw new Error(error.message);
-    }
-    throw new Error("An unkown error occured");
   }
 };
