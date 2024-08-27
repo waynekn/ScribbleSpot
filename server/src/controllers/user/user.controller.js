@@ -1,13 +1,13 @@
 import { uploadImage, getSignedImageUrl } from "../../services/aws/s3.js";
 import {
-  findUserProfile,
+  fetchUserProfile,
   updateDisplayName,
 } from "../../models/user/user.model.js";
 import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
 
-export const fetchUserProfile = async (req, res) => {
+export const getUserProfile = async (req, res) => {
   try {
-    const profile = await findUserProfile(req.user.id);
+    const profile = await fetchUserProfile(req.user.id);
     if (profile) {
       res.status(200).json({ profile });
     } else {
