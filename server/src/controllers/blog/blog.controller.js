@@ -20,7 +20,7 @@ export const postBlog = async (req, res) => {
 
     const { displayName } = await fetchUserProfile(authorId);
     await uploadBlog(authorId, displayName, title, content);
-    res.status(200).json({ message: "Post successfuly uploaded" });
+    res.status(201).json({ message: "Post successfuly uploaded" });
   } catch (error) {
     if (error.name && error.name === "MongoError") {
       return res.status(500).json({ error: "A database error occurred" });
