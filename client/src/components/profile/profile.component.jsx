@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useMatch } from "react-router-dom";
 import MessageToast from "../toast/toast.component";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -28,6 +28,8 @@ const ProfilePage = () => {
   const [accountAge, setAccountAge] = useState("");
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
+
+  const isBlogRoute = useMatch("/profile/:displayName/posts/:title");
 
   useEffect(() => {
     const fetchImageUrl = async (imageKey) => {
@@ -66,18 +68,20 @@ const ProfilePage = () => {
 
   return (
     <ProfilePageContainer>
-      <SideBar>
-        <ProfilePicture src={imageUrl} alt="profile" />
-        <DisplayName>{currentUser.displayName}</DisplayName>
-        <Paragraph>{accountAge}</Paragraph>
-        <Paragraph>{currentUser.email}</Paragraph>
-        <SidebarLink to="posts">Posts</SidebarLink>
-        <SidebarLink to="../editor" target="_blank">
-          Editor
-        </SidebarLink>
-        <SidebarLink to="settings">Settings</SidebarLink>
-        <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
-      </SideBar>
+      {!isBlogRoute && (
+        <SideBar>
+          <ProfilePicture src={imageUrl} alt="profile" />
+          <DisplayName>{currentUser.displayName}</DisplayName>
+          <Paragraph>{accountAge}</Paragraph>
+          <Paragraph>{currentUser.email}</Paragraph>
+          <SidebarLink to="posts">Posts</SidebarLink>
+          <SidebarLink to="../editor" target="_blank">
+            Editor
+          </SidebarLink>
+          <SidebarLink to="settings">Settings</SidebarLink>
+          <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
+        </SideBar>
+      )}
 
       {currentUser.error && <MessageToast message={currentUser.error} />}
       <Main>
