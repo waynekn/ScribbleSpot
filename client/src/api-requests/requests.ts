@@ -18,6 +18,11 @@ export type ErrorResponse = {
   error: string;
 };
 
+type BlogContent = {
+  displayName: string;
+  content: string;
+};
+
 export const authenticateUser = (provider: string, action: string) => {
   window.location.href = `${URL}/auth/${provider}/${action}`;
 };
@@ -119,5 +124,23 @@ export const fetchTitles = async () => {
     return res.data;
   } catch (error) {
     throw new Error("An error occured when getting titles");
+  }
+};
+
+export const fetchBlogContent = async (title: string) => {
+  try {
+    const res = await axios.post<{ blog: BlogContent }>(
+      `${URL}/posts/content`,
+      { title }
+    );
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      const errorMessage =
+        axiosError.response?.data.error || "Unknown error occurred";
+      throw new Error(errorMessage);
+    }
+    throw new Error("An unkown error occured");
   }
 };
