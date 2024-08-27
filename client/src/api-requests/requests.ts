@@ -112,3 +112,12 @@ export const uploadContent = async (title: string, htmlContent: string) => {
     throw new Error("Unknown error occured");
   }
 };
+
+export const fetchTitles = async () => {
+  try {
+    const res = await axios.get<{ titles: string[] }>(`${URL}/posts/titles`);
+    return res.data;
+  } catch (error) {
+    throw new Error("An error occured when getting titles");
+  }
+};
