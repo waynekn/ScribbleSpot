@@ -16,6 +16,7 @@ import {
   BlogTitle,
   BlogContent,
 } from "./blog.styles";
+import "../editor/editor.styles.scss";
 
 const Blog = () => {
   const { title } = useParams();
