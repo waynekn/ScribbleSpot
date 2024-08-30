@@ -8,8 +8,6 @@ mongoose.connection.once("open", () => console.log("Mongo db connected"));
 
 mongoose.connection.on("error", (err) => console.warn(err));
 
-const mongoConnect = async () => {
+export const mongoConnect = async () => {
   await mongoose.connect(MONGO_URL);
 };
-
-export default mongoConnect;
