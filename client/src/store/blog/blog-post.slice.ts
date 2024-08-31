@@ -13,7 +13,7 @@ const initialState: BlogState = {
 
 type Doc = {
   title: string;
-  htmlContent: string;
+  blogContent: string;
 };
 
 export const postBlog = createAsyncThunk(
@@ -21,8 +21,8 @@ export const postBlog = createAsyncThunk(
   async (doc: Doc, { rejectWithValue }) => {
     try {
       const title = doc.title;
-      const htmlContent = doc.htmlContent;
-      const response = await uploadContent(title, htmlContent);
+      const blogContent = doc.blogContent;
+      const response = await uploadContent(title, blogContent);
       return response.message;
     } catch (error) {
       if (error instanceof Error) {
