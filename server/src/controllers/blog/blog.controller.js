@@ -44,6 +44,11 @@ export const getBlogContent = async (req, res) => {
     const title = req.body.title;
     const authorId = req.user.id;
     const blog = await fetchBlogContent(authorId, title);
+
+    if (!blog) {
+      return res.status(404).json({ error: "Blog not found" });
+    }
+
     res.status(200).json({ blog });
   } catch (error) {
     res.status(500).json({ error: "A server errror occured" });
