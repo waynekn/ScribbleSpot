@@ -10,7 +10,7 @@ export const postBlog = async (req, res) => {
   try {
     const authorId = req.user.id;
     const title = req.body.title;
-    const content = req.body.htmlContent;
+    const content = req.body.blogContent;
 
     const existingTitle = await checkExistingTitle(authorId, title);
 
