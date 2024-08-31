@@ -44,10 +44,10 @@ const Editor = () => {
       disptach(setNotificationMessage("Post must have a title"));
       return;
     }
-    const docHtml = editor.getHTML();
+    const blogContent = editor.getHTML();
     const doc = {
       title,
-      htmlContent: docHtml,
+      blogContent,
     };
     disptach(postBlog(doc))
       .unwrap()
