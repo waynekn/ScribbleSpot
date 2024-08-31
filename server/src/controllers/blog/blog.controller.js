@@ -15,7 +15,7 @@ export const postBlog = async (req, res) => {
     const existingTitle = await checkExistingTitle(authorId, title);
 
     if (existingTitle) {
-      return res.status(404).json({ error: "Can't have duplicate titles" });
+      return res.status(400).json({ error: "Can't have duplicate titles" });
     }
 
     const { displayName } = await fetchUserProfile(authorId);
@@ -46,7 +46,7 @@ export const getBlogContent = async (req, res) => {
     const blog = await fetchBlogContent(authorId, title);
 
     if (!blog) {
-      return res.status(404).json({ error: "Blog not found" });
+      return res.status(400).json({ error: "Blog not found" });
     }
 
     res.status(200).json({ blog });
