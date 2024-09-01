@@ -21,9 +21,9 @@ const BlogPreview = () => {
 
   return (
     <div>
-      {blogTitles.map((blogPost) => (
-        <BlogLink key={blogPost.title} to={blogPost.title}>
-          {blogPost.title}
+      {blogTitles.map((blogTitle) => (
+        <BlogLink key={blogTitle.title} to={blogTitle.titleSlug}>
+          {blogTitle.title}
         </BlogLink>
       ))}
     </div>
