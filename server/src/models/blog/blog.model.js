@@ -9,7 +9,7 @@ export const uploadBlog = async (authorId, displayName, title, content) => {
 };
 
 export const fetchBlogTitles = async (authorId) => {
-  return blogs.find({ authorId }, { _id: 0, title: 1 });
+  return blogs.find({ authorId }, { _id: 0, title: 1, titleSlug: 1 });
 };
 
 export const fetchBlogContent = async (authorId, title) => {
