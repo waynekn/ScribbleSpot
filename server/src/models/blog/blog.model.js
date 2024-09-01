@@ -12,10 +12,10 @@ export const fetchBlogTitles = async (authorId) => {
   return blogs.find({ authorId }, { _id: 0, title: 1, titleSlug: 1 });
 };
 
-export const fetchBlogContent = async (authorId, title) => {
+export const fetchBlogContent = async (authorId, titleSlug) => {
   const posts = await blogs.findOne(
-    { authorId, title },
-    { _id: 0, content: 1, displayName: 1 }
+    { authorId, titleSlug },
+    { _id: 0, title: 1, content: 1, displayName: 1 }
   );
   return posts;
 };

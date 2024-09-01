@@ -42,9 +42,9 @@ export const getBlogTitles = async (req, res) => {
 
 export const getBlogContent = async (req, res) => {
   try {
-    const title = req.body.title;
+    const titleSlug = req.body.titleSlug;
     const authorId = req.user.id;
-    const blog = await fetchBlogContent(authorId, title);
+    const blog = await fetchBlogContent(authorId, titleSlug);
 
     if (!blog) {
       return res.status(400).json({ error: "Blog not found" });

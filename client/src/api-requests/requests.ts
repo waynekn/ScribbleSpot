@@ -18,7 +18,13 @@ export type ErrorResponse = {
   error: string;
 };
 
+type Title = {
+  title: string;
+  titleSlug: string;
+};
+
 type BlogContent = {
+  title: string;
   displayName: string;
   content: string;
 };
@@ -120,18 +126,18 @@ export const uploadContent = async (title: string, blogContent: string) => {
 
 export const fetchTitles = async () => {
   try {
-    const res = await axios.get<{ titles: string[] }>(`${URL}/posts/titles`);
+    const res = await axios.get<{ titles: Title[] }>(`${URL}/posts/titles`);
     return res.data;
   } catch (error) {
     throw new Error("An error occured when getting titles");
   }
 };
 
-export const fetchBlogContent = async (title: string) => {
+export const fetchBlogContent = async (titleSlug: string) => {
   try {
     const res = await axios.post<{ blog: BlogContent }>(
       `${URL}/posts/content`,
-      { title }
+      { titleSlug }
     );
     return res.data;
   } catch (error) {
