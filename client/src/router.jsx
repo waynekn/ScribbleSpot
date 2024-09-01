@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
         path: "posts",
         element: <BlogPreview />,
       },
-      { path: "posts/:title", element: <Blog /> },
+      { path: "posts/:titleSlug", element: <Blog /> },
     ],
   },
   { path: "editor", element: <Editor /> },

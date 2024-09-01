@@ -19,7 +19,7 @@ import {
 import "../editor/editor.styles.scss";
 
 const Blog = () => {
-  const { title } = useParams();
+  const { titleSlug } = useParams();
   const [blog, setBlog] = useState({});
   const dispatch = useDispatch();
 
@@ -39,14 +39,14 @@ const Blog = () => {
   useEffect(() => {
     const getBlog = async () => {
       try {
-        const { blog } = await fetchBlogContent(title);
+        const { blog } = await fetchBlogContent(titleSlug);
         setBlog(blog);
       } catch (error) {
         dispatch(setNotificationMessage(error.message));
       }
     };
     getBlog();
-  }, [title, dispatch]);
+  }, [titleSlug, dispatch]);
 
   useEffect(() => {
     if (editor && blog.content) {
@@ -58,7 +58,7 @@ const Blog = () => {
 
   return (
     <BlogContainer>
-      <BlogTitle>{title}</BlogTitle>
+      <BlogTitle>{blog.title}</BlogTitle>
       <DisplayName>Posted by {blog.displayName}</DisplayName>
       <BlogContent>
         <EditorContent editor={editor} />
