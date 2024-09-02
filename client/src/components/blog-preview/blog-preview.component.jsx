@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setNotificationMessage } from "../../store/blog/blog-post.slice";
 import { fetchTitles } from "../../api-requests/requests";
-import { BlogLink } from "./blog-preview.styles";
+import {
+  BlogLink,
+  BlogLinkContainer,
+  DeleteBlogButton,
+} from "./blog-preview.styles";
 const BlogPreview = () => {
   const [blogTitles, setBlogTitles] = useState([]);
   const dispatch = useDispatch();
@@ -19,12 +23,25 @@ const BlogPreview = () => {
     getTitles();
   }, [dispatch]);
 
+  const handleDelete = (e) => {
+    console.log(e.dataset);
+  };
+
   return (
     <div>
       {blogTitles.map((blogTitle) => (
-        <BlogLink key={blogTitle.title} to={blogTitle.titleSlug}>
-          {blogTitle.title}
-        </BlogLink>
+        <BlogLinkContainer key={blogTitle.title}>
+          <BlogLink key={blogTitle.title} to={blogTitle.titleSlug}>
+            {blogTitle.title}
+          </BlogLink>
+          <DeleteBlogButton>
+            <i
+              onClick={handleDelete}
+              data-title={blogTitle.title}
+              className="fa-solid fa-trash"
+            ></i>
+          </DeleteBlogButton>
+        </BlogLinkContainer>
       ))}
     </div>
   );
