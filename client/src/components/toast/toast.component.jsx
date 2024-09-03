@@ -8,6 +8,12 @@ const MessageToast = ({ message }) => {
 
   useEffect(() => {
     setShow(true);
+
+    const timer = setTimeout(() => {
+      setShow(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }, [message]);
 
   return (
