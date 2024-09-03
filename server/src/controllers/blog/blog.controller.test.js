@@ -51,6 +51,7 @@ describe("test blog controller", () => {
       expect(response.status).toBe(200);
       expect(response.body.titles).toContainEqual({
         title: "Test-title",
+        titleSlug: "test-title",
       });
     });
   });
