@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { uploadContent } from "../../api-requests/requests";
+import { uploadContent, deleteBlogRequest } from "../../api-requests/requests";
 
 type BlogState = {
   notification: string | null;
@@ -33,6 +33,21 @@ export const postBlog = createAsyncThunk(
   }
 );
 
+export const deleteBlogByTitle = createAsyncThunk(
+  "blog/deleteBlogByTitle",
+  async (title: string, { rejectWithValue }) => {
+    try {
+      const response = await deleteBlogRequest(title);
+      return response.message;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("An unknown error occurred");
+    }
+  }
+);
+
 const blogSlice = createSlice({
   name: "blog",
   initialState,
@@ -57,6 +72,25 @@ const blogSlice = createSlice({
         }
       )
       .addCase(postBlog.rejected, (state: BlogState, action) => {
+        state.isLoading = false;
+        if (typeof action.payload === "string") {
+          state.notification = action.payload;
+        } else {
+          state.notification = "An error occurred";
+        }
+      })
+      .addCase(deleteBlogByTitle.pending, (state: BlogState) => {
+        state.isLoading = true;
+        state.notification = null;
+      })
+      .addCase(
+        deleteBlogByTitle.fulfilled,
+        (state: BlogState, action: PayloadAction<string>) => {
+          state.isLoading = false;
+          state.notification = action.payload;
+        }
+      )
+      .addCase(deleteBlogByTitle.rejected, (state: BlogState, action) => {
         state.isLoading = false;
         if (typeof action.payload === "string") {
           state.notification = action.payload;
