@@ -11,7 +11,7 @@ export const postBlog = async (req, res) => {
   try {
     const authorId = req.user.id;
     const title = req.body.title;
-    const titleSlug = title.replace(/\s+/g, "-");
+    const titleSlug = title.replace(/\s+/g, "-").toLowerCase();
     const content = req.body.blogContent;
 
     const existingTitle = await checkExistingTitle(authorId, title);
