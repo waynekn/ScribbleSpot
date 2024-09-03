@@ -80,4 +80,25 @@ describe("test blog controller", () => {
       expect(response.body.error).toBe("Blog not found");
     });
   });
+
+  // test delete blog
+  describe("POST /posts/blog/delete", () => {
+    it("should return 200 for successful delete", async () => {
+      const response = await request(app)
+        .post("/posts/blog/delete")
+        .send({ title: blog.title });
+
+      expect(response.status).toBe(200);
+      expect(response.body.message).toBe("Blog successfully deleted");
+    });
+
+    it("should return 400 for a non existent title", async () => {
+      const response = await request(app).post("/posts/blog/delete").send({
+        title: blog.title,
+      });
+
+      expect(response.status).toBe(400);
+      expect(response.body.error).toBe("Could not find blog");
+    });
+  });
 });
