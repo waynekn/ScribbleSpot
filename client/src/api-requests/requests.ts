@@ -150,3 +150,21 @@ export const fetchBlogContent = async (titleSlug: string) => {
     throw new Error("An unkown error occured");
   }
 };
+
+export const deleteBlogRequest = async (title: string) => {
+  try {
+    const res = await axios.post<{ message: string }>(
+      `${URL}/posts/blog/delete`,
+      { title }
+    );
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      const errorMessage =
+        axiosError.response?.data.error || "An unknown error occured";
+      throw new Error(errorMessage);
+    }
+    throw new Error("An unknown error occurred");
+  }
+};
