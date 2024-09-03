@@ -40,13 +40,14 @@ const Editor = () => {
   if (!editor) return null;
 
   const handlePost = () => {
-    if (!title.trim()) {
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle) {
       disptach(setNotificationMessage("Post must have a title"));
       return;
     }
     const blogContent = editor.getHTML();
     const doc = {
-      title,
+      title: trimmedTitle,
       blogContent,
     };
     disptach(postBlog(doc))
