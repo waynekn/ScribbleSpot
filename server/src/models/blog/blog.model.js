@@ -25,3 +25,7 @@ export const fetchBlogContent = async (authorId, titleSlug) => {
   );
   return posts;
 };
+
+export const deleteBlog = async (authorId, title) => {
+  return blogs.findOneAndDelete({ authorId, title });
+};
