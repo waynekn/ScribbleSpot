@@ -4,19 +4,19 @@ import { Link } from "react-router-dom";
 export const DeleteBlogButton = styled.button`
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   padding: 0;
   margin-left: 10px;
   display: flex;
   align-items: center;
 
   i {
-    font-size: 1.5rem; /* Icon size */
-    color: #050505; /* Icon color */
+    font-size: 1.5rem;
+    color: ${({ disabled }) => (disabled ? "#a0a0a0" : "#050505")};
     transition: color 0.3s;
 
     &:hover {
-      color: #ff0000;
+      color: ${({ disabled }) => (disabled ? "#a0a0a0" : "#ff0000")};
     }
   }
 `;
