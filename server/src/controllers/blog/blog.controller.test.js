@@ -61,12 +61,13 @@ describe("test blog controller", () => {
     const fetchedBlog = {
       displayName: "testUser",
       content: "<p> Hello world </p>",
+      title: "Test-title",
     };
 
     it("should return an object containing blog content", async () => {
       const response = await request(app)
         .post("/posts/content")
-        .send({ title: blog.title });
+        .send({ titleSlug: "test-title" });
 
       expect(response.status).toBe(200);
       expect(response.body.blog).toEqual(fetchedBlog);
