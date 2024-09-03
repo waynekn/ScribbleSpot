@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteBlogByTitle } from "../../store/blog/blog-post.slice";
+import { selectBlogPost } from "../../store/blog/blog-post.selector";
 import { setNotificationMessage } from "../../store/blog/blog-post.slice";
 import { fetchTitles } from "../../api-requests/requests";
+import MessageToast from "../toast/toast.component";
 import {
   BlogLink,
   BlogLinkContainer,
@@ -10,6 +13,7 @@ import {
 const BlogPreview = () => {
   const [blogTitles, setBlogTitles] = useState([]);
   const dispatch = useDispatch();
+  const blog = useSelector(selectBlogPost);
 
   useEffect(() => {
     const getTitles = async () => {
@@ -24,17 +28,30 @@ const BlogPreview = () => {
   }, [dispatch]);
 
   const handleDelete = (e) => {
-    console.log(e.dataset);
+    const title = e.target.dataset.title;
+    dispatch(deleteBlogByTitle(title))
+      .unwrap()
+      .then((message) => {
+        const updatedBlogTitles = blogTitles.filter(
+          (blogTitle) => blogTitle.title !== title
+        );
+        setBlogTitles(updatedBlogTitles);
+        dispatch(setNotificationMessage(message));
+      })
+      .catch((errorMessage) => dispatch(setNotificationMessage(errorMessage)));
   };
 
   return (
     <div>
       {blogTitles.map((blogTitle) => (
         <BlogLinkContainer key={blogTitle.title}>
-          <BlogLink key={blogTitle.title} to={blogTitle.titleSlug}>
+          <BlogLink
+            key={blogTitle.title}
+            to={blog.isLoading ? "#" : blogTitle.titleSlug}
+          >
             {blogTitle.title}
           </BlogLink>
-          <DeleteBlogButton>
+          <DeleteBlogButton disabled={blog.isLoading}>
             <i
               onClick={handleDelete}
               data-title={blogTitle.title}
@@ -43,6 +60,7 @@ const BlogPreview = () => {
           </DeleteBlogButton>
         </BlogLinkContainer>
       ))}
+      {blog.notification && <MessageToast message={blog.notification} />}
     </div>
   );
 };
