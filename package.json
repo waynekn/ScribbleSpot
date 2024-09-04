@@ -2,7 +2,7 @@
   "name": "blogging-app",
   "version": "1.0.0",
   "description": "",
-  "main": "server.mjs",
+  "main": "server.js",
   "scripts": {
     "build-client": "npm run build --prefix client",
     "watch": "concurrently \"npm run build --prefix client\" \"npm run watch --prefix server\"",
