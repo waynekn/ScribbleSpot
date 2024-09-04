@@ -1,0 +1,38 @@
+name: ScribbleSpot
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  build-client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Build client on the server
+        run: |
+          npm install-client
+          npm run build-client
+  test-server:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: "7.0"
+      - name: Test server
+        env:
+          MONGO_URL: ${{secrets.MONGO_URL}}
+        run: |
+          npm install-server
+          npm test
