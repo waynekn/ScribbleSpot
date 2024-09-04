@@ -15,7 +15,7 @@ jobs:
           node-version: "20"
       - name: Build client on the server
         run: |
-          npm install-client
+          npm run install-client
           npm run build-client
   test-server:
     runs-on: ubuntu-latest
@@ -34,5 +34,5 @@ jobs:
         env:
           MONGO_URL: ${{secrets.MONGO_URL}}
         run: |
-          npm install-server
+          npm run install-server
           npm test
