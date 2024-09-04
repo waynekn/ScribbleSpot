@@ -31,12 +31,12 @@ const BlogPreview = () => {
     const title = e.target.dataset.title;
     dispatch(deleteBlogByTitle(title))
       .unwrap()
-      .then((message) => {
+      .then((successMessage) => {
         const updatedBlogTitles = blogTitles.filter(
           (blogTitle) => blogTitle.title !== title
         );
         setBlogTitles(updatedBlogTitles);
-        dispatch(setNotificationMessage(message));
+        dispatch(setNotificationMessage(successMessage));
       })
       .catch((errorMessage) => dispatch(setNotificationMessage(errorMessage)));
   };
