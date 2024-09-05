@@ -10,10 +10,6 @@ export type User = {
   dateJoined: Date;
 };
 
-type UserProfileResponse = {
-  profile: User;
-};
-
 export type ErrorResponse = {
   error: string;
 };
@@ -33,11 +29,9 @@ export const authenticateUser = (provider: string, action: string) => {
   window.location.href = `${URL}/auth/${provider}/${action}`;
 };
 
-export const getUserProfile = async (): Promise<UserProfileResponse> => {
+export const getUserProfile = async () => {
   try {
-    const response = await axios.get<UserProfileResponse>(
-      `${URL}/users/profile`
-    );
+    const response = await axios.get<{ profile: User }>(`${URL}/users/profile`);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
