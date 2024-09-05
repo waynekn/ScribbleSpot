@@ -15,8 +15,7 @@ const AuthStatus = () => {
           .then(() => {
             navigate("/", { replace: true });
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             navigate("/authentication/sign-in", { replace: true });
           });
       } else {
