@@ -10,12 +10,7 @@ import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import { fetchBlogContent } from "../../api-requests/requests";
 import { setNotificationMessage } from "../../store/blog/blog-post.slice";
-import {
-  BlogContainer,
-  DisplayName,
-  BlogTitle,
-  BlogContent,
-} from "./blog.styles";
+import { BlogContainer, UserName, BlogTitle, BlogContent } from "./blog.styles";
 import "../editor/editor.styles.scss";
 
 const Blog = () => {
@@ -59,7 +54,7 @@ const Blog = () => {
   return (
     <BlogContainer>
       <BlogTitle>{blog.title}</BlogTitle>
-      <DisplayName>Posted by {blog.displayName}</DisplayName>
+      <UserName>Posted by {blog.userName}</UserName>
       <BlogContent>
         <EditorContent editor={editor} />
       </BlogContent>

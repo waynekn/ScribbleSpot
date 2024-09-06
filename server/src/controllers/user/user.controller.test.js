@@ -30,7 +30,7 @@ describe("GET /users/profile", () => {
     expect(response.status).toBe(200);
     expect(response.body.profile).toEqual({
       email: "testUser123@gmail.com",
-      displayName: "testUser",
+      userName: "testUser",
       profilePicture: "DEFAULT_PROFILE_PICTURE",
       dateJoined: "2024-08-06T12:48:50.257Z",
     });

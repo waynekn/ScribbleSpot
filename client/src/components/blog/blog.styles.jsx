@@ -8,7 +8,7 @@ export const BlogContainer = styled.div`
   padding: 16px;
 `;
 
-export const DisplayName = styled.p`
+export const UserName = styled.p`
   color: rgba(128, 128, 128, 0.603);
   text-align: right;
   font-style: italic;

@@ -53,7 +53,7 @@ const DropDown = () => {
     <DropDownContainer>
       <ProfilePicture src={imageUrl} alt="Profile" />
       <DropDownContent>
-        <DropDownLink to={`profile/${currentUser.displayName}`}>
+        <DropDownLink to={`profile/${currentUser.userName}`}>
           View profile
         </DropDownLink>
         <DropDownLink to="settings">Settings</DropDownLink>

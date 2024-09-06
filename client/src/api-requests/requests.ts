@@ -5,7 +5,7 @@ export const URL = `http://localhost:8000`;
 
 export type User = {
   email: string;
-  displayName: string;
+  userName: string;
   profilePicture: string;
   dateJoined: Date;
 };
@@ -21,7 +21,7 @@ type Title = {
 
 type BlogContent = {
   title: string;
-  displayName: string;
+  userName: string;
   content: string;
 };
 

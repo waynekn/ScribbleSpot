@@ -18,7 +18,7 @@ import {
   SidebarButton,
   SidebarLink,
   Paragraph,
-  DisplayName,
+  UserName,
   Main,
 } from "./profile.styles";
 
@@ -29,7 +29,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
 
-  const isBlogRoute = useMatch("/profile/:displayName/posts/:title");
+  const isBlogRoute = useMatch("/profile/:userName/posts/:title");
 
   useEffect(() => {
     const fetchImageUrl = async (imageKey) => {
@@ -71,7 +71,7 @@ const ProfilePage = () => {
       {!isBlogRoute && (
         <SideBar>
           <ProfilePicture src={imageUrl} alt="profile" />
-          <DisplayName>{currentUser.displayName}</DisplayName>
+          <UserName>{currentUser.userName}</UserName>
           <Paragraph>{accountAge}</Paragraph>
           <Paragraph>{currentUser.email}</Paragraph>
           <SidebarLink to="posts">Posts</SidebarLink>

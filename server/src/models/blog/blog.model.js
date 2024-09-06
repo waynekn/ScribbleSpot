@@ -6,12 +6,12 @@ export const checkExistingTitle = async (authorId, title) => {
 
 export const uploadBlog = async (
   authorId,
-  displayName,
+  userName,
   title,
   titleSlug,
   content
 ) => {
-  await blogs.create({ authorId, displayName, title, titleSlug, content });
+  await blogs.create({ authorId, userName, title, titleSlug, content });
 };
 
 export const fetchBlogTitles = async (authorId) => {
@@ -21,7 +21,7 @@ export const fetchBlogTitles = async (authorId) => {
 export const fetchBlogContent = async (authorId, titleSlug) => {
   const posts = await blogs.findOne(
     { authorId, titleSlug },
-    { _id: 0, title: 1, content: 1, displayName: 1 }
+    { _id: 0, title: 1, content: 1, userName: 1 }
   );
   return posts;
 };

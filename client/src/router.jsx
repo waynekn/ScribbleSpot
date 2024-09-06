@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
     element: <AuthStatus />,
   },
   {
-    path: "profile/:displayName",
+    path: "profile/:userName",
     element: <ProfilePage />,
     children: [
       { path: "settings", element: <SettingsForm /> },

@@ -59,7 +59,7 @@ describe("test blog controller", () => {
   //test GET content
   describe("POST /posts/content", () => {
     const fetchedBlog = {
-      displayName: "testUser",
+      userName: "testUser",
       content: "<p> Hello world </p>",
       title: "Test-title",
     };

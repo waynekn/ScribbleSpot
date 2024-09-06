@@ -56,7 +56,7 @@ const SettingsForm = () => {
     setErrorMessage("");
 
     const formData = new FormData(form);
-    const userName = formData.get("displayName");
+    const userName = formData.get("userName");
     try {
       if (userName) validateUserName(userName);
       await uploadSettingsForm(formData);
@@ -74,12 +74,12 @@ const SettingsForm = () => {
     <FormContainer>
       <Form ref={formRef} encType="multipart/form-data" onSubmit={handleSubmit}>
         <FormGroup>
-          <FormLabel htmlFor="displayName">User name</FormLabel>
+          <FormLabel htmlFor="userName">User name</FormLabel>
           <FormInput
             type="text"
-            name="displayName"
-            id="displayName"
-            value={currentUser.displayName}
+            name="userName"
+            id="userName"
+            value={currentUser.userName}
           />
           {errorMessage.length > 0 && (
             <ErrorMessage>{errorMessage}</ErrorMessage>

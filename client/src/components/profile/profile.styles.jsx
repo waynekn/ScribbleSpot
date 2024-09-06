@@ -58,7 +58,7 @@ export const ProfilePicture = styled.img`
   object-fit: cover;
 `;
 
-export const DisplayName = styled.p`
+export const UserName = styled.p`
   margin: 5px 0;
   color: hsla(0, 92%, 5%, 0.664);
   font-weight: bold;

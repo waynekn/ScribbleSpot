@@ -10,7 +10,7 @@ export type CurrentUser = User & {
 
 const initialState: CurrentUser = {
   email: "",
-  displayName: "",
+  userName: "",
   profilePicture: "",
   dateJoined: new Date(),
   isLoggedIn: false,
