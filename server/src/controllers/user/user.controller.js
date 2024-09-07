@@ -7,7 +7,8 @@ import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
 
 export const getUserProfile = async (req, res) => {
   try {
-    const profile = await fetchUserProfile(req.user.id);
+    const userName = req.body.userName;
+    const profile = await fetchUserProfile(userName);
     if (profile) {
       res.status(200).json({ profile });
     } else {
