@@ -24,7 +24,8 @@ describe("GET /users/profile", () => {
 
   it("should return user if profile exists", async () => {
     const response = await request(app)
-      .get("/users/profile")
+      .post("/users/profile")
+      .send({ userName: "testUser" })
       .expect("Content-Type", /json/);
 
     expect(response.status).toBe(200);
