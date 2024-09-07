@@ -2,8 +2,8 @@ import users from "../../schemas/user/user.schema.js";
 
 export const userExists = (email) => users.findOne({ email });
 
-export const fetchUserProfile = (id) =>
-  users.findOne({ _id: id }, { _id: 0, __v: 0 });
+export const fetchUserProfile = (userName) =>
+  users.findOne({ userName: userName }, { _id: 0, __v: 0 });
 
 export const updateDisplayName = async (id, userName) => {
   const existingUser = await users.findOne({ userName });
