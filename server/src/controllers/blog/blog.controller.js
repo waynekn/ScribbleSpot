@@ -13,6 +13,7 @@ export const postBlog = async (req, res) => {
     const title = req.body.title;
     const titleSlug = title.replace(/\s+/g, "-").toLowerCase();
     const content = req.body.blogContent;
+    const userName = req.user.userName;
 
     const existingTitle = await checkExistingTitle(authorId, title);
 
@@ -20,7 +21,6 @@ export const postBlog = async (req, res) => {
       return res.status(400).json({ error: "Can't have duplicate titles" });
     }
 
-    const { userName } = await fetchUserProfile(authorId);
     await uploadBlog(authorId, userName, title, titleSlug, content);
     res.status(201).json({ message: "Post successfuly uploaded" });
   } catch (error) {
