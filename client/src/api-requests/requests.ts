@@ -29,8 +29,15 @@ export const authenticateUser = (provider: string, action: string) => {
   window.location.href = `${URL}/auth/${provider}/${action}`;
 };
 
-export const getUserProfile = async () => {
+export const getUserProfile = async (userName?: string) => {
   try {
+    if (userName) {
+      const response = await axios.post<{ profile: User }>(
+        `${URL}/users/profile`,
+        { userName }
+      );
+      return response.data;
+    }
     const response = await axios.get<{ profile: User }>(`${URL}/users/profile`);
     return response.data;
   } catch (error) {
