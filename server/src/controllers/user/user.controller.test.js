@@ -7,7 +7,7 @@ export const app = express();
 
 app.use(express.json());
 export const authenticateJWT = (req, res, next) => {
-  req.user = { id: "66d1c86755e232cfcaacbc26" };
+  req.user = { id: "66d1c86755e232cfcaacbc26", userName: "testUser" };
   next();
 };
 
