@@ -32,7 +32,7 @@ const Home = () => {
       }
     };
     getAuthStatus();
-  });
+  }, [dispatch]);
 
   return (
     <>
