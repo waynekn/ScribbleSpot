@@ -1,9 +1,9 @@
 import caches from "../../schemas/cache/url-cache.schema.js";
 
-export const getCache = (id) => caches.findOne({ userId: id });
+export const getCache = (userName) => caches.findOne({ userName: userName });
 
 export const updateCache = (newCache) => {
-  return caches.findOneAndUpdate({ userId: newCache.userId }, newCache, {
+  return caches.findOneAndUpdate({ userName: newCache.userName }, newCache, {
     upsert: true,
   });
 };
