@@ -20,9 +20,9 @@ const DropDown = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    const updateImageUrl = async (imageKey) => {
+    const updateImageUrl = async (imageKey, userName) => {
       try {
-        const { imageUrl } = await getImageUrl(imageKey);
+        const { imageUrl } = await getImageUrl(imageKey, userName);
         return imageUrl;
       } catch (error) {
         console.warn(error);
@@ -32,7 +32,10 @@ const DropDown = () => {
 
     const fetchImageUrl = async () => {
       if (currentUser && currentUser.profilePicture) {
-        const url = await updateImageUrl(currentUser.profilePicture);
+        const url = await updateImageUrl(
+          currentUser.profilePicture,
+          currentUser.userName
+        );
         setImageUrl(url);
       }
     };
