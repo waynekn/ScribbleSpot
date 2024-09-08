@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const cacheSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
+  userName: { type: String, required: true },
   imageKey: { type: String, required: true },
   imageUrl: { type: String, required: true },
   expiresAt: { type: Date, required: true },
