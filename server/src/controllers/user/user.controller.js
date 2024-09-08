@@ -50,9 +50,9 @@ export const getImageUrl = async (req, res) => {
     const imageUrl = await getSignedImageUrl(imageKey);
 
     const newCache = {
-      userName: userName,
-      imageKey: imageKey,
-      imageUrl: imageUrl,
+      userName,
+      imageKey,
+      imageUrl,
       expiresAt: new Date(Date.now() + 3500 * 1000),
     };
     await updateCache(newCache);
