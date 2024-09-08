@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Outlet, useNavigate, useMatch } from "react-router-dom";
+import { Outlet, useNavigate, useMatch, useParams } from "react-router-dom";
 import MessageToast from "../toast/toast.component";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { getImageUrl, signOutUser } from "../../api-requests/requests";
+import { fetchProfile } from "../../store/profile/profile.slice";
 import {
   clearCurrentUser,
   updateCurrentUser,
@@ -26,15 +27,33 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const [imageUrl, setImageUrl] = useState("");
   const [accountAge, setAccountAge] = useState("");
+  const [profile, setProfile] = useState({});
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
+  const [isOwnAccount, setIsOwnAccount] = useState(false);
 
   const isBlogRoute = useMatch("/profile/:userName/posts/:title");
+  const { userName } = useParams();
 
   useEffect(() => {
-    const fetchImageUrl = async (imageKey) => {
+    const getProfile = async (userName) => {
+      dispatch(fetchProfile(userName))
+        .unwrap()
+        .then((profile) => {
+          setProfile(profile);
+          setIsOwnAccount(currentUser.userName === profile.userName);
+        })
+        .catch(() => {
+          return <p>Error getting profile</p>;
+        });
+    };
+    getProfile(userName);
+  }, [userName, dispatch]);
+
+  useEffect(() => {
+    const fetchImageUrl = async (imageKey, userName) => {
       try {
-        const { imageUrl } = await getImageUrl(imageKey);
+        const { imageUrl } = await getImageUrl(imageKey, userName);
         return imageUrl;
       } catch (error) {
         return "";
@@ -42,19 +61,19 @@ const ProfilePage = () => {
     };
 
     const updateImageUrl = async () => {
-      const url = await fetchImageUrl(currentUser.profilePicture);
+      const url = await fetchImageUrl(profile.profilePicture, profile.userName);
       setImageUrl(url);
     };
     updateImageUrl();
-  }, [currentUser]);
+  }, [profile]);
 
   useEffect(() => {
-    const dateJoined = new Date(currentUser.dateJoined);
+    const dateJoined = new Date(profile.dateJoined);
     const age = `${String(dateJoined.getDate()).padStart(2, "0")}/${String(
       dateJoined.getMonth()
     ).padStart(2, "0")}/${dateJoined.getFullYear()}`;
     setAccountAge(age);
-  }, [currentUser]);
+  }, [profile]);
 
   const handleSignOut = async () => {
     try {
@@ -71,15 +90,18 @@ const ProfilePage = () => {
       {!isBlogRoute && (
         <SideBar>
           <ProfilePicture src={imageUrl} alt="profile" />
-          <UserName>{currentUser.userName}</UserName>
+          <UserName>{profile.userName}</UserName>
           <Paragraph>{accountAge}</Paragraph>
-          <Paragraph>{currentUser.email}</Paragraph>
           <SidebarLink to="posts">Posts</SidebarLink>
           <SidebarLink to="../editor" target="_blank">
             Editor
           </SidebarLink>
-          <SidebarLink to="settings">Settings</SidebarLink>
-          <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
+          {isOwnAccount && (
+            <>
+              <SidebarLink to="settings">Settings</SidebarLink>
+              <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
+            </>
+          )}
         </SideBar>
       )}
 
