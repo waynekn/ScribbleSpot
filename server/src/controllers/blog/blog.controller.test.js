@@ -46,7 +46,9 @@ describe("test blog controller", () => {
   //test GET titles
   describe("GET /posts/titles", () => {
     it("should return an array of titles", async () => {
-      const response = await request(app).get("/posts/titles");
+      const response = await request(app).post("/posts/titles").send({
+        userName: "testUser",
+      });
 
       expect(response.status).toBe(200);
       expect(response.body.titles).toContainEqual({
@@ -67,7 +69,7 @@ describe("test blog controller", () => {
     it("should return an object containing blog content", async () => {
       const response = await request(app)
         .post("/posts/content")
-        .send({ titleSlug: "test-title" });
+        .send({ titleSlug: "test-title", userName: "testUser" });
 
       expect(response.status).toBe(200);
       expect(response.body.blog).toEqual(fetchedBlog);
