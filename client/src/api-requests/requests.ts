@@ -79,12 +79,13 @@ export const checkAuthStatus = async () => {
   }
 };
 
-export const getImageUrl = async (imageKey: string) => {
+export const getImageUrl = async (imageKey: string, userName: string) => {
   try {
     const res = await axios.post<{ imageUrl: string }>(
       `${URL}/users/profile/profile-picture`,
       {
         imageKey,
+        userName,
       }
     );
     return res.data;
