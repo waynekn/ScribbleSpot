@@ -5,6 +5,7 @@ import { selectBlogPost } from "../../store/blog/blog-post.selector";
 import { setNotificationMessage } from "../../store/blog/blog-post.slice";
 import { fetchTitles } from "../../api-requests/requests";
 import MessageToast from "../toast/toast.component";
+import { selectProfile } from "../../store/profile/profile.selector";
 import {
   BlogLink,
   BlogLinkContainer,
@@ -14,18 +15,19 @@ const BlogPreview = () => {
   const [blogTitles, setBlogTitles] = useState([]);
   const dispatch = useDispatch();
   const blog = useSelector(selectBlogPost);
+  const profile = useSelector(selectProfile);
 
   useEffect(() => {
     const getTitles = async () => {
       try {
-        const { titles } = await fetchTitles();
+        const { titles } = await fetchTitles(profile.userName);
         setBlogTitles(titles);
       } catch (error) {
         dispatch(setNotificationMessage(error.message));
       }
     };
     getTitles();
-  }, [dispatch]);
+  }, [dispatch, profile.userName]);
 
   const handleDelete = (e) => {
     const title = e.target.dataset.title;
