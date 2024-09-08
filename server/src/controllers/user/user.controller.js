@@ -7,7 +7,7 @@ import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
 
 export const getUserProfile = async (req, res) => {
   try {
-    const userName = req.body.userName;
+    const userName = req.body?.userName || req.user?.userName;
     const profile = await fetchUserProfile(userName);
     if (profile) {
       res.status(200).json({ profile });
@@ -37,10 +37,10 @@ export const updateProfile = async (req, res) => {
 
 export const getImageUrl = async (req, res) => {
   const imageKey = req.body.imageKey;
-  const userId = req.user.id;
+  const userName = req.body.userName;
 
   try {
-    const cache = await getCache(userId);
+    const cache = await getCache(userName);
 
     if (cache && cache.imageKey === imageKey && cache.expiresAt > Date.now()) {
       const imageUrl = cache.imageUrl;
@@ -50,7 +50,7 @@ export const getImageUrl = async (req, res) => {
     const imageUrl = await getSignedImageUrl(imageKey);
 
     const newCache = {
-      userId: userId,
+      userName: userName,
       imageKey: imageKey,
       imageUrl: imageUrl,
       expiresAt: new Date(Date.now() + 3500 * 1000),
