@@ -5,7 +5,6 @@ import {
   fetchBlogTitles,
   deleteBlog,
 } from "../../models/blog/blog.model.js";
-import { fetchUserProfile } from "../../models/user/user.model.js";
 
 export const postBlog = async (req, res) => {
   try {
@@ -32,9 +31,9 @@ export const postBlog = async (req, res) => {
 };
 
 export const getBlogTitles = async (req, res) => {
-  const authorId = req.user.id;
+  const userName = req.body.userName;
   try {
-    const titles = await fetchBlogTitles(authorId);
+    const titles = await fetchBlogTitles(userName);
     return res.status(200).json({ titles });
   } catch (error) {
     return res.status(500).json({ error: "Couldn't get titles" });
@@ -44,8 +43,8 @@ export const getBlogTitles = async (req, res) => {
 export const getBlogContent = async (req, res) => {
   try {
     const titleSlug = req.body.titleSlug;
-    const authorId = req.user.id;
-    const blog = await fetchBlogContent(authorId, titleSlug);
+    const userName = req.body.userName;
+    const blog = await fetchBlogContent(userName, titleSlug);
 
     if (!blog) {
       return res.status(400).json({ error: "Blog not found" });
