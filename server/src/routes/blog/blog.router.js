@@ -8,6 +8,6 @@ import {
 export const blogRouter = express.Router();
 
 blogRouter.post("/blog", postBlog);
-blogRouter.get("/titles", getBlogTitles);
+blogRouter.post("/titles", getBlogTitles);
 blogRouter.post("/content", getBlogContent);
 blogRouter.post("/blog/delete", handleDelete);
