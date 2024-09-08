@@ -14,13 +14,13 @@ export const uploadBlog = async (
   await blogs.create({ authorId, userName, title, titleSlug, content });
 };
 
-export const fetchBlogTitles = async (authorId) => {
-  return blogs.find({ authorId }, { _id: 0, title: 1, titleSlug: 1 });
+export const fetchBlogTitles = async (userName) => {
+  return blogs.find({ userName }, { _id: 0, title: 1, titleSlug: 1 });
 };
 
-export const fetchBlogContent = async (authorId, titleSlug) => {
+export const fetchBlogContent = async (userName, titleSlug) => {
   const posts = await blogs.findOne(
-    { authorId, titleSlug },
+    { userName, titleSlug },
     { _id: 0, title: 1, content: 1, userName: 1 }
   );
   return posts;
