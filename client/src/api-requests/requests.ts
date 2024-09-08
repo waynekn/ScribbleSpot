@@ -66,6 +66,7 @@ export const checkAuthStatus = async () => {
   try {
     await axios.get(`${URL}/auth-status`);
   } catch (error) {
+    console.log(error);
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
       const statusCode = axiosError.response?.status;
@@ -81,6 +82,8 @@ export const checkAuthStatus = async () => {
 
 export const getImageUrl = async (imageKey: string, userName: string) => {
   try {
+    console.warn("request image url", imageKey);
+    console.warn("request image url", userName);
     const res = await axios.post<{ imageUrl: string }>(
       `${URL}/users/profile/profile-picture`,
       {
@@ -126,20 +129,22 @@ export const uploadContent = async (title: string, blogContent: string) => {
   }
 };
 
-export const fetchTitles = async () => {
+export const fetchTitles = async (userName: string) => {
   try {
-    const res = await axios.get<{ titles: Title[] }>(`${URL}/posts/titles`);
+    const res = await axios.post<{ titles: Title[] }>(`${URL}/posts/titles`, {
+      userName,
+    });
     return res.data;
   } catch (error) {
     throw new Error("An error occured when getting titles");
   }
 };
 
-export const fetchBlogContent = async (titleSlug: string) => {
+export const fetchBlogContent = async (titleSlug: string, userName: string) => {
   try {
     const res = await axios.post<{ blog: BlogContent }>(
       `${URL}/posts/content`,
-      { titleSlug }
+      { titleSlug, userName }
     );
     return res.data;
   } catch (error) {
