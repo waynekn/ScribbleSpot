@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import NavBar from "./routes/navigation/navigation.component";
-import AboutUs from "./components/about-us/about-us.component";
 import Blog from "./components/blog/blog.component";
 import AuthStatus from "./utils/auth-status.util";
 import SignInForm from "./components/sign-in/sign-in-form.component";
@@ -17,10 +16,6 @@ export const router = createBrowserRouter([
     path: "/",
     element: <NavBar />,
     children: [{ index: true, element: <Home /> }],
-  },
-  {
-    path: "about-us",
-    element: <AboutUs />,
   },
   {
     path: "authentication/sign-in",
