@@ -10,7 +10,7 @@ import { processForm } from "../../middleware/multer/multer.js";
 const userRouter = express.Router();
 
 userRouter.all("/profile", getUserProfile);
-userRouter.post("/profile", processForm, updateProfile);
+userRouter.post("/profile/update", processForm, updateProfile);
 userRouter.post("/profile/profile-picture", getImageUrl);
 
 export default userRouter;
