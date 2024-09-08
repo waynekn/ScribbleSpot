@@ -20,9 +20,6 @@ const NavBar = () => {
           <SearchBar />
         </SearchWrapper>
         <ButtonWrapper>
-          <NavLink to="about-us">
-            <Button variant="light">About us</Button>
-          </NavLink>
           <NavLink to="stories">
             <Button variant="light">Read</Button>
           </NavLink>
