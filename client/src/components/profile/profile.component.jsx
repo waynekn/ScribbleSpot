@@ -93,11 +93,11 @@ const ProfilePage = () => {
           <UserName>{profile.userName}</UserName>
           <Paragraph>{accountAge}</Paragraph>
           <SidebarLink to="posts">Posts</SidebarLink>
-          <SidebarLink to="../editor" target="_blank">
-            Editor
-          </SidebarLink>
           {isOwnAccount && (
             <>
+              <SidebarLink to="../editor" target="_blank">
+                Editor
+              </SidebarLink>
               <SidebarLink to="settings">Settings</SidebarLink>
               <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
             </>
