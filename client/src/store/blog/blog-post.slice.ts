@@ -61,6 +61,9 @@ const blogSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+      /**
+       * postBlog thunk
+       **/
       .addCase(postBlog.pending, (state: BlogState) => {
         state.isLoading = true;
         state.notification = null;
@@ -79,6 +82,9 @@ const blogSlice = createSlice({
           state.notification = "An error occurred";
         }
       })
+      /**
+       * deleteBlogByTitle thunk
+       */
       .addCase(deleteBlogByTitle.pending, (state: BlogState) => {
         state.isLoading = true;
         state.notification = null;
