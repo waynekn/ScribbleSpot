@@ -19,19 +19,22 @@ const BlogPreview = ({ index }) => {
   const blog = useSelector(selectBlogPost);
   const profile = useSelector(selectProfile);
   const currentUser = useSelector(selectCurrentUser);
-  const [isOwnProfile] = useState(currentUser.userName === profile.userName);
+  const [isOwnProfile, setIsOwnProfile] = useState(
+    currentUser.userName === profile.userName
+  );
 
   useEffect(() => {
     const getTitles = async () => {
       try {
         const { titles } = await fetchTitles(profile.userName);
         setBlogTitles(titles);
+        setIsOwnProfile(currentUser.userName === profile.userName);
       } catch (error) {
         dispatch(setNotificationMessage(error.message));
       }
     };
     getTitles();
-  }, [dispatch, profile.userName]);
+  }, [dispatch, profile.userName, currentUser.userName]);
 
   const handleDelete = (e) => {
     const title = e.target.dataset.title;
