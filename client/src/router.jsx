@@ -33,12 +33,13 @@ export const router = createBrowserRouter([
     path: "profile/:userName",
     element: <ProfilePage />,
     children: [
+      { index: true, element: <BlogPreview index={true} /> },
       { path: "settings", element: <SettingsForm /> },
       {
         path: "posts",
-        element: <BlogPreview />,
+        element: <BlogPreview index={false} />,
       },
-      { path: "posts/:titleSlug", element: <Blog /> },
+      { path: ":titleSlug", element: <Blog /> },
     ],
   },
   { path: "editor", element: <Editor /> },
