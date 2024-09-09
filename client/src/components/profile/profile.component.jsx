@@ -37,48 +37,37 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const getProfile = async (userName) => {
-      dispatch(fetchProfile(userName))
-        .unwrap()
-        .then((profile) => {
-          setProfile(profile);
-          setIsOwnAccount(currentUser.userName === profile.userName);
-        })
-        .catch(() => {
-          return <p>Error getting profile</p>;
-        });
-    };
-    getProfile(userName);
-  }, [userName, dispatch]);
-
-  useEffect(() => {
-    const fetchImageUrl = async (imageKey, userName) => {
       try {
-        const { imageUrl } = await getImageUrl(imageKey, userName);
-        return imageUrl;
+        const profileData = await dispatch(fetchProfile(userName)).unwrap();
+        setProfile(profileData);
+        setIsOwnAccount(currentUser?.userName === profileData.userName);
+
+        const dateJoined = new Date(profileData.dateJoined);
+        const formattedDate = `${String(dateJoined.getDate()).padStart(
+          2,
+          "0"
+        )}/${String(dateJoined.getMonth()).padStart(
+          2,
+          "0"
+        )}/${dateJoined.getFullYear()}`;
+        setAccountAge(formattedDate);
+
+        if (profileData.profilePicture && profileData.userName) {
+          const { imageUrl } = await getImageUrl(
+            profileData.profilePicture,
+            profileData.userName
+          );
+          setImageUrl(imageUrl || "");
+        }
       } catch (error) {
-        return "";
+        return <p>Error fetching profile</p>;
       }
     };
 
-    const updateImageUrl = async () => {
-      if (profile.profilePicture && profile.userName) {
-        const url = await fetchImageUrl(
-          profile.profilePicture,
-          profile.userName
-        );
-        setImageUrl(url);
-      }
-    };
-    updateImageUrl();
-  }, [profile]);
-
-  useEffect(() => {
-    const dateJoined = new Date(profile.dateJoined);
-    const age = `${String(dateJoined.getDate()).padStart(2, "0")}/${String(
-      dateJoined.getMonth()
-    ).padStart(2, "0")}/${dateJoined.getFullYear()}`;
-    setAccountAge(age);
-  }, [profile]);
+    if (userName) {
+      getProfile(userName);
+    }
+  }, [userName, dispatch, currentUser]);
 
   const handleSignOut = async () => {
     try {
