@@ -7,12 +7,13 @@ import { fetchTitles } from "../../api-requests/requests";
 import MessageToast from "../toast/toast.component";
 import { selectProfile } from "../../store/profile/profile.selector";
 import { selectCurrentUser } from "../../store/user/user.selector";
+import PropTypes from "prop-types";
 import {
   BlogLink,
   BlogLinkContainer,
   DeleteBlogButton,
 } from "./blog-preview.styles";
-const BlogPreview = () => {
+const BlogPreview = ({ index }) => {
   const [blogTitles, setBlogTitles] = useState([]);
   const dispatch = useDispatch();
   const blog = useSelector(selectBlogPost);
@@ -46,13 +47,20 @@ const BlogPreview = () => {
       .catch((errorMessage) => dispatch(setNotificationMessage(errorMessage)));
   };
 
+  console.warn(index);
   return (
     <div>
       {blogTitles.map((blogTitle) => (
         <BlogLinkContainer key={blogTitle.title}>
           <BlogLink
             key={blogTitle.title}
-            to={blog.isLoading ? "#" : blogTitle.titleSlug}
+            to={
+              blog.isLoading
+                ? "#"
+                : index
+                ? blogTitle.titleSlug
+                : `../${blogTitle.titleSlug}`
+            }
           >
             {blogTitle.title}
           </BlogLink>
@@ -70,6 +78,10 @@ const BlogPreview = () => {
       {blog.notification && <MessageToast message={blog.notification} />}
     </div>
   );
+};
+
+BlogPreview.propTypes = {
+  index: PropTypes.bool,
 };
 
 export default BlogPreview;
