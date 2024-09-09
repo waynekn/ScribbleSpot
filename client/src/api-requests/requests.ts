@@ -66,7 +66,6 @@ export const checkAuthStatus = async () => {
   try {
     await axios.get(`${URL}/auth-status`);
   } catch (error) {
-    console.log(error);
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
       const statusCode = axiosError.response?.status;
@@ -82,8 +81,6 @@ export const checkAuthStatus = async () => {
 
 export const getImageUrl = async (imageKey: string, userName: string) => {
   try {
-    console.warn("request image url", imageKey);
-    console.warn("request image url", userName);
     const res = await axios.post<{ imageUrl: string }>(
       `${URL}/users/profile/profile-picture`,
       {
