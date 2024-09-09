@@ -47,7 +47,6 @@ const BlogPreview = ({ index }) => {
       .catch((errorMessage) => dispatch(setNotificationMessage(errorMessage)));
   };
 
-  console.warn(index);
   return (
     <div>
       {blogTitles.map((blogTitle) => (
