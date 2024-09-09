@@ -61,8 +61,13 @@ const ProfilePage = () => {
     };
 
     const updateImageUrl = async () => {
-      const url = await fetchImageUrl(profile.profilePicture, profile.userName);
-      setImageUrl(url);
+      if (profile.profilePicture && profile.userName) {
+        const url = await fetchImageUrl(
+          profile.profilePicture,
+          profile.userName
+        );
+        setImageUrl(url);
+      }
     };
     updateImageUrl();
   }, [profile]);
