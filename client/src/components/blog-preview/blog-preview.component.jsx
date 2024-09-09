@@ -6,6 +6,7 @@ import { setNotificationMessage } from "../../store/blog/blog-post.slice";
 import { fetchTitles } from "../../api-requests/requests";
 import MessageToast from "../toast/toast.component";
 import { selectProfile } from "../../store/profile/profile.selector";
+import { selectCurrentUser } from "../../store/user/user.selector";
 import {
   BlogLink,
   BlogLinkContainer,
@@ -16,6 +17,8 @@ const BlogPreview = () => {
   const dispatch = useDispatch();
   const blog = useSelector(selectBlogPost);
   const profile = useSelector(selectProfile);
+  const currentUser = useSelector(selectCurrentUser);
+  const [isOwnProfile] = useState(currentUser.userName === profile.userName);
 
   useEffect(() => {
     const getTitles = async () => {
@@ -53,13 +56,15 @@ const BlogPreview = () => {
           >
             {blogTitle.title}
           </BlogLink>
-          <DeleteBlogButton disabled={blog.isLoading}>
-            <i
-              onClick={handleDelete}
-              data-title={blogTitle.title}
-              className="fa-solid fa-trash"
-            ></i>
-          </DeleteBlogButton>
+          {isOwnProfile && (
+            <DeleteBlogButton disabled={blog.isLoading}>
+              <i
+                onClick={handleDelete}
+                data-title={blogTitle.title}
+                className="fa-solid fa-trash"
+              ></i>
+            </DeleteBlogButton>
+          )}
         </BlogLinkContainer>
       ))}
       {blog.notification && <MessageToast message={blog.notification} />}
