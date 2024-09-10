@@ -10,6 +10,8 @@ export type User = {
   dateJoined: Date;
 };
 
+//Error responses from the server are standardized and guaranteed
+//to be an object with an error key and its value will be a string
 export type ErrorResponse = {
   error: string;
 };
