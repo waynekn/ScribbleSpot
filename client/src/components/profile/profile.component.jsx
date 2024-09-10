@@ -64,6 +64,7 @@ const ProfilePage = () => {
           setIsLoading(false);
         }
       } catch (error) {
+        setIsLoading(false);
         return <p>Error fetching profile</p>;
       }
     };
