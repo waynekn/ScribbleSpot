@@ -12,6 +12,8 @@ import {
   updateCurrentUser,
 } from "../../store/user/user.slice";
 
+import Spinner from "../spinner/spinner.component";
+
 import {
   ProfilePageContainer,
   ProfilePicture,
@@ -31,6 +33,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const currentUser = useSelector(selectCurrentUser);
   const [isOwnAccount, setIsOwnAccount] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const isBlogRoute = useMatch("/profile/:userName/posts/:title");
   const { userName } = useParams();
@@ -58,6 +61,7 @@ const ProfilePage = () => {
             profileData.userName
           );
           setImageUrl(imageUrl || "");
+          setIsLoading(false);
         }
       } catch (error) {
         return <p>Error fetching profile</p>;
@@ -78,6 +82,8 @@ const ProfilePage = () => {
       dispatch(updateCurrentUser({ error: "Couldnt sign out" }));
     }
   };
+
+  if (isLoading) return <Spinner />;
 
   return (
     <ProfilePageContainer>
