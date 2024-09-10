@@ -22,7 +22,7 @@ const initialState: BlogState = {
   content: null,
 };
 
-type Doc = {
+type UploadBlogPayload = {
   title: string;
   blogContent: string;
 };
@@ -34,7 +34,7 @@ type FetchBlogContentPayload = {
 
 export const postBlog = createAsyncThunk(
   "blog/postBlog",
-  async (doc: Doc, { rejectWithValue }) => {
+  async (doc: UploadBlogPayload, { rejectWithValue }) => {
     try {
       const title = doc.title;
       const blogContent = doc.blogContent;
