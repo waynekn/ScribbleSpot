@@ -1,19 +1,35 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { uploadContent, deleteBlogRequest } from "../../api-requests/requests";
+import {
+  uploadContent,
+  deleteBlogRequest,
+  fetchBlogContent,
+  BlogContent,
+} from "../../api-requests/requests";
 
 type BlogState = {
   notification: string | null;
   isLoading: boolean;
+  title: string | null;
+  userName: string | null;
+  content: string | null;
 };
 
 const initialState: BlogState = {
   notification: null,
   isLoading: false,
+  title: null,
+  userName: null,
+  content: null,
 };
 
 type Doc = {
   title: string;
   blogContent: string;
+};
+
+type FetchBlogContentPayload = {
+  titleSlug: string;
+  userName: string;
 };
 
 export const postBlog = createAsyncThunk(
@@ -44,6 +60,24 @@ export const deleteBlogByTitle = createAsyncThunk(
         return rejectWithValue(error.message);
       }
       return rejectWithValue("An unknown error occurred");
+    }
+  }
+);
+
+export const getBlog = createAsyncThunk(
+  "blog/getBlog",
+  async (payload: FetchBlogContentPayload, { rejectWithValue }) => {
+    try {
+      const { blog } = await fetchBlogContent(
+        payload.titleSlug,
+        payload.userName
+      );
+      return blog;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("An unknown error occured");
     }
   }
 );
@@ -97,6 +131,32 @@ const blogSlice = createSlice({
         }
       )
       .addCase(deleteBlogByTitle.rejected, (state: BlogState, action) => {
+        state.isLoading = false;
+        if (typeof action.payload === "string") {
+          state.notification = action.payload;
+        } else {
+          state.notification = "An error occurred";
+        }
+      })
+      /*
+       * getBlog thunk
+       */
+      .addCase(getBlog.pending, (state: BlogState) => {
+        state.isLoading = true;
+        state.notification = null;
+      })
+      .addCase(
+        getBlog.fulfilled,
+        (state: BlogState, action: PayloadAction<BlogContent>) => {
+          const newState: BlogState = {
+            ...action.payload,
+            isLoading: false,
+            notification: null,
+          };
+          return newState;
+        }
+      )
+      .addCase(getBlog.rejected, (state: BlogState, action) => {
         state.isLoading = false;
         if (typeof action.payload === "string") {
           state.notification = action.payload;
