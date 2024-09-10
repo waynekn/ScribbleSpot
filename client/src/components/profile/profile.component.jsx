@@ -35,7 +35,7 @@ const ProfilePage = () => {
   const [isOwnAccount, setIsOwnAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const isBlogRoute = useMatch("/profile/:userName/posts/:title");
+  const isBlogRoute = useMatch("/profile/:userName/:title");
   const { userName } = useParams();
 
   useEffect(() => {
