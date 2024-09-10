@@ -113,7 +113,7 @@ export const uploadSettingsForm = (formData: FormDataEntryValue) => {
   });
 };
 
-export const uploadContent = async (title: string, blogContent: string) => {
+export const uploadBlog = async (title: string, blogContent: string) => {
   try {
     const response = await axios.post<{ message: string }>(
       `${URL}/posts/blog`,
