@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  uploadContent,
+  uploadBlog,
   deleteBlogRequest,
   fetchBlogContent,
   BlogContent,
@@ -38,7 +38,7 @@ export const postBlog = createAsyncThunk(
     try {
       const title = doc.title;
       const blogContent = doc.blogContent;
-      const response = await uploadContent(title, blogContent);
+      const response = await uploadBlog(title, blogContent);
       return response.message;
     } catch (error) {
       if (error instanceof Error) {
