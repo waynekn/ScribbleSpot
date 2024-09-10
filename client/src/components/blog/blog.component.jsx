@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -8,18 +8,21 @@ import TextStyle from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
-import { fetchBlogContent } from "../../api-requests/requests";
-import { setNotificationMessage } from "../../store/blog/blog-post.slice";
+import {
+  setNotificationMessage,
+  getBlog,
+} from "../../store/blog/blog-post.slice";
 import { BlogContainer, UserName, BlogTitle, BlogContent } from "./blog.styles";
 
 import { selectProfile } from "../../store/profile/profile.selector";
+import { selectBlogPost } from "../../store/blog/blog-post.selector";
 import "../editor/editor.styles.scss";
 
 const Blog = () => {
   const { titleSlug } = useParams();
-  const [blog, setBlog] = useState({});
   const dispatch = useDispatch();
   const profile = useSelector(selectProfile);
+  const blog = useSelector(selectBlogPost);
 
   const editor = useEditor({
     extensions: [
@@ -35,15 +38,11 @@ const Blog = () => {
   });
 
   useEffect(() => {
-    const getBlog = async () => {
-      try {
-        const { blog } = await fetchBlogContent(titleSlug, profile.userName);
-        setBlog(blog);
-      } catch (error) {
-        dispatch(setNotificationMessage(error.message));
-      }
-    };
-    getBlog();
+    dispatch(getBlog({ titleSlug, userName: profile.userName }))
+      .unwrap()
+      .catch((errorMessage) => {
+        setNotificationMessage(errorMessage);
+      });
   }, [titleSlug, dispatch, profile]);
 
   useEffect(() => {
