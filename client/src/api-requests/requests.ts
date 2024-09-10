@@ -19,7 +19,7 @@ type Title = {
   titleSlug: string;
 };
 
-type BlogContent = {
+export type BlogContent = {
   title: string;
   userName: string;
   content: string;
@@ -29,6 +29,12 @@ export const authenticateUser = (provider: string, action: string) => {
   window.location.href = `${URL}/auth/${provider}/${action}`;
 };
 
+/**
+ * After successful authentication, a thunk is dispatched that calls this function
+ * to retrieve the user profile. Immediately after authentication,
+ * the client does not have a username available for POST requests. Instead, the
+ * username is derived from a cookie issued during authentication
+ */
 export const getUserProfile = async (userName?: string) => {
   try {
     if (userName) {
