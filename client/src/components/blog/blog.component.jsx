@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -12,6 +12,7 @@ import {
   setNotificationMessage,
   getBlog,
 } from "../../store/blog/blog-post.slice";
+import Spinner from "../spinner/spinner.component";
 import { BlogContainer, UserName, BlogTitle, BlogContent } from "./blog.styles";
 
 import { selectProfile } from "../../store/profile/profile.selector";
@@ -23,6 +24,7 @@ const Blog = () => {
   const dispatch = useDispatch();
   const profile = useSelector(selectProfile);
   const blog = useSelector(selectBlogPost);
+  const [isLoading] = useState(blog.isLoading);
 
   const editor = useEditor({
     extensions: [
@@ -50,6 +52,8 @@ const Blog = () => {
       editor.commands.setContent(blog.content);
     }
   }, [editor, blog.content]);
+
+  if (isLoading) return <Spinner />;
 
   if (!editor) return <p>Couldn&apos;t get editor</p>;
 
