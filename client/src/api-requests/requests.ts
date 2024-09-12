@@ -27,7 +27,9 @@ export type BlogContent = {
   content: string;
 };
 
-export const authenticateGoogleUser = (action: string) => {
+type AuthAction = "signin" | "signup";
+
+export const authenticateGoogleUser = (action: AuthAction) => {
   window.location.href = `${URL}/auth/google/${action}`;
 };
 
