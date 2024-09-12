@@ -38,7 +38,9 @@ const Home = () => {
     <>
       <h1>Welcome to ScribbleSpot</h1>
       <p> Explore in Beta</p>
-      {currentUser.error && <MessageToast message={currentUser.error} />}
+      {currentUser.notificationMessage && (
+        <MessageToast message={currentUser.notificationMessage} />
+      )}
     </>
   );
 };

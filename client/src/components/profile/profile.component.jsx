@@ -106,7 +106,9 @@ const ProfilePage = () => {
         </SideBar>
       )}
 
-      {currentUser.error && <MessageToast message={currentUser.error} />}
+      {currentUser.notificationMessage && (
+        <MessageToast message={currentUser.notificationMessage} />
+      )}
       <Main>
         <Outlet />
       </Main>

@@ -33,9 +33,9 @@ const SignInForm = () => {
           <Link to="../authentication/sign-up">Sign up</Link>
         </p>
       </SignInButtonsContainer>
-      {currentUser.error && (
+      {currentUser.notificationMessage && (
         <ToastContainer>
-          <MessageToast message={currentUser.error} />
+          <MessageToast message={currentUser.notificationMessage} />
         </ToastContainer>
       )}
     </SignInPage>
