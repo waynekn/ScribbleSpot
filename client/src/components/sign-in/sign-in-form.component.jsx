@@ -13,10 +13,10 @@ import {
   ToastContainer,
 } from "./sign-in-form.styles";
 
-const providers = [
-  { name: "Google", id: "google" },
-  { name: "Email and password", id: "local" },
-];
+const providers = {
+  Google: "google",
+  Email: "email",
+};
 
 const SignInForm = () => {
   const currentUser = useSelector(selectCurrentUser);
@@ -26,14 +26,12 @@ const SignInForm = () => {
       <SignInButtonsContainer>
         <SignInHeading>Sign in to Your Account</SignInHeading>
         <ProviderButtonsContainer>
-          {providers.map((provider) => (
-            <ProviderButton
-              key={provider.id}
-              onClick={() => authenticateUser(provider.id, "signin")}
-            >
-              Sign in with {provider.name}
-            </ProviderButton>
-          ))}
+          <ProviderButton
+            onClick={() => authenticateUser(providers.Google, "signin")}
+          >
+            Sign in with Google
+          </ProviderButton>
+          <ProviderButton>Sign in with email</ProviderButton>
         </ProviderButtonsContainer>
         <p>
           Don't have an account?
