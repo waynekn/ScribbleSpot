@@ -45,14 +45,14 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    updateCurrentUser(
-      state: CurrentUser,
-      action: PayloadAction<Partial<CurrentUser>>
-    ) {
-      return { ...state, ...action.payload };
-    },
     clearCurrentUser() {
       return initialState;
+    },
+    setCurrentUserNotificationMessage(
+      state: CurrentUser,
+      action: PayloadAction<string>
+    ) {
+      state.notificationMessage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -83,6 +83,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateCurrentUser, clearCurrentUser } = userSlice.actions;
+export const { clearCurrentUser, setCurrentUserNotificationMessage } =
+  userSlice.actions;
 
 export const userReducer = userSlice.reducer;
