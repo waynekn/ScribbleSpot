@@ -5,7 +5,7 @@ import { User } from "../../api-requests/requests";
 export type CurrentUser = User & {
   isLoggedIn: boolean;
   isLoading: boolean;
-  error: string | null;
+  notificationMessage: string | null;
 };
 
 const initialState: CurrentUser = {
@@ -15,7 +15,7 @@ const initialState: CurrentUser = {
   dateJoined: new Date(),
   isLoggedIn: false,
   isLoading: false,
-  error: null,
+  notificationMessage: null,
 };
 
 export const fetchCurrentUser = createAsyncThunk(
@@ -28,7 +28,7 @@ export const fetchCurrentUser = createAsyncThunk(
         ...profile,
         isLoggedIn: false,
         isLoading: false,
-        error: null,
+        notificationMessage: null,
       };
       return currentUser;
     } catch (error) {
@@ -59,7 +59,7 @@ const userSlice = createSlice({
     builder
       .addCase(fetchCurrentUser.pending, (state: CurrentUser) => {
         state.isLoading = true;
-        state.error = null;
+        state.notificationMessage = null;
       })
       .addCase(
         fetchCurrentUser.fulfilled,
@@ -68,12 +68,17 @@ const userSlice = createSlice({
             ...action.payload,
             isLoggedIn: true,
             isLoading: false,
-            error: null,
+            notificationMessage: null,
           };
         }
       )
       .addCase(fetchCurrentUser.rejected, (state: CurrentUser, action) => {
         state.isLoading = false;
+        if (typeof action.payload === "string") {
+          state.notificationMessage = action.payload;
+        } else {
+          state.notificationMessage = "An unknown error occurred";
+        }
       });
   },
 });
