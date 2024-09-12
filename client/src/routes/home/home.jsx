@@ -5,7 +5,7 @@ import { AuthError } from "../../api-requests/request-errors/errors";
 import { AxiosError } from "axios";
 import {
   clearCurrentUser,
-  updateCurrentUser,
+  setCurrentUserNotificationMessage,
 } from "../../store/user/user.slice";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { checkAuthStatus } from "../../api-requests/requests";
@@ -21,12 +21,12 @@ const Home = () => {
         if (error instanceof AuthError) {
           dispatch(clearCurrentUser());
         } else if (error instanceof AxiosError) {
-          dispatch(updateCurrentUser({ error: "Network error" }));
+          dispatch(setCurrentUserNotificationMessage("Network error"));
         } else {
           dispatch(
-            updateCurrentUser({
-              error: "Unknown error. Please try again after a while",
-            })
+            setCurrentUserNotificationMessage(
+              "Unknown error. Please try again after a while"
+            )
           );
         }
       }

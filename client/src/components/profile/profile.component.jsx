@@ -9,7 +9,7 @@ import { getImageUrl, signOutUser } from "../../api-requests/requests";
 import { fetchProfile } from "../../store/profile/profile.slice";
 import {
   clearCurrentUser,
-  updateCurrentUser,
+  setCurrentUserNotificationMessage,
 } from "../../store/user/user.slice";
 
 import Spinner from "../spinner/spinner.component";
@@ -80,7 +80,7 @@ const ProfilePage = () => {
       dispatch(clearCurrentUser());
       navigate("/");
     } catch (error) {
-      dispatch(updateCurrentUser({ error: "Couldnt sign out" }));
+      dispatch(setCurrentUserNotificationMessage("Couldnt sign out"));
     }
   };
 

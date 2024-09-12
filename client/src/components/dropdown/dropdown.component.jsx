@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import {
   clearCurrentUser,
-  updateCurrentUser,
+  setCurrentUserNotificationMessage,
 } from "../../store/user/user.slice";
 import { signOutUser, getImageUrl } from "../../api-requests/requests";
 import {
@@ -48,7 +48,7 @@ const DropDown = () => {
       await signOutUser();
       dispatch(clearCurrentUser());
     } catch (error) {
-      dispatch(updateCurrentUser({ error: "Couldnt sign out" }));
+      dispatch(setCurrentUserNotificationMessage("Couldnt sign out"));
     }
   };
 
