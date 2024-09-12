@@ -21,9 +21,7 @@ const SignInForm = () => {
       <SignInButtonsContainer>
         <SignInHeading>Sign in to Your Account</SignInHeading>
         <ProviderButtonsContainer>
-          <ProviderButton
-            onClick={() => authenticateGoogleUser("google", "signin")}
-          >
+          <ProviderButton onClick={() => authenticateGoogleUser("signin")}>
             Sign in with Google
           </ProviderButton>
           <ProviderButton>Sign in with email</ProviderButton>
