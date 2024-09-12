@@ -13,11 +13,6 @@ import {
   ToastContainer,
 } from "./sign-in-form.styles";
 
-const providers = {
-  Google: "google",
-  Email: "email",
-};
-
 const SignInForm = () => {
   const currentUser = useSelector(selectCurrentUser);
 
@@ -27,7 +22,7 @@ const SignInForm = () => {
         <SignInHeading>Sign in to Your Account</SignInHeading>
         <ProviderButtonsContainer>
           <ProviderButton
-            onClick={() => authenticateGoogleUser(providers.Google, "signin")}
+            onClick={() => authenticateGoogleUser("google", "signin")}
           >
             Sign in with Google
           </ProviderButton>
