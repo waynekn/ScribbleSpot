@@ -16,7 +16,11 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:8000"],
+  })
+);
 app.use(passport.initialize());
 app.use(express.json());
 app.use(cookieParser());
