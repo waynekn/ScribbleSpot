@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import MessageToast from "../toast/toast.component";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { authenticateUser } from "../../api-requests/requests";
+import { authenticateGoogleUser } from "../../api-requests/requests";
 
 import {
   SignInPage,
@@ -27,7 +27,7 @@ const SignInForm = () => {
         <SignInHeading>Sign in to Your Account</SignInHeading>
         <ProviderButtonsContainer>
           <ProviderButton
-            onClick={() => authenticateUser(providers.Google, "signin")}
+            onClick={() => authenticateGoogleUser(providers.Google, "signin")}
           >
             Sign in with Google
           </ProviderButton>
