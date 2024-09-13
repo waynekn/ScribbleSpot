@@ -1,7 +1,10 @@
 import passport from "passport";
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { userExists, createUser } from "../../models/user/user.model.js";
+import {
+  fetchProfileByEmail,
+  createUser,
+} from "../../models/user/user.model.js";
 import generateToken from "../../utils/jwt/token.js";
 
 dotenv.config();
@@ -30,12 +33,12 @@ const verifyCallback = async (
     const action = req.query.state;
 
     if (action === "signin") {
-      const existingUser = await userExists(email);
+      const existingUser = await fetchProfileByEmail(email);
       existingUser
         ? done(null, existingUser)
         : done(null, false, { message: "Account not found" });
     } else if (action === "signup") {
-      const existingUser = await userExists(email);
+      const existingUser = await fetchProfileByEmail(email);
       if (existingUser) {
         done(null, false, { message: "Email already registered" });
       } else {
