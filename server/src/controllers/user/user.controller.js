@@ -5,6 +5,14 @@ import {
 } from "../../models/user/user.model.js";
 import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
 
+/**
+ * Handles the request to get a user profile.
+ * The fallback, "req.user?.userName", is there because after succesfull auth with
+ * Google, the client doesnt have a userName to POST so, it will be a GET request
+ * and the username will be retreived from the authenticated user object.
+ * This will happen only once and to oauth users only
+ * and after that all requests will POST a username
+ */
 export const getUserProfile = async (req, res) => {
   try {
     const userName = req.body?.userName || req.user?.userName;
