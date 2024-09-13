@@ -19,7 +19,7 @@ describe("test blog controller", () => {
     blogContent: "<p> Hello world </p>",
   };
 
-  // test POST requests
+  // Tests for creating and handling blog posts
   describe("POST /posts/blog", () => {
     it("should POST a blog if title doesnt exist", async () => {
       const response = await request(app).post("/posts/blog").send(blog);
@@ -43,7 +43,7 @@ describe("test blog controller", () => {
     });
   });
 
-  //test GET titles
+  // Tests for retrieving blog titles
   describe("GET /posts/titles", () => {
     it("should return an array of titles", async () => {
       const response = await request(app).post("/posts/titles").send({
@@ -58,7 +58,7 @@ describe("test blog controller", () => {
     });
   });
 
-  //test GET content
+  // Tests for retrieving blog content
   describe("POST /posts/content", () => {
     const fetchedBlog = {
       userName: "testUser",
@@ -83,7 +83,7 @@ describe("test blog controller", () => {
     });
   });
 
-  // test delete blog
+  // Tests for deleting a blog post
   describe("POST /posts/blog/delete", () => {
     it("should return 200 for successful delete", async () => {
       const response = await request(app)
