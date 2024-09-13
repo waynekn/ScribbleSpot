@@ -1,6 +1,6 @@
 import { uploadImage, getSignedImageUrl } from "../../services/aws/s3.js";
 import {
-  fetchUserProfile,
+  fetchProfileByUserName,
   updateDisplayName,
 } from "../../models/user/user.model.js";
 import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
@@ -8,7 +8,7 @@ import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
 export const getUserProfile = async (req, res) => {
   try {
     const userName = req.body?.userName || req.user?.userName;
-    const profile = await fetchUserProfile(userName);
+    const profile = await fetchProfileByUserName(userName);
     if (profile) {
       res.status(200).json({ profile });
     } else {
