@@ -54,6 +54,9 @@ const userSlice = createSlice({
     ) {
       state.notificationMessage = action.payload;
     },
+    clearCurrentUserNotificationMessage(state: CurrentUser) {
+      state.notificationMessage = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -83,7 +86,10 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearCurrentUser, setCurrentUserNotificationMessage } =
-  userSlice.actions;
+export const {
+  clearCurrentUser,
+  setCurrentUserNotificationMessage,
+  clearCurrentUserNotificationMessage,
+} = userSlice.actions;
 
 export const userReducer = userSlice.reducer;
