@@ -1,6 +1,7 @@
 import axios from "axios";
 import { AxiosError } from "axios";
 import { AuthError } from "./request-errors/errors";
+import { AuthCredentials } from "../store/user/user.slice";
 export const URL = `http://localhost:8000`;
 
 export type User = {
@@ -27,8 +28,36 @@ export type BlogContent = {
   content: string;
 };
 
-export const authenticateUser = (provider: string, action: string) => {
-  window.location.href = `${URL}/auth/${provider}/${action}`;
+type AuthAction = "signin" | "signup";
+
+export const authenticateGoogleUser = (action: AuthAction) => {
+  window.location.href = `${URL}/auth/google/${action}`;
+};
+
+/**
+ * Used for local auth. Local meaning its using a username or emai and not using
+ * an oauth provider
+ */
+export const sendLocalAuthRequest = async (user: AuthCredentials) => {
+  const { action, ...userWithoutAction } = user;
+  console.warn(userWithoutAction);
+  try {
+    const res = await axios.post<{ profile: User }>(
+      `${URL}/auth/local/${action}`,
+      {
+        user: userWithoutAction,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.warn(error);
+    if (error instanceof AxiosError) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      const errorMessage = axiosError.response?.data.error;
+      throw new Error(errorMessage);
+    }
+    throw new Error("Unknown error occured");
+  }
 };
 
 /**

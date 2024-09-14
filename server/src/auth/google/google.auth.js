@@ -1,7 +1,11 @@
 import passport from "passport";
 import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import { userExists, createUser } from "../../models/user/user.model.js";
+import {
+  fetchProfileByEmail,
+  fetchProfileByUserName,
+  createUser,
+} from "../../models/user/user.model.js";
 import generateToken from "../../utils/jwt/token.js";
 
 dotenv.config();
@@ -18,6 +22,22 @@ const AUTH_OPTIONS = {
   passReqToCallback: true,
 };
 
+const generateRandomUserName = async () => {
+  const randomString = String(Math.random()).substring(2);
+  const randomUserName =
+    randomString.length > 7
+      ? "user" + randomString.substring(0, 7)
+      : "user" + randomString;
+
+  const existingUserName = await fetchProfileByUserName(randomUserName);
+
+  if (existingUserName) {
+    return await generateRandomUserName();
+  } else {
+    return randomUserName;
+  }
+};
+
 const verifyCallback = async (
   req,
   accessToken,
@@ -30,17 +50,21 @@ const verifyCallback = async (
     const action = req.query.state;
 
     if (action === "signin") {
-      const existingUser = await userExists(email);
+      const existingUser = await fetchProfileByEmail(email);
       existingUser
         ? done(null, existingUser)
         : done(null, false, { message: "Account not found" });
     } else if (action === "signup") {
-      const existingUser = await userExists(email);
+      const existingUser = await fetchProfileByEmail(email);
       if (existingUser) {
         done(null, false, { message: "Email already registered" });
       } else {
         try {
-          const newUser = await createUser(profile);
+          const createUserPayload = {
+            email: profile.emails[0].value,
+            userName: await generateRandomUserName(),
+          };
+          const newUser = await createUser(createUserPayload);
           done(null, newUser);
         } catch (error) {
           done(error, null);
