@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import {
   fetchProfileByEmail,
+  fetchProfileByUserName,
   createUser,
 } from "../../models/user/user.model.js";
 import generateToken from "../../utils/jwt/token.js";
@@ -19,6 +20,22 @@ const AUTH_OPTIONS = {
   clientSecret: config.CLIENT_SECRET,
   callbackURL: "/auth/google/callback",
   passReqToCallback: true,
+};
+
+const generateRandomUserName = async () => {
+  const randomString = String(Math.random()).substring(2);
+  const randomUserName =
+    randomString.length > 7
+      ? "user" + randomString.substring(0, 7)
+      : "user" + randomString;
+
+  const existingUserName = await fetchProfileByUserName(randomUserName);
+
+  if (existingUserName) {
+    return await generateRandomUserName();
+  } else {
+    return randomUserName;
+  }
 };
 
 const verifyCallback = async (
@@ -43,7 +60,11 @@ const verifyCallback = async (
         done(null, false, { message: "Email already registered" });
       } else {
         try {
-          const newUser = await createUser(profile);
+          const createUserPayload = {
+            email: profile.emails[0].value,
+            userName: await generateRandomUserName(),
+          };
+          const newUser = await createUser(createUserPayload);
           done(null, newUser);
         } catch (error) {
           done(error, null);
