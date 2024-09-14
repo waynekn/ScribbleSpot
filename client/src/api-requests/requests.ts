@@ -40,7 +40,6 @@ export const authenticateGoogleUser = (action: AuthAction) => {
  */
 export const sendLocalAuthRequest = async (user: AuthCredentials) => {
   const { action, ...userWithoutAction } = user;
-  console.warn(userWithoutAction);
   try {
     const res = await axios.post<{ profile: User }>(
       `${URL}/auth/local/${action}`,
@@ -50,7 +49,6 @@ export const sendLocalAuthRequest = async (user: AuthCredentials) => {
     );
     return res.data;
   } catch (error) {
-    console.warn(error);
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
       const errorMessage = axiosError.response?.data.error;
