@@ -24,7 +24,9 @@ const comparePasswords = async (plainTextPassword, hashedPassword) => {
 };
 
 /**
- * Handles user signup by hashing the user's password and creating a new user profile.
+ * Handles user sign-in by comparing the provided plain text password to the hashed password from the database.
+ * The profile is fetched from the database using either the username or email.
+ *
  * @param {Object} req - The request object.
  * @param {Object} req.body - The request body.
  * @param {Object} req.body.user - The user object for signup.
