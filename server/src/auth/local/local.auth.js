@@ -128,11 +128,11 @@ export const signUpLocalUser = async (req, res) => {
     const existingEmail = await fetchProfileByEmail(user.email);
 
     if (existingUserName) {
-      return res.status(400).json({ error: "Username is already taken" });
+      return res.status(400).json({ error: "Username is already registered" });
     }
 
     if (existingEmail) {
-      return res.status(400).json({ error: "Email already exists" });
+      return res.status(400).json({ error: "Email is already registered" });
     }
 
     const hashedPassword = await hashPassword(user.password);
