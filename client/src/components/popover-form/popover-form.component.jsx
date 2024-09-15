@@ -8,6 +8,7 @@ import {
   setCurrentUserNotificationMessage,
 } from "../../store/user/user.slice";
 import {
+  Backdrop,
   PopoverContainer,
   CloseButton,
   FormField,
@@ -130,74 +131,76 @@ const PopoverForm = ({ onClose, action, provider }) => {
   };
 
   return (
-    <PopoverContainer>
-      <CloseButton onClick={onClose}>&times;</CloseButton>
-      {/**
-       * Action is either 'Sign in' or 'Sign up' from sign in page and
-       * sign up page respectively
-       *
-       * Provider is either 'Username or Email' or 'Email' from sign in page
-       * and sign up page respectively
-       */}
-      <h3>{`${action} with ${provider}`}</h3>
-      <form onSubmit={handleFormSubmit}>
-        {!isSignInAction && (
+    <Backdrop>
+      <PopoverContainer>
+        <CloseButton onClick={onClose}>&times;</CloseButton>
+        {/**
+         * Action is either 'Sign in' or 'Sign up' from sign in page and
+         * sign up page respectively
+         *
+         * Provider is either 'Username or Email' or 'Email' from sign in page
+         * and sign up page respectively
+         */}
+        <h3>{`${action} with ${provider}`}</h3>
+        <form onSubmit={handleFormSubmit}>
+          {!isSignInAction && (
+            <FormField>
+              <label>Email</label>
+              <Input
+                type="email"
+                name="email"
+                value={formValues.email}
+                onChange={handleChange}
+              />
+              {formErrors.email && (
+                <ErrorMessage>{formErrors.email}</ErrorMessage>
+              )}
+            </FormField>
+          )}
           <FormField>
-            <label>Email</label>
+            <label>Username {isSignInAction && "or Email"}</label>
             <Input
-              type="email"
-              name="email"
-              value={formValues.email}
+              type="text"
+              name="userName"
+              value={formValues.userName}
               onChange={handleChange}
             />
-            {formErrors.email && (
-              <ErrorMessage>{formErrors.email}</ErrorMessage>
+            {formErrors.userName && (
+              <ErrorMessage>{formErrors.userName}</ErrorMessage>
             )}
           </FormField>
-        )}
-        <FormField>
-          <label>Username {isSignInAction && "or Email"}</label>
-          <Input
-            type="text"
-            name="userName"
-            value={formValues.userName}
-            onChange={handleChange}
-          />
-          {formErrors.userName && (
-            <ErrorMessage>{formErrors.userName}</ErrorMessage>
-          )}
-        </FormField>
-        <FormField>
-          <label>Password</label>
-          <Input
-            type="password"
-            name="password"
-            value={formValues.password}
-            onChange={handleChange}
-          />
-          {formErrors.password && (
-            <ErrorMessage>{formErrors.password}</ErrorMessage>
-          )}
-        </FormField>
-        {!isSignInAction && (
           <FormField>
-            <label>Confirm Password</label>
+            <label>Password</label>
             <Input
               type="password"
-              name="confirmPassword"
-              value={formValues.confirmPassword}
+              name="password"
+              value={formValues.password}
               onChange={handleChange}
             />
-            {formErrors.confirmPassword && (
-              <ErrorMessage>{formErrors.confirmPassword}</ErrorMessage>
+            {formErrors.password && (
+              <ErrorMessage>{formErrors.password}</ErrorMessage>
             )}
           </FormField>
-        )}
-        <Button type="submit" disabled={currentUser.isLoading}>
-          {action}
-        </Button>
-      </form>
-    </PopoverContainer>
+          {!isSignInAction && (
+            <FormField>
+              <label>Confirm Password</label>
+              <Input
+                type="password"
+                name="confirmPassword"
+                value={formValues.confirmPassword}
+                onChange={handleChange}
+              />
+              {formErrors.confirmPassword && (
+                <ErrorMessage>{formErrors.confirmPassword}</ErrorMessage>
+              )}
+            </FormField>
+          )}
+          <Button type="submit" disabled={currentUser.isLoading}>
+            {action}
+          </Button>
+        </form>
+      </PopoverContainer>
+    </Backdrop>
   );
 };
 
