@@ -42,13 +42,7 @@ export const fetchCurrentUser = createAsyncThunk(
     try {
       const res = await getUserProfile();
       const { profile } = res;
-      const currentUser: CurrentUser = {
-        ...profile,
-        isLoggedIn: false,
-        isLoading: false,
-        notificationMessage: null,
-      };
-      return currentUser;
+      return profile;
     } catch (error) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
@@ -107,13 +101,14 @@ const userSlice = createSlice({
       })
       .addCase(
         fetchCurrentUser.fulfilled,
-        (state, action: PayloadAction<CurrentUser>) => {
-          return {
+        (state: CurrentUser, action: PayloadAction<User>) => {
+          const user: CurrentUser = {
             ...action.payload,
             isLoggedIn: true,
             isLoading: false,
             notificationMessage: null,
           };
+          return user;
         }
       )
       .addCase(fetchCurrentUser.rejected, (state: CurrentUser, action) => {
