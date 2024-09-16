@@ -5,7 +5,7 @@ export const fetchProfileByEmail = (email) => users.findOne({ email });
 export const fetchProfileByUserName = (userName) =>
   users.findOne({ userName: userName }, { _id: 0, __v: 0 });
 
-export const updateDisplayName = async (id, userName) => {
+export const updateUserName = async (id, userName) => {
   const existingUser = await users.findOne({ userName });
 
   if (existingUser) throw new Error("Username is already taken");
