@@ -71,7 +71,7 @@ const BlogPreview = ({ index }) => {
               <i
                 onClick={handleDelete}
                 data-title={blogTitle.title}
-                className="fa-solid fa-trash"
+                className="bi bi-trash"
               ></i>
             </DeleteBlogButton>
           )}
