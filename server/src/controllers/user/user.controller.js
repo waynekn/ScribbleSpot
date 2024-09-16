@@ -61,6 +61,12 @@ export const updateProfile = async (req, res) => {
     if (req.file) {
       await uploadImage(req.user.id, req.file.buffer, req.file.mimetype);
     }
+    const existingUserName = await fetchProfileByUserName(req.body.userName);
+
+    if (existingUserName) {
+      return res.status(400).json({ error: "Username is already registered" });
+    }
+
     if (req.body.userName) {
       await updateUserName(req.user.id, req.body.userName);
     }
