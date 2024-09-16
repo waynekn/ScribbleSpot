@@ -28,9 +28,9 @@ export const getUserProfile = async (req, res) => {
     const userName = req.body?.userName || req.user?.userName;
     const profile = await fetchProfileByUserName(userName);
     if (profile) {
-      res.status(200).json({ profile });
+      return res.status(200).json({ profile });
     } else {
-      res.status(404).json({ error: "Profile not found" });
+      return res.status(404).json({ error: "Profile not found" });
     }
   } catch (error) {
     res.status(500).json({ error: "Server error" });
@@ -70,9 +70,9 @@ export const updateProfile = async (req, res) => {
     if (req.body.userName) {
       await updateUserName(req.user.id, req.body.userName);
     }
-    res.status(200);
+    return res.status(200);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       error: "Could complete request. Please try again in a while",
     });
   }
