@@ -21,7 +21,7 @@ export const postBlog = async (req, res) => {
     }
 
     await uploadBlog(authorId, userName, title, titleSlug, content);
-    res.status(201).json({ message: "Post successfuly uploaded" });
+    return res.status(201).json({ message: "Post successfuly uploaded" });
   } catch (error) {
     if (error.name && error.name === "MongoError") {
       return res.status(500).json({ error: "A database error occurred" });
@@ -50,9 +50,9 @@ export const getBlogContent = async (req, res) => {
       return res.status(400).json({ error: "Blog not found" });
     }
 
-    res.status(200).json({ blog });
+    return res.status(200).json({ blog });
   } catch (error) {
-    res.status(500).json({ error: "A server errror occured" });
+    return res.status(500).json({ error: "A server errror occured" });
   }
 };
 
