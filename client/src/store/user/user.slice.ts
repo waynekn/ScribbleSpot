@@ -30,7 +30,7 @@ const initialState: CurrentUser = {
   email: "",
   userName: "",
   profilePicture: "",
-  dateJoined: new Date(),
+  dateJoined: "",
   isLoggedIn: false,
   isLoading: false,
   notificationMessage: null,
