@@ -9,9 +9,17 @@ export const uploadBlog = async (
   userName,
   title,
   titleSlug,
-  content
+  content,
+  datePosted
 ) => {
-  await blogs.create({ authorId, userName, title, titleSlug, content });
+  await blogs.create({
+    authorId,
+    userName,
+    title,
+    titleSlug,
+    content,
+    datePosted,
+  });
 };
 
 export const fetchBlogTitles = async (userName) => {
