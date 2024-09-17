@@ -23,7 +23,9 @@ export const uploadBlog = async (
 };
 
 export const fetchBlogTitles = async (userName) => {
-  return blogs.find({ userName }, { _id: 0, title: 1, titleSlug: 1 });
+  return blogs
+    .find({ userName }, { _id: 0, title: 1, titleSlug: 1 })
+    .sort({ datePosted: -1 });
 };
 
 export const fetchBlogContent = async (userName, titleSlug) => {
