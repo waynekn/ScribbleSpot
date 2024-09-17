@@ -29,7 +29,7 @@ export const fetchBlogTitles = async (userName) => {
 export const fetchBlogContent = async (userName, titleSlug) => {
   const posts = await blogs.findOne(
     { userName, titleSlug },
-    { _id: 0, title: 1, content: 1, userName: 1 }
+    { _id: 0, title: 1, content: 1, userName: 1, datePosted: 1 }
   );
   return posts;
 };
