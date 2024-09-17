@@ -26,6 +26,7 @@ export type BlogContent = {
   title: string;
   userName: string;
   content: string;
+  datePosted: string;
 };
 
 type AuthAction = "signin" | "signup";
