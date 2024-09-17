@@ -6,6 +6,7 @@ const blogSchema = new mongoose.Schema({
   title: { type: String, required: true },
   titleSlug: { type: String, required: true },
   content: { type: String, required: true },
+  datePosted: { type: Date, required: true },
 });
 
 blogSchema.index({ authorId: 1, title: 1 }, { unique: true });
