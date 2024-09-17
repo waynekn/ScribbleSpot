@@ -60,12 +60,6 @@ describe("test blog controller", () => {
 
   // Tests for retrieving blog content
   describe("POST /posts/content", () => {
-    const fetchedBlog = {
-      userName: "testUser",
-      content: "<p> Hello world </p>",
-      title: "Test-title",
-    };
-
     it("should return an object containing blog content", async () => {
       const response = await request(app)
         .post("/posts/content")
