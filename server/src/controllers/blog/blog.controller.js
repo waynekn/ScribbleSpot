@@ -36,7 +36,8 @@ export const postBlog = async (req, res) => {
       return res.status(400).json({ error: "Can't have duplicate titles" });
     }
 
-    await uploadBlog(authorId, userName, title, titleSlug, content);
+    const datePosted = new Date();
+    await uploadBlog(authorId, userName, title, titleSlug, content, datePosted);
     return res.status(201).json({ message: "Post successfuly uploaded" });
   } catch (error) {
     if (error.name && error.name === "MongoError") {
