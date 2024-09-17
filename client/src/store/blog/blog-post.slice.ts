@@ -12,6 +12,7 @@ type BlogState = {
   title: string | null;
   userName: string | null;
   content: string | null;
+  datePosted: string;
 };
 
 const initialState: BlogState = {
@@ -20,6 +21,7 @@ const initialState: BlogState = {
   title: null,
   userName: null,
   content: null,
+  datePosted: new Date().toISOString(),
 };
 
 type UploadBlogPayload = {
