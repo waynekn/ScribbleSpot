@@ -25,6 +25,7 @@ const Blog = () => {
   const profile = useSelector(selectProfile);
   const blog = useSelector(selectBlogPost);
   const [isLoading] = useState(blog.isLoading);
+  const [datePosted, setDatePosted] = useState("");
 
   const editor = useEditor({
     extensions: [
@@ -42,6 +43,14 @@ const Blog = () => {
   useEffect(() => {
     dispatch(getBlog({ titleSlug, userName: profile.userName }))
       .unwrap()
+      .then((blog) => {
+        const datePosted = new Date(blog.datePosted);
+        const date = `${datePosted.getDate()}`.padStart(2, "0");
+        const month = `${datePosted.getMonth()}`.padStart(2, "0");
+        const year = `${datePosted.getFullYear()}`;
+        const formatedDate = `${date}/${month}/${year}`;
+        setDatePosted(formatedDate);
+      })
       .catch((errorMessage) => {
         setNotificationMessage(errorMessage);
       });
@@ -60,7 +69,9 @@ const Blog = () => {
   return (
     <BlogContainer>
       <BlogTitle>{blog.title}</BlogTitle>
-      <UserName>Posted by {blog.userName}</UserName>
+      <UserName>
+        Posted by {blog.userName} on {datePosted}
+      </UserName>
       <BlogContent>
         <EditorContent editor={editor} />
       </BlogContent>
