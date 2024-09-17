@@ -8,7 +8,7 @@ export type User = {
   email: string;
   userName: string;
   profilePicture: string;
-  dateJoined: Date;
+  dateJoined: string;
 };
 
 //Error responses from the server are standardized and guaranteed
