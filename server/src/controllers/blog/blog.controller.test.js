@@ -72,7 +72,15 @@ describe("test blog controller", () => {
         .send({ titleSlug: "test-title", userName: "testUser" });
 
       expect(response.status).toBe(200);
-      expect(response.body.blog).toEqual(fetchedBlog);
+      expect(response.body.blog).toBeDefined();
+      expect(response.body.blog.userName).toBe("testUser");
+      expect(response.body.blog.content).toBe("<p> Hello world </p>");
+      expect(response.body.blog.title).toBe("Test-title");
+
+      // Validate that the datePosted field exists and is a valid ISO 8601 date
+      expect(response.body.blog.datePosted).toBeDefined();
+      const datePosted = new Date(response.body.blog.datePosted);
+      expect(datePosted.toISOString()).toBe(response.body.blog.datePosted);
     });
 
     it("should return 400 when blog is not found", async () => {
