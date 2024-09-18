@@ -64,11 +64,11 @@ export const fetchBlogTitles = async (userName) => {
  * @throws {Error} - Throws an error if the fetch operation fails.
  */
 export const fetchBlogContent = async (userName, titleSlug) => {
-  const posts = await blogs.findOne(
+  const blog = await blogs.findOne(
     { userName, titleSlug },
     { title: 1, content: 1, userName: 1, datePosted: 1 }
   );
-  return posts;
+  return blog;
 };
 
 /**
