@@ -66,7 +66,7 @@ export const fetchBlogTitles = async (userName) => {
 export const fetchBlogContent = async (userName, titleSlug) => {
   const blog = await blogs.findOne(
     { userName, titleSlug },
-    { title: 1, content: 1, userName: 1, datePosted: 1 }
+    { __v: 0, titleSlug: 0, authorId: 0 }
   );
   return blog;
 };
@@ -84,3 +84,10 @@ export const fetchBlogContent = async (userName, titleSlug) => {
 export const deleteBlog = async (authorId, title) => {
   return blogs.findOneAndDelete({ authorId, title });
 };
+
+/**
+ *
+ * @param {String} userId - The user ID of the user fetching the blog
+ * @param {Object} blog
+ */
+export const hasUserLiked = (userId, blog) => {};
