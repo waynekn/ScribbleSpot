@@ -24,7 +24,7 @@ const initialState: BlogState = {
   datePosted: new Date().toISOString(),
 };
 
-type UploadBlogPayload = {
+type Blog = {
   title: string;
   blogContent: string;
 };
@@ -36,7 +36,7 @@ type FetchBlogContentPayload = {
 
 export const postBlog = createAsyncThunk(
   "blog/postBlog",
-  async (doc: UploadBlogPayload, { rejectWithValue }) => {
+  async (doc: Blog, { rejectWithValue }) => {
     try {
       const title = doc.title;
       const blogContent = doc.blogContent;
