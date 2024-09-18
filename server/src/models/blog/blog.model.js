@@ -68,7 +68,7 @@ export const fetchBlogContent = async (userName, titleSlug) => {
     { userName, titleSlug },
     { __v: 0, titleSlug: 0, authorId: 0 }
   );
-  return blog;
+  return blog.toObject();
 };
 
 /**
