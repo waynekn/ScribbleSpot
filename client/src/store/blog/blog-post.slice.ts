@@ -13,6 +13,7 @@ type BlogState = {
   userName: string | null;
   content: string | null;
   datePosted: string;
+  _id: string;
 };
 
 const initialState: BlogState = {
@@ -22,6 +23,7 @@ const initialState: BlogState = {
   userName: null,
   content: null,
   datePosted: new Date().toISOString(),
+  _id: "",
 };
 
 type Blog = {
