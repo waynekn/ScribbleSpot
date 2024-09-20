@@ -14,6 +14,9 @@ type BlogState = {
   content: string | null;
   datePosted: string;
   _id: string;
+  likeCount: number;
+  userHasLikedBlog: boolean;
+  userHasDislikedBlog: boolean;
 };
 
 const initialState: BlogState = {
@@ -24,6 +27,9 @@ const initialState: BlogState = {
   content: null,
   datePosted: new Date().toISOString(),
   _id: "",
+  likeCount: 0,
+  userHasLikedBlog: false,
+  userHasDislikedBlog: false,
 };
 
 type Blog = {
@@ -84,6 +90,11 @@ export const getBlog = createAsyncThunk(
       return rejectWithValue("An unknown error occured");
     }
   }
+);
+
+export const handleBlogReaction = createAsyncThunk(
+  "blog/blogReaction",
+  async () => {}
 );
 
 const blogSlice = createSlice({
