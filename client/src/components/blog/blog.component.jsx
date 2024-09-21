@@ -11,9 +11,19 @@ import Superscript from "@tiptap/extension-superscript";
 import {
   setNotificationMessage,
   getBlog,
+  handleBlogReaction,
 } from "../../store/blog/blog-post.slice";
 import Spinner from "../spinner/spinner.component";
-import { BlogContainer, UserName, BlogTitle, BlogContent } from "./blog.styles";
+import {
+  BlogContainer,
+  UserName,
+  BlogTitle,
+  BlogContent,
+  ButtonContainer,
+  LikeCount,
+  LikeButton,
+  DislikeButton,
+} from "./blog.styles";
 
 import { selectProfile } from "../../store/profile/profile.selector";
 import { selectBlogPost } from "../../store/blog/blog-post.selector";
@@ -26,6 +36,9 @@ const Blog = () => {
   const blog = useSelector(selectBlogPost);
   const [isLoading] = useState(blog.isLoading);
   const [datePosted, setDatePosted] = useState("");
+  const [likeCount, setLikeCount] = useState(0);
+  const [userHasLikedBlog, setUserHasLikedBlog] = useState(false);
+  const [userHasDislikedBlog, setUserHasDislikedBlog] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -50,6 +63,9 @@ const Blog = () => {
         const year = `${datePosted.getFullYear()}`;
         const formatedDate = `${date}/${month}/${year}`;
         setDatePosted(formatedDate);
+        setLikeCount(blog.likeCount);
+        setUserHasLikedBlog(blog.userHasLikedBlog);
+        setUserHasDislikedBlog(blog.userHasDislikedBlog);
       })
       .catch((errorMessage) => {
         setNotificationMessage(errorMessage);
@@ -61,6 +77,68 @@ const Blog = () => {
       editor.commands.setContent(blog.content);
     }
   }, [editor, blog.content]);
+
+  const handleClick = (reaction) => {
+    /**
+     * When reaction === "like"
+     * If a user likes a blog which they had previously liked, decrement likeCount by 1
+     * if a user likes a blog which they haven't already liked, increment likeCount by 1.
+     * If a user likes a blog they had disliked, increment likeCount by 2.
+     *
+     *  When reaction === "dislike"
+     * If a user dislikes a blog they had previously disliked, increment likeCount by 1
+     * If a user dislikes a blog they haven't aleardy disliked, decrement likeCount by 1.
+     * If a user dislikes a blog they had previously liked, decrement likeCount by 2
+     */
+    let offset = 0;
+    if (reaction === "like") {
+      if (userHasLikedBlog) {
+        setLikeCount(likeCount - 1);
+        setUserHasLikedBlog(false);
+        offset = -1;
+      } else if (userHasDislikedBlog) {
+        setLikeCount(likeCount + 2);
+        setUserHasLikedBlog(true);
+        offset = 2;
+      } else {
+        setLikeCount(likeCount + 1);
+        setUserHasLikedBlog(true);
+        offset = 1;
+      }
+      setUserHasDislikedBlog(false);
+    } else {
+      if (userHasDislikedBlog) {
+        setLikeCount(likeCount + 1);
+        setUserHasDislikedBlog(false);
+        offset = 1;
+      } else if (userHasLikedBlog) {
+        setLikeCount(likeCount - 2);
+        setUserHasDislikedBlog(true);
+        offset = -2;
+      } else {
+        setLikeCount(likeCount - 1);
+        setUserHasDislikedBlog(true);
+        offset = 1;
+      }
+      setUserHasLikedBlog(false);
+    }
+
+    const handleBlogReactionPayload = {
+      blogId: blog._id,
+      reaction,
+    };
+
+    dispatch(handleBlogReaction(handleBlogReactionPayload))
+      .unwrap()
+      .then((response) => {
+        setLikeCount(response.likeCount);
+        setUserHasLikedBlog(response.userHasLikedBlog);
+        setUserHasDislikedBlog(response.userHasDislikedBlog);
+      })
+      .catch(() => {
+        setLikeCount((prevCount) => prevCount - offset);
+      });
+  };
 
   if (isLoading) return <Spinner />;
 
@@ -75,6 +153,21 @@ const Blog = () => {
       <BlogContent>
         <EditorContent editor={editor} />
       </BlogContent>
+      <ButtonContainer>
+        <LikeButton
+          onClick={() => handleClick("like")}
+          liked={userHasLikedBlog}
+        >
+          <i className="bi bi-hand-thumbs-up"></i>
+        </LikeButton>
+        <LikeCount>{likeCount}</LikeCount>
+        <DislikeButton
+          onClick={() => handleClick("dislike")}
+          disliked={userHasDislikedBlog}
+        >
+          <i className="bi bi-hand-thumbs-down"></i>
+        </DislikeButton>
+      </ButtonContainer>
     </BlogContainer>
   );
 };
