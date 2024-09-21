@@ -50,6 +50,16 @@ const BlogPreview = ({ index }) => {
       .catch((errorMessage) => dispatch(setNotificationMessage(errorMessage)));
   };
 
+  if (!blogTitles.length) {
+    return (
+      <p>{`${
+        currentUser?.userName === profile.userName
+          ? `You have not posted any blog yet. Posts that you make will appear here. `
+          : `${profile.userName} has not posted any blog`
+      }`}</p>
+    );
+  }
+
   return (
     <div>
       {blogTitles.map((blogTitle) => (
