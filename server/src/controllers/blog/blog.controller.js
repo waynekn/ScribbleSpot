@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import {
   checkExistingTitle,
   uploadBlog,
@@ -95,13 +96,30 @@ export const getBlogContent = async (req, res) => {
   try {
     const titleSlug = req.body.titleSlug;
     const userName = req.body.userName;
+    const userId = req.user.id;
     const blog = await fetchBlogContent(userName, titleSlug);
+
+    const id = new mongoose.Types.ObjectId(userId);
 
     if (!blog) {
       return res.status(400).json({ error: "Blog not found" });
     }
+    const userHasLikedBlog = blog.likes.some((likeId) => likeId.equals(id));
+    const userHasDislikedBlog = blog.dislikes.some((dislikeId) =>
+      dislikeId.equals(id)
+    );
 
-    return res.status(200).json({ blog });
+    const responseBlog = {
+      ...blog,
+      userHasLikedBlog,
+      userHasDislikedBlog,
+      likeCount: blog.likes.length - blog.dislikes.length,
+    };
+
+    delete responseBlog.likes;
+    delete responseBlog.dislikes;
+
+    return res.status(200).json({ blog: responseBlog });
   } catch (error) {
     return res.status(500).json({ error: "A server errror occured" });
   }
