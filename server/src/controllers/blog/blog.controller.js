@@ -5,6 +5,8 @@ import {
   fetchBlogContent,
   fetchBlogTitles,
   deleteBlog,
+  likeBlog,
+  disLikeBlog,
 } from "../../models/blog/blog.model.js";
 
 /**
@@ -153,5 +155,39 @@ export const handleDelete = async (req, res) => {
     return res.status(200).json({ message: "Blog successfully deleted" });
   } catch (error) {
     return res.status(500).json({ error: "Could not delete blog" });
+  }
+};
+
+/**
+ * Handles a users reaction to a blog.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The authenticated user object.
+ * @param {String} req.user.id - The ID of the authenticated user.
+ * @param {String} req.user.userName - The username of the authenticated user.
+ * @param {Object} req.body - The request body.
+ * @param {Object} req.body.blogReaction - An object containing the blog id and type of reaction.
+ * @param {String} req.body.blogReaction.blogId - The id of the blog.
+ * @param {'like' | 'dislike'} req.body.blogReaction.reaction - The reaction to the blog, either 'like' or 'dislike'.
+ * @param {Object} res - The response object.
+ * @returns res.status(200) - If the users ID was succesfully added
+ *                            or removed to the likes or dislikes of a blog.
+ * @returns res.status(500) - If an error occurred
+ */
+export const handleBlogReaction = async (req, res) => {
+  const userId = req.user.id;
+  const blogReaction = req.body.blogReaction;
+  const blogId = blogReaction.blogId;
+  const reaction = blogReaction.reaction;
+
+  try {
+    const blogReactionResult =
+      reaction === "like"
+        ? await likeBlog(blogId, userId)
+        : await disLikeBlog(blogId, userId);
+
+    return res.status(200).json({ blogReactionResult });
+  } catch (error) {
+    return res.status(500).json({ error: "Could not complete request." });
   }
 };
