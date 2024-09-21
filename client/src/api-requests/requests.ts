@@ -28,6 +28,9 @@ export type BlogContent = {
   content: string;
   datePosted: string;
   _id: string;
+  likeCount: number;
+  userHasLikedBlog: boolean;
+  userHasDislikedBlog: boolean;
 };
 
 type AuthAction = "signin" | "signup";
