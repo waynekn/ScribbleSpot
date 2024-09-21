@@ -4,6 +4,9 @@ import {
   deleteBlogRequest,
   fetchBlogContent,
   BlogContent,
+  BlogReaction,
+  BlogReactionResponse,
+  submitBlogReaction,
 } from "../../api-requests/requests";
 
 type BlogState = {
@@ -92,9 +95,18 @@ export const getBlog = createAsyncThunk(
   }
 );
 
+/**
+ * This thunk sends the users reaction to a blog which is either a like or
+ * dislike to the server. The reaction is sent along with the ID of the
+ * blog which the server will use to determine which blog the reaction is meant
+ * for.
+ */
 export const handleBlogReaction = createAsyncThunk(
   "blog/blogReaction",
-  async () => {}
+  async (reaction: BlogReaction) => {
+    const blogReactionResponse = await submitBlogReaction(reaction);
+    return blogReactionResponse;
+  }
 );
 
 const blogSlice = createSlice({
@@ -177,6 +189,26 @@ const blogSlice = createSlice({
           state.notification = action.payload;
         } else {
           state.notification = "An error occurred";
+        }
+      })
+      /**
+       * handleBlogReaction thunk.
+       * it wont have a case for pending because the UI doesnt need to be updated for pending
+       * state as the request to like or dislike should be behind the scenes
+       */
+      .addCase(
+        handleBlogReaction.fulfilled,
+        (state: BlogState, action: PayloadAction<BlogReactionResponse>) => {
+          state.likeCount = action.payload.likeCount;
+          state.userHasLikedBlog = action.payload.userHasLikedBlog;
+          state.userHasDislikedBlog = action.payload.userHasDislikedBlog;
+        }
+      )
+      .addCase(handleBlogReaction.rejected, (state: BlogState, action) => {
+        if (typeof action.payload === "string") {
+          state.notification = action.payload;
+        } else {
+          state.notification = "Unknown error";
         }
       });
   },
