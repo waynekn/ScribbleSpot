@@ -86,8 +86,90 @@ export const deleteBlog = async (authorId, title) => {
 };
 
 /**
+ * Handles like requests to a blog. If the user had disliked a blog
+ * their ID is removed from the dislikes. It adds a users ID to the likes array
+ * if not present or removes it if present.
  *
- * @param {String} userId - The user ID of the user fetching the blog
- * @param {Object} blog
+ * @param {String} blogId - The Object id of the blog
+ * @param {String} userId - The id of the user who wants to like a blog
  */
-export const hasUserLiked = (userId, blog) => {};
+export const likeBlog = async (blogId, userId) => {
+  const blog = await blogs.findById(blogId);
+
+  if (!blog) {
+    throw new Error("Blog not found");
+  }
+
+  let userHasLikedBlog = blog.likes.includes(userId);
+  let userHasDislikedBlog = blog.dislikes.includes(userId);
+
+  if (userHasDislikedBlog) {
+    // If the user disliked the blog, remove them from dislikes and add to likes
+    blog.dislikes = blog.dislikes.filter((id) => id.toString() !== userId);
+    userHasDislikedBlog = false;
+  }
+
+  if (userHasLikedBlog) {
+    // If the user already liked the blog, remove them from likes
+    blog.likes = blog.likes.filter((id) => id.toString() !== userId);
+  } else {
+    // If the user hasn't liked it yet, add to likes
+    blog.likes.push(userId);
+  }
+
+  await blog.save();
+
+  userHasLikedBlog = !userHasLikedBlog;
+
+  const blogReactionResult = {
+    userHasLikedBlog,
+    userHasDislikedBlog,
+    likeCount: blog.likes.length - blog.dislikes.length,
+  };
+
+  return blogReactionResult;
+};
+
+/**
+ * Handles dislikes requests to a blog. If the user had liked the blog
+ * their ID is removed from the likes. It adds the users ID to the dislikes
+ * array if not present or removes it if present.
+ *
+ * @param {String} blogId - The Object id of the blog
+ * @param {String} userId - The id of the user who wants to dislike a blog
+ */
+export const disLikeBlog = async (blogId, userId) => {
+  const blog = await blogs.findById(blogId);
+
+  if (!blog) {
+    throw new Error("Blog not found");
+  }
+
+  let userHasLikedBlog = blog.likes.includes(userId);
+  let userHasDislikedBlog = blog.dislikes.includes(userId);
+
+  if (userHasLikedBlog) {
+    // If the user liked the blog, remove them from likes and add to dislikes
+    blog.likes = blog.likes.filter((id) => id.toString() !== userId);
+    userHasLikedBlog = false;
+  }
+
+  if (userHasDislikedBlog) {
+    // If the user already disliked the blog, remove them from dislikes
+    blog.dislikes = blog.dislikes.filter((id) => id.toString() !== userId);
+  } else {
+    // If the user hasn't disliked it yet, add to dislikes
+    blog.dislikes.push(userId);
+  }
+
+  await blog.save();
+
+  userHasDislikedBlog = !userHasDislikedBlog;
+
+  const blogReactionResult = {
+    userHasLikedBlog,
+    userHasDislikedBlog,
+    likeCount: blog.likes.length - blog.dislikes.length,
+  };
+  return blogReactionResult;
+};
