@@ -33,6 +33,17 @@ export type BlogContent = {
   userHasDislikedBlog: boolean;
 };
 
+export type BlogReaction = {
+  blogId: string;
+  reaction: "like" | "dislike";
+};
+
+export type BlogReactionResponse = {
+  userHasLikedBlog: boolean;
+  userHasDislikedBlog: boolean;
+  likeCount: number;
+};
+
 type AuthAction = "signin" | "signup";
 
 export const authenticateGoogleUser = (action: AuthAction) => {
@@ -202,6 +213,26 @@ export const deleteBlogRequest = async (title: string) => {
       { title }
     );
     return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const axiosError = error as AxiosError<ErrorResponse>;
+      const errorMessage =
+        axiosError.response?.data.error || "An unknown error occured";
+      throw new Error(errorMessage);
+    }
+    throw new Error("An unknown error occurred");
+  }
+};
+
+export const submitBlogReaction = async (blogReaction: BlogReaction) => {
+  try {
+    const res = await axios.post<{ blogReactionResult: BlogReactionResponse }>(
+      `${URL}/posts/blog/react`,
+      {
+        blogReaction,
+      }
+    );
+    return res.data.blogReactionResult;
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
