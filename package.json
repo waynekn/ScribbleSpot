@@ -8,6 +8,7 @@
     "install-server": "cd server && npm install ",
     "build-client": "npm run build --prefix client",
     "watch": "concurrently \"cd client && npm run build \" \" cd server && npm run watch \"",
+    "start": "concurrently \"cd client && npm run build \" \" cd server && npm start \"",
     "test": "cd server && npm test"
   },
   "author": "",
