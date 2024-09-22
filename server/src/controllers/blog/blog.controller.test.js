@@ -88,6 +88,106 @@ describe("test blog controller", () => {
     });
   });
 
+  //Test for liking a blog
+  describe("POST /posts/blog/react", () => {
+    it("should add a like if a user had not liked the blog", async () => {
+      const fetchBlogResponse = await request(app)
+        .post("/posts/content")
+        .send({ titleSlug: "test-title", userName: "testUser" });
+
+      const blogId = fetchBlogResponse.body.blog._id;
+      const blogReaction = {
+        blogId,
+        reaction: "like",
+      };
+      const response = await request(app)
+        .post("/posts/blog/react")
+        .send({ blogReaction });
+
+      const blogReactionResult = {
+        userHasLikedBlog: true,
+        userHasDislikedBlog: false,
+        likeCount: 1,
+      };
+      expect(response.status).toBe(200);
+      expect(response.body.blogReactionResult).toEqual(blogReactionResult);
+    });
+
+    it("should remove the like if the user had liked the blog", async () => {
+      const fetchBlogResponse = await request(app)
+        .post("/posts/content")
+        .send({ titleSlug: "test-title", userName: "testUser" });
+
+      const blogId = fetchBlogResponse.body.blog._id;
+      const blogReaction = {
+        blogId,
+        reaction: "like",
+      };
+      const response = await request(app)
+        .post("/posts/blog/react")
+        .send({ blogReaction });
+
+      const blogReactionResult = {
+        userHasLikedBlog: false,
+        userHasDislikedBlog: false,
+        likeCount: 0,
+      };
+      expect(response.status).toBe(200);
+      expect(response.body.blogReactionResult).toEqual(blogReactionResult);
+    });
+  });
+
+  //Tests for disliking a blog.
+  describe("POST /posts/blog/react", () => {
+    it("should add a dislike if a user had not disliked the blog", async () => {
+      const fetchBlogResponse = await request(app)
+        .post("/posts/content")
+        .send({ titleSlug: "test-title", userName: "testUser" });
+
+      const blogId = fetchBlogResponse.body.blog._id;
+      const blogReaction = {
+        blogId,
+        reaction: "dislike",
+      };
+
+      const response = await request(app)
+        .post("/posts/blog/react")
+        .send({ blogReaction });
+
+      const blogReactionResult = {
+        userHasLikedBlog: false,
+        userHasDislikedBlog: true,
+        likeCount: -1,
+      };
+      expect(response.status).toBe(200);
+      expect(response.body.blogReactionResult).toEqual(blogReactionResult);
+    });
+
+    it("should remove the dislike if the user had disliked the blog", async () => {
+      const fetchBlogResponse = await request(app)
+        .post("/posts/content")
+        .send({ titleSlug: "test-title", userName: "testUser" });
+
+      const blogId = fetchBlogResponse.body.blog._id;
+      const blogReaction = {
+        blogId,
+        reaction: "dislike",
+      };
+
+      const response = await request(app)
+        .post("/posts/blog/react")
+        .send({ blogReaction });
+
+      const blogReactionResult = {
+        userHasLikedBlog: false,
+        userHasDislikedBlog: false,
+        likeCount: 0,
+      };
+      expect(response.status).toBe(200);
+      expect(response.body.blogReactionResult).toEqual(blogReactionResult);
+    });
+  });
+
   //Tests for deleting a blog post
   describe("POST /posts/blog/delete", () => {
     it("should return 200 for successful delete", async () => {
