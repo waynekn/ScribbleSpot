@@ -37,6 +37,17 @@ export const Input = styled.input`
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  padding-right: 40px;
+`;
+
+export const EyeIcon = styled.i`
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  color: #aaa;
 `;
 
 export const Button = styled.button`
@@ -51,6 +62,7 @@ export const Button = styled.button`
   &:hover {
     background-color: #0056b3;
   }
+
   &:disabled {
     background-color: #b0bec5;
     color: #ffffff;
