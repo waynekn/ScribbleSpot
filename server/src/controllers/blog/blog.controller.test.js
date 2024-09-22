@@ -70,6 +70,9 @@ describe("test blog controller", () => {
       expect(response.body.blog.userName).toBe("testUser");
       expect(response.body.blog.content).toBe("<p> Hello world </p>");
       expect(response.body.blog.title).toBe("Test-title");
+      expect(response.body.blog.likeCount).toBe(0);
+      expect(response.body.blog.userHasLikedBlog).toBe(false);
+      expect(response.body.blog.userHasDislikedBlog).toBe(false);
 
       // Validate that the datePosted field exists and is a valid ISO 8601 date
       expect(response.body.blog.datePosted).toBeDefined();
@@ -77,15 +80,15 @@ describe("test blog controller", () => {
       expect(datePosted.toISOString()).toBe(response.body.blog.datePosted);
     });
 
-    it("should return 400 when blog is not found", async () => {
+    it("should return 500 if an error occurs", async () => {
       const response = await request(app).post("/posts/content").send({});
 
-      expect(response.status).toBe(400);
-      expect(response.body.error).toBe("Blog not found");
+      expect(response.status).toBe(500);
+      expect(response.body.error).toBe("A server errror occured");
     });
   });
 
-  // Tests for deleting a blog post
+  //Tests for deleting a blog post
   describe("POST /posts/blog/delete", () => {
     it("should return 200 for successful delete", async () => {
       const response = await request(app)
