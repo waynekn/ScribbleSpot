@@ -15,6 +15,7 @@ import {
   ErrorMessage,
   Input,
   Button,
+  EyeIcon,
 } from "./popover-form.styles";
 
 const PopoverForm = ({ onClose, action, provider }) => {
@@ -24,12 +25,17 @@ const PopoverForm = ({ onClose, action, provider }) => {
     password: "",
     confirmPassword: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
 
   const isSignInAction = action === "Sign in";
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   /**
    * This regex matches a typical email address format:
@@ -172,10 +178,14 @@ const PopoverForm = ({ onClose, action, provider }) => {
           <FormField>
             <label>Password</label>
             <Input
-              type="password"
+              type={showPassword ? "text" : "password"} // Use state to toggle visibility
               name="password"
               value={formValues.password}
               onChange={handleChange}
+            />
+            <EyeIcon
+              className={`bi bi-eye${showPassword ? "-slash" : ""}`}
+              onClick={togglePasswordVisibility}
             />
             {formErrors.password && (
               <ErrorMessage>{formErrors.password}</ErrorMessage>
@@ -185,10 +195,14 @@ const PopoverForm = ({ onClose, action, provider }) => {
             <FormField>
               <label>Confirm Password</label>
               <Input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="confirmPassword"
                 value={formValues.confirmPassword}
                 onChange={handleChange}
+              />
+              <EyeIcon
+                className={`bi bi-eye${showPassword ? "-slash" : ""}`}
+                onClick={togglePasswordVisibility}
               />
               {formErrors.confirmPassword && (
                 <ErrorMessage>{formErrors.confirmPassword}</ErrorMessage>
