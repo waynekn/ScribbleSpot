@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Outlet, useNavigate, useMatch, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import MessageToast from "../toast/toast.component";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
@@ -35,8 +35,8 @@ const ProfilePage = () => {
   const [isOwnAccount, setIsOwnAccount] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const isBlogRoute = useMatch("/profile/:userName/:title");
   const { userName } = useParams();
+  const { titleSlug } = useParams();
 
   useEffect(() => {
     const getProfile = async (userName) => {
@@ -88,7 +88,11 @@ const ProfilePage = () => {
 
   return (
     <ProfilePageContainer>
-      {!isBlogRoute && (
+      {/**
+       * If the path has the param title slug it means the user is viewing
+       * a blog thus the sidebar should not be displaid.
+       */}
+      {!titleSlug && (
         <SideBar>
           <ProfilePicture src={imageUrl} alt="profile" />
           <UserName>{profile.userName}</UserName>
