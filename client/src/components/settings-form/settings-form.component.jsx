@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentUser } from "../../store/user/user.selector";
-import { uploadSettingsForm } from "../../api-requests/requests";
-import { getImageUrl } from "../../api-requests/requests";
+import { uploadSettingsForm, getImageUrl } from "../../api-requests/requests";
+import Spinner from "../spinner/spinner.component";
 
 import {
   FormContainer,
@@ -20,9 +20,27 @@ import {
 const SettingsForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [isLoading, setIsloading] = useState(true);
   const currentUser = useSelector(selectCurrentUser);
   const navigate = useNavigate();
   const formRef = useRef();
+
+  const { userName } = useParams();
+
+  /**
+   * Whilst the UI ensures that the link to this page is not shown
+   * to someone who is not viewing their own profile, nothing prevents
+   * a user from typing in the URL directly so this effect redirects them to
+   * authenticate themselves if they try to access another users settings.
+   */
+  useEffect(() => {
+    if (!currentUser || currentUser.userName !== userName) {
+      navigate("/authentication/sign-in");
+      setIsloading(false);
+    } else {
+      setIsloading(false);
+    }
+  }, [currentUser, userName, navigate]);
 
   useEffect(() => {
     const fetchImageUrl = async (imageKey) => {
@@ -40,6 +58,8 @@ const SettingsForm = () => {
     };
     updateImageUrl();
   }, [currentUser]);
+
+  if (isLoading) return <Spinner />;
 
   const validateUserName = (userName) => {
     if (!userName.trim()) {
