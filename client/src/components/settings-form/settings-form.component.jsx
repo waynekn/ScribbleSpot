@@ -29,8 +29,8 @@ const SettingsForm = () => {
 
   /**
    * Whilst the UI ensures that the link to this page is not shown
-   * to someone who is not viewing their own profile, nothing prevents
-   * a user from typing in the URL directly so this effect redirects them to
+   * to someone who is not viewing their own profile, nothing prevents  a user
+   * from typing the URL directly in the browser so this effect redirects them to
    * authenticate themselves if they try to access another users settings.
    */
   useEffect(() => {
