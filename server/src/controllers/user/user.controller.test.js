@@ -28,12 +28,15 @@ describe("GET /users/profile", () => {
       .send({ userName: "testUser" })
       .expect("Content-Type", /json/);
 
-    expect(response.status).toBe(200);
-    expect(response.body.profile).toEqual({
+    const user = {
+      _id: "66d1c86755e232cfcaacbc26",
       email: "testUser123@gmail.com",
       userName: "testUser",
       profilePicture: "DEFAULT_PROFILE_PICTURE",
       dateJoined: "2024-08-06T12:48:50.257Z",
-    });
+    };
+
+    expect(response.status).toBe(200);
+    expect(response.body.profile).toEqual(user);
   });
 });
