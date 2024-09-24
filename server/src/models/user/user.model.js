@@ -3,7 +3,7 @@ import users from "../../schemas/user/user.schema.js";
 export const fetchProfileByEmail = (email) => users.findOne({ email });
 
 export const fetchProfileByUserName = (userName) =>
-  users.findOne({ userName: userName }, { _id: 0, __v: 0 });
+  users.findOne({ userName: userName }, { __v: 0 });
 
 export const updateUserName = async (id, userName) => {
   return users.findByIdAndUpdate({ _id: id }, { $set: { userName: userName } });
