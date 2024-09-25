@@ -9,7 +9,7 @@ import Underline from "@tiptap/extension-underline";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
 import {
-  setNotificationMessage,
+  setBlogNotificationMessage,
   getBlog,
   handleBlogReaction,
 } from "../../store/blog/blog-post.slice";
@@ -68,7 +68,7 @@ const Blog = () => {
         setUserHasDislikedBlog(blog.userHasDislikedBlog);
       })
       .catch((errorMessage) => {
-        setNotificationMessage(errorMessage);
+        setBlogNotificationMessage(errorMessage);
       });
   }, [titleSlug, dispatch, profile]);
 

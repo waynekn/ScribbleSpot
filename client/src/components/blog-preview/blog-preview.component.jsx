@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBlogByTitle } from "../../store/blog/blog-post.slice";
 import { selectBlogPost } from "../../store/blog/blog-post.selector";
-import { setNotificationMessage } from "../../store/blog/blog-post.slice";
+import { setBlogNotificationMessage } from "../../store/blog/blog-post.slice";
 import { fetchTitles } from "../../api-requests/requests";
 import MessageToast from "../toast/toast.component";
 import { selectProfile } from "../../store/profile/profile.selector";
@@ -30,7 +30,7 @@ const BlogPreview = ({ index }) => {
         setBlogTitles(titles);
         setIsOwnProfile(currentUser.userName === profile.userName);
       } catch (error) {
-        dispatch(setNotificationMessage(error.message));
+        dispatch(setBlogNotificationMessage(error.message));
       }
     };
     getTitles();
@@ -45,9 +45,11 @@ const BlogPreview = ({ index }) => {
           (blogTitle) => blogTitle.title !== title
         );
         setBlogTitles(updatedBlogTitles);
-        dispatch(setNotificationMessage(successMessage));
+        dispatch(setBlogNotificationMessage(successMessage));
       })
-      .catch((errorMessage) => dispatch(setNotificationMessage(errorMessage)));
+      .catch((errorMessage) =>
+        dispatch(setBlogNotificationMessage(errorMessage))
+      );
   };
 
   if (!blogTitles.length) {

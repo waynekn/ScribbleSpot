@@ -14,7 +14,7 @@ import Toolbar from "./modules/toolbar/toolbar.component";
 import MessageToast from "../toast/toast.component";
 
 import { postBlog } from "../../store/blog/blog-post.slice";
-import { setNotificationMessage } from "../../store/blog/blog-post.slice";
+import { setBlogNotificationMessage } from "../../store/blog/blog-post.slice";
 import { selectBlogPost } from "../../store/blog/blog-post.selector";
 
 import "./editor.styles.scss";
@@ -42,7 +42,7 @@ const Editor = () => {
   const handlePost = () => {
     const trimmedTitle = title.trim();
     if (!trimmedTitle) {
-      disptach(setNotificationMessage("Post must have a title"));
+      disptach(setBlogNotificationMessage("Post must have a title"));
       return;
     }
     const blogContent = editor.getHTML();
@@ -53,9 +53,11 @@ const Editor = () => {
     disptach(postBlog(doc))
       .unwrap()
       .then(() =>
-        disptach(setNotificationMessage("Post successfully submitted"))
+        disptach(setBlogNotificationMessage("Post successfully submitted"))
       )
-      .catch((errorMessage) => disptach(setNotificationMessage(errorMessage)));
+      .catch((errorMessage) =>
+        disptach(setBlogNotificationMessage(errorMessage))
+      );
   };
 
   return (
