@@ -31,7 +31,7 @@ const extensions = [
 const Editor = () => {
   const [title, setTitle] = useState("");
   const disptach = useDispatch();
-  const blogPost = useSelector(selectBlogPost);
+  const blog = useSelector(selectBlogPost);
 
   const editor = useEditor({
     extensions,
@@ -75,9 +75,7 @@ const Editor = () => {
         <BubbleMenuComponent editor={editor} />
         <EditorContent editor={editor} />
       </div>
-      {blogPost.notification && (
-        <MessageToast message={blogPost.notification} />
-      )}
+      {blog.notification && <MessageToast message={blog.notification} />}
     </div>
   );
 };
