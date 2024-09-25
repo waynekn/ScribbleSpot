@@ -13,9 +13,9 @@ import Toolbar from "./modules/toolbar/toolbar.component";
 
 import MessageToast from "../toast/toast.component";
 
-import { postBlog } from "../../store/blog/blog-post.slice";
-import { setBlogNotificationMessage } from "../../store/blog/blog-post.slice";
-import { selectBlogPost } from "../../store/blog/blog-post.selector";
+import { postBlog } from "../../store/blog/blog.slice";
+import { setBlogNotificationMessage } from "../../store/blog/blog.slice";
+import { selectBlogPost } from "../../store/blog/blog.selector";
 
 import "./editor.styles.scss";
 
