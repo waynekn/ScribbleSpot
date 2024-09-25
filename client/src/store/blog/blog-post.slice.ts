@@ -113,10 +113,13 @@ const blogSlice = createSlice({
   name: "blog",
   initialState,
   reducers: {
-    setNotificationMessage(state: BlogState, action: PayloadAction<string>) {
+    setBlogNotificationMessage(
+      state: BlogState,
+      action: PayloadAction<string>
+    ) {
       state.notification = action.payload;
     },
-    clearNotificationMessage(state: BlogState) {
+    clearBlogNotificationMessage(state: BlogState) {
       state.notification = null;
     },
   },
@@ -214,7 +217,7 @@ const blogSlice = createSlice({
   },
 });
 
-export const { setNotificationMessage, clearNotificationMessage } =
+export const { setBlogNotificationMessage, clearBlogNotificationMessage } =
   blogSlice.actions;
 
 export const blogReducer = blogSlice.reducer;
