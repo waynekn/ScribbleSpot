@@ -39,9 +39,9 @@ export const router = createBrowserRouter([
         path: "posts",
         element: <BlogPreview index={false} />,
       },
-      { path: ":titleSlug", element: <Blog /> },
     ],
   },
+  { path: "blog/:titleSlug/:blogId", element: <Blog /> },
   { path: "editor", element: <Editor /> },
   {
     path: "settings",
