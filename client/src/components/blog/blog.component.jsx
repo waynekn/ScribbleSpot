@@ -12,7 +12,9 @@ import {
   setBlogNotificationMessage,
   getBlog,
   handleBlogReaction,
-} from "../../store/blog/blog-post.slice";
+} from "../../store/blog/blog.slice";
+import { selectProfile } from "../../store/profile/profile.selector";
+import { selectBlogPost } from "../../store/blog/blog.selector";
 import Spinner from "../spinner/spinner.component";
 import {
   BlogContainer,
@@ -25,8 +27,6 @@ import {
   DislikeButton,
 } from "./blog.styles";
 
-import { selectProfile } from "../../store/profile/profile.selector";
-import { selectBlogPost } from "../../store/blog/blog-post.selector";
 import "../editor/editor.styles.scss";
 
 const Blog = () => {
