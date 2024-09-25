@@ -74,7 +74,7 @@ describe("test blog controller", () => {
       expect(response.body.blog.userHasLikedBlog).toBe(false);
       expect(response.body.blog.userHasDislikedBlog).toBe(false);
 
-      // Validate that the datePosted field exists and is a valid ISO 8601 date
+      // Validate that the datePosted field exists and is a valid ISO date
       expect(response.body.blog.datePosted).toBeDefined();
       const datePosted = new Date(response.body.blog.datePosted);
       expect(datePosted.toISOString()).toBe(response.body.blog.datePosted);
