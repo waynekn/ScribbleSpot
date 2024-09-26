@@ -67,12 +67,18 @@ export const postBlog = async (req, res) => {
 export const getBlogTitles = async (req, res) => {
   const userName = req.body.userName;
   try {
-    const titles = await fetchBlogTitles(userName);
-    if (!titles) {
+    const fetchedTitles = await fetchBlogTitles(userName);
+    if (!fetchedTitles) {
       return res
         .status(404)
         .json({ error: `Could not get titles for ${userName}` });
     }
+
+    const titles = fetchedTitles.map(({ _id, ...rest }) => ({
+      id: _id,
+      ...rest,
+    }));
+
     return res.status(200).json({ titles });
   } catch (error) {
     return res.status(500).json({ error: "Couldn't get titles" });
@@ -87,8 +93,7 @@ export const getBlogTitles = async (req, res) => {
  * @param {String} req.user.id - The ID of the authenticated user.
  * @param {String} req.user.userName - The username of the authenticated user.
  * @param {Object} req.body - The request body.
- * @param {String} req.body.userName - The username of the blog author whose blog is to be fetched.
- * @param {String} req.body.titleSlug - The title of the blog as a slug.
+ * @param {String} req.body.blogId - The ID of the requested blog content.
  * @param {Object} res - The response object.
  * @returns {Object} res.status(200) - If the blog is successfully fetched.
  * @returns {Object} res.status(400) - If the blog is not found.
@@ -96,28 +101,31 @@ export const getBlogTitles = async (req, res) => {
  */
 export const getBlogContent = async (req, res) => {
   try {
-    const titleSlug = req.body.titleSlug;
-    const userName = req.body.userName;
-    const userId = req.user.id;
-    const blog = await fetchBlogContent(userName, titleSlug);
+    const blogId = req.body.blogId;
+    let userId = req.user.id;
+    const blog = await fetchBlogContent(blogId);
 
-    const id = new mongoose.Types.ObjectId(userId);
+    userId = new mongoose.Types.ObjectId(userId);
 
     if (!blog) {
       return res.status(400).json({ error: "Blog not found" });
     }
-    const userHasLikedBlog = blog.likes.some((likeId) => likeId.equals(id));
+    const userHasLikedBlog = blog.likes.some((likeId) => likeId.equals(userId));
     const userHasDislikedBlog = blog.dislikes.some((dislikeId) =>
-      dislikeId.equals(id)
+      dislikeId.equals(userId)
     );
+
+    const id = blog._id;
 
     const responseBlog = {
       ...blog,
+      id,
       userHasLikedBlog,
       userHasDislikedBlog,
       likeCount: blog.likes.length - blog.dislikes.length,
     };
 
+    delete responseBlog._id;
     delete responseBlog.likes;
     delete responseBlog.dislikes;
 
