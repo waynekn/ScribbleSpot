@@ -53,8 +53,8 @@ describe("test blog controller", () => {
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body.titles)).toBe(true);
 
-      const { id, ...rest } = response.body.titles[0];
-      expect(rest).toEqual({
+      const { id, ...titleObject } = response.body.titles[0];
+      expect(titleObject).toEqual({
         title: "Test-title",
         titleSlug: "test-title",
       });
