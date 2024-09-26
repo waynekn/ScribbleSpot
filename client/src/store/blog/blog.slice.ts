@@ -40,11 +40,6 @@ type Blog = {
   blogContent: string;
 };
 
-type FetchBlogContentPayload = {
-  titleSlug: string;
-  userName: string;
-};
-
 export const postBlog = createAsyncThunk(
   "blog/postBlog",
   async (doc: Blog, { rejectWithValue }) => {
@@ -79,12 +74,9 @@ export const deleteBlogByTitle = createAsyncThunk(
 
 export const getBlog = createAsyncThunk(
   "blog/getBlog",
-  async (payload: FetchBlogContentPayload, { rejectWithValue }) => {
+  async (blogId: string, { rejectWithValue }) => {
     try {
-      const { blog } = await fetchBlogContent(
-        payload.titleSlug,
-        payload.userName
-      );
+      const { blog } = await fetchBlogContent(blogId);
       return blog;
     } catch (error) {
       if (error instanceof Error) {
