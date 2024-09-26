@@ -47,27 +47,27 @@ export const uploadBlog = async (
  * @throws {Error} - Throws an error if the fetch operation fails.
  */
 export const fetchBlogTitles = async (userName) => {
-  return blogs
-    .find({ userName }, { title: 1, titleSlug: 1 })
+  const titles = await blogs
+    .find({ userName }, { _id: 1, title: 1, titleSlug: 1 })
     .sort({ datePosted: -1 });
+  return titles.map((title) => title.toObject());
 };
 
 /**
- * Fetches the blog content using the provided userame and title slug.
+ * Fetches the blog content using the provided ID.
  *
- * @param {String} userName - The username of the user whose blog content is
- *                            being requested.
- * @param {String} titleSlug - The title of the blog being requested as a slug.
+ * @param {String} blogId - The Object ID of the blog to be fetched.
  * @returns {Promise<Object>} - A promise that resolves to a blog object if successful
  *                              or rejects wit an error if an error occurs.
  *
  * @throws {Error} - Throws an error if the fetch operation fails.
  */
-export const fetchBlogContent = async (userName, titleSlug) => {
-  const blog = await blogs.findOne(
-    { userName, titleSlug },
-    { __v: 0, titleSlug: 0, authorId: 0 }
-  );
+export const fetchBlogContent = async (blogId) => {
+  const blog = await blogs.findById(blogId, {
+    __v: 0,
+    titleSlug: 0,
+    authorId: 0,
+  });
   return blog.toObject();
 };
 
