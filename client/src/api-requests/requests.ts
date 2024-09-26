@@ -20,6 +20,7 @@ export type ErrorResponse = {
 type Title = {
   title: string;
   titleSlug: string;
+  id: string;
 };
 
 export type BlogContent = {
@@ -188,11 +189,11 @@ export const fetchTitles = async (userName: string) => {
   }
 };
 
-export const fetchBlogContent = async (titleSlug: string, userName: string) => {
+export const fetchBlogContent = async (blogId: string) => {
   try {
     const res = await axios.post<{ blog: BlogContent }>(
       `${URL}/posts/content`,
-      { titleSlug, userName }
+      { blogId }
     );
     return res.data;
   } catch (error) {
