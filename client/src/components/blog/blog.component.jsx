@@ -13,7 +13,6 @@ import {
   getBlog,
   handleBlogReaction,
 } from "../../store/blog/blog.slice";
-import { selectProfile } from "../../store/profile/profile.selector";
 import { selectBlogPost } from "../../store/blog/blog.selector";
 import Spinner from "../spinner/spinner.component";
 import {
@@ -30,9 +29,8 @@ import {
 import "../editor/editor.styles.scss";
 
 const Blog = () => {
-  const { titleSlug } = useParams();
   const dispatch = useDispatch();
-  const profile = useSelector(selectProfile);
+  const { blogId } = useParams();
   const blog = useSelector(selectBlogPost);
   const [isLoading] = useState(blog.isLoading);
   const [datePosted, setDatePosted] = useState("");
@@ -54,7 +52,7 @@ const Blog = () => {
   });
 
   useEffect(() => {
-    dispatch(getBlog({ titleSlug, userName: profile.userName }))
+    dispatch(getBlog(blogId))
       .unwrap()
       .then((blog) => {
         const datePosted = new Date(blog.datePosted);
@@ -70,7 +68,7 @@ const Blog = () => {
       .catch((errorMessage) => {
         setBlogNotificationMessage(errorMessage);
       });
-  }, [titleSlug, dispatch, profile]);
+  }, [blogId, dispatch]);
 
   useEffect(() => {
     if (editor && blog.content) {
@@ -124,7 +122,7 @@ const Blog = () => {
     }
 
     const handleBlogReactionPayload = {
-      blogId: blog._id,
+      blogId,
       reaction,
     };
 
