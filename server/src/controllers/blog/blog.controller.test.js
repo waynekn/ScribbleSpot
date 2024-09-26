@@ -51,7 +51,10 @@ describe("test blog controller", () => {
       });
 
       expect(response.status).toBe(200);
-      expect(response.body.titles).toContainEqual({
+      expect(Array.isArray(response.body.titles)).toBe(true);
+
+      const { id, ...rest } = response.body.titles[0];
+      expect(rest).toEqual({
         title: "Test-title",
         titleSlug: "test-title",
       });
@@ -61,9 +64,15 @@ describe("test blog controller", () => {
   // Tests for retrieving blog content
   describe("POST /posts/content", () => {
     it("should return an object containing blog content", async () => {
+      const fetchedTitles = await request(app).post("/posts/titles").send({
+        userName: "testUser",
+      });
+
+      const { id } = fetchedTitles.body.titles[0];
+
       const response = await request(app)
         .post("/posts/content")
-        .send({ titleSlug: "test-title", userName: "testUser" });
+        .send({ blogId: id });
 
       expect(response.status).toBe(200);
       expect(response.body.blog).toBeDefined();
@@ -91,11 +100,27 @@ describe("test blog controller", () => {
   //Test for liking a blog
   describe("POST /posts/blog/react", () => {
     it("should add a like if a user had not liked the blog", async () => {
+      /**
+       * This test represents the actaul user flow:
+       * 1. Fetch blog titles.
+       * 2. Select a blog using its title ID.
+       * 3. Fetch the blog content by ID.
+       * 4. Send a like reaction.
+       */
+      const {
+        body: { titles },
+      } = await request(app).post("/posts/titles").send({
+        userName: "testUser",
+      });
+
+      const titleId = titles[0].id;
+
       const fetchBlogResponse = await request(app)
         .post("/posts/content")
-        .send({ titleSlug: "test-title", userName: "testUser" });
+        .send({ blogId: titleId });
 
-      const blogId = fetchBlogResponse.body.blog._id;
+      const blogId = fetchBlogResponse.body.blog.id;
+
       const blogReaction = {
         blogId,
         reaction: "like",
@@ -114,11 +139,21 @@ describe("test blog controller", () => {
     });
 
     it("should remove the like if the user had liked the blog", async () => {
-      const fetchBlogResponse = await request(app)
-        .post("/posts/content")
-        .send({ titleSlug: "test-title", userName: "testUser" });
+      /**
+       * This test skips the content-fetching step.
+       * It assumes the blog's ID from the title is already known,
+       * so it directly sends the like reaction.
+       *
+       * This focuses on testing the reaction logic in isolation.
+       */
+      const {
+        body: { titles },
+      } = await request(app).post("/posts/titles").send({
+        userName: "testUser",
+      });
 
-      const blogId = fetchBlogResponse.body.blog._id;
+      const blogId = titles[0].id;
+
       const blogReaction = {
         blogId,
         reaction: "like",
@@ -140,11 +175,27 @@ describe("test blog controller", () => {
   //Tests for disliking a blog.
   describe("POST /posts/blog/react", () => {
     it("should add a dislike if a user had not disliked the blog", async () => {
+      /**
+       * This test represents the actaul user flow:
+       * 1. Fetch blog titles.
+       * 2. Select a blog using its title ID.
+       * 3. Fetch the blog content by ID.
+       * 4. Send a dislike reaction.
+       */
+      const {
+        body: { titles },
+      } = await request(app).post("/posts/titles").send({
+        userName: "testUser",
+      });
+
+      const titleId = titles[0].id;
+
       const fetchBlogResponse = await request(app)
         .post("/posts/content")
-        .send({ titleSlug: "test-title", userName: "testUser" });
+        .send({ blogId: titleId });
 
-      const blogId = fetchBlogResponse.body.blog._id;
+      const blogId = fetchBlogResponse.body.blog.id;
+
       const blogReaction = {
         blogId,
         reaction: "dislike",
@@ -164,11 +215,21 @@ describe("test blog controller", () => {
     });
 
     it("should remove the dislike if the user had disliked the blog", async () => {
-      const fetchBlogResponse = await request(app)
-        .post("/posts/content")
-        .send({ titleSlug: "test-title", userName: "testUser" });
+      /**
+       * This test skips the content-fetching step.
+       * It assumes the blog's ID from the title is already known,
+       * so it directly sends the dislike reaction.
+       *
+       * This focuses on testing the reaction logic in isolation.
+       */
+      const {
+        body: { titles },
+      } = await request(app).post("/posts/titles").send({
+        userName: "testUser",
+      });
 
-      const blogId = fetchBlogResponse.body.blog._id;
+      const blogId = titles[0].id;
+
       const blogReaction = {
         blogId,
         reaction: "dislike",
