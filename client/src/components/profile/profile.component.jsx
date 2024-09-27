@@ -41,7 +41,18 @@ const ProfilePage = () => {
   useEffect(() => {
     const getProfile = async (userName) => {
       try {
-        const profileData = await dispatch(fetchUserProfile(userName)).unwrap();
+        /**
+         * Pass the navigate function to fetchUserProfile so that if the user is not authenticated
+         * it can call .navigate() to navigate them to authenticate themselves.
+         */
+        const fetchUserProfilePayload = {
+          userName,
+          navigate: navigate("../../authentication/sign-in", { replace: true }),
+        };
+
+        const profileData = await dispatch(
+          fetchUserProfile(fetchUserProfilePayload)
+        ).unwrap();
         setProfile(profileData);
         setIsOwnAccount(currentUser?.userName === profileData.userName);
 
@@ -72,7 +83,7 @@ const ProfilePage = () => {
     if (userName) {
       getProfile(userName);
     }
-  }, [userName, dispatch, currentUser]);
+  }, [userName, dispatch, currentUser, navigate]);
 
   const handleSignOut = async () => {
     try {
