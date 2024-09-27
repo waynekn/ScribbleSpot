@@ -98,12 +98,10 @@ export const getUserProfile = async (userName?: string) => {
       const statusCode = axiosError.response?.status;
       const errorMessage =
         axiosError.response?.data?.error || axiosError.message;
-
-      if (statusCode === 404 || statusCode === 500) {
-        throw new Error(`${errorMessage}`);
-      } else {
-        throw new Error(`An error occurred: ${errorMessage}`);
+      if (statusCode === 401 || statusCode === 403) {
+        throw new AuthError();
       }
+      throw new Error(`${errorMessage}`);
     } else {
       throw new Error("An unexpected error occurred");
     }
