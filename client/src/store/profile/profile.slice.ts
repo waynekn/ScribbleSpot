@@ -25,7 +25,7 @@ const initialState: ProfileState = {
   email: "",
   userName: "",
   profilePicture: "",
-  dateJoined: new Date(),
+  dateJoined: "",
   isLoading: false,
 };
 
