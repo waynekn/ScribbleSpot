@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBlogByTitle } from "../../store/blog/blog.slice";
+import {
+  deleteBlogByTitle,
+  setBlogNotificationMessage,
+} from "../../store/blog/blog.slice";
 import { selectBlogPost } from "../../store/blog/blog.selector";
-import { setBlogNotificationMessage } from "../../store/blog/blog.slice";
 import { fetchTitles } from "../../api-requests/requests";
 import MessageToast from "../toast/toast.component";
 import { selectProfile } from "../../store/profile/profile.selector";

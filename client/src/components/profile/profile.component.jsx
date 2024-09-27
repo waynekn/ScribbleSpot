@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import MessageToast from "../toast/toast.component";
 
