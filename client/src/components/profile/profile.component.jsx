@@ -6,7 +6,7 @@ import MessageToast from "../toast/toast.component";
 
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { getImageUrl, signOutUser } from "../../api-requests/requests";
-import { fetchProfile } from "../../store/profile/profile.slice";
+import { fetchUserProfile } from "../../store/profile/profile.slice";
 import {
   clearCurrentUser,
   setCurrentUserNotificationMessage,
@@ -41,7 +41,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const getProfile = async (userName) => {
       try {
-        const profileData = await dispatch(fetchProfile(userName)).unwrap();
+        const profileData = await dispatch(fetchUserProfile(userName)).unwrap();
         setProfile(profileData);
         setIsOwnAccount(currentUser?.userName === profileData.userName);
 
