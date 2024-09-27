@@ -97,13 +97,13 @@ export const getUserProfile = async (userName?: string) => {
       const axiosError = error as AxiosError<ErrorResponse>;
       const statusCode = axiosError.response?.status;
       const errorMessage =
-        axiosError.response?.data?.error || axiosError.message;
+        axiosError.response?.data?.error || "An unknown error occurred";
       if (statusCode === 401 || statusCode === 403) {
         throw new AuthError();
       }
-      throw new Error(`${errorMessage}`);
+      throw new Error(errorMessage);
     } else {
-      throw new Error("An unexpected error occurred");
+      throw new Error("An unknow error occurred");
     }
   }
 };
