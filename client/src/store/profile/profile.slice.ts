@@ -6,8 +6,8 @@ type ProfileState = User & {
   isLoading: boolean;
 };
 
-export const fetchProfile = createAsyncThunk(
-  "profile/fetchProfile",
+export const fetchUserProfile = createAsyncThunk(
+  "profile/fetchUserProfile",
   async (userName: string, { rejectWithValue }) => {
     try {
       const { profile } = await getUserProfile(userName);
@@ -35,11 +35,11 @@ const profileSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProfile.pending, (state: ProfileState) => {
+      .addCase(fetchUserProfile.pending, (state: ProfileState) => {
         state.isLoading = true;
       })
       .addCase(
-        fetchProfile.fulfilled,
+        fetchUserProfile.fulfilled,
         (state: ProfileState, action: PayloadAction<User>) => {
           const newProfileState: ProfileState = {
             ...action.payload,
@@ -48,7 +48,7 @@ const profileSlice = createSlice({
           return newProfileState;
         }
       )
-      .addCase(fetchProfile.rejected, (state: ProfileState, action) => {
+      .addCase(fetchUserProfile.rejected, (state: ProfileState, action) => {
         state.isLoading = false;
       });
   },
