@@ -84,14 +84,13 @@ export const sendLocalAuthRequest = async (user: AuthCredentials) => {
 export const getUserProfile = async (userName?: string) => {
   try {
     if (userName) {
-      const response = await axios.post<{ profile: User }>(
-        `${URL}/users/profile`,
-        { userName }
-      );
-      return response.data;
+      const res = await axios.post<{ profile: User }>(`${URL}/users/profile`, {
+        userName,
+      });
+      return res.data;
     }
-    const response = await axios.get<{ profile: User }>(`${URL}/users/profile`);
-    return response.data;
+    const res = await axios.get<{ profile: User }>(`${URL}/users/profile`);
+    return res.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<ErrorResponse>;
@@ -157,14 +156,11 @@ export const uploadSettingsForm = (formData: FormDataEntryValue) => {
 
 export const uploadBlog = async (title: string, blogContent: string) => {
   try {
-    const response = await axios.post<{ message: string }>(
-      `${URL}/posts/blog`,
-      {
-        title,
-        blogContent,
-      }
-    );
-    return response.data;
+    const res = await axios.post<{ message: string }>(`${URL}/posts/blog`, {
+      title,
+      blogContent,
+    });
+    return res.data;
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
