@@ -59,7 +59,9 @@ const DropDown = () => {
         <DropDownLink to={`profile/${currentUser.userName}`}>
           View profile
         </DropDownLink>
-        <DropDownLink to="settings">Settings</DropDownLink>
+        <DropDownLink to={`profile/${currentUser.userName}/settings`}>
+          Settings
+        </DropDownLink>
         <DropDownButton onClick={handleSignOut}>Sign Out</DropDownButton>
       </DropDownContent>
     </DropDownContainer>
