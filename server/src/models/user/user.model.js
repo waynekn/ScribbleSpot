@@ -42,3 +42,17 @@ export const createUser = (user) => {
   };
   return users.create(newUser);
 };
+
+/**
+ * Gets username suggestions.
+ *
+ * @param {String} userName - A string pattern of possible usernames.
+ * @returns {Promise<Object[]>}  Returns a promise that reovles to an array of user objects.
+ * @throws {Error}  If an error occurs while getting suggestions.
+ */
+export const fetchUserNameSuggestions = (userName) => {
+  const regex = new RegExp(userName, "i");
+  return users
+    .find({ userName: { $regex: regex } }, { _id: 0, userName: 1 })
+    .limit(5);
+};
