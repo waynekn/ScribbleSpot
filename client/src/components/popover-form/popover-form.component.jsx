@@ -68,7 +68,6 @@ const PopoverForm = ({ onClose, action, provider }) => {
           "Password must be at least 8 characters long and include a number, an uppercase and a lowercase letter";
       }
     } else {
-      // Validate all keys for a sign up
       if (!emailRegex.test(formValues.email)) {
         newErrors.email = "Invalid email format";
       }
@@ -178,7 +177,7 @@ const PopoverForm = ({ onClose, action, provider }) => {
           <FormField>
             <label>Password</label>
             <Input
-              type={showPassword ? "text" : "password"} // Use state to toggle visibility
+              type={showPassword ? "text" : "password"}
               name="password"
               value={formValues.password}
               onChange={handleChange}
