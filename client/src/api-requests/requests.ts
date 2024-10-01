@@ -2,6 +2,7 @@ import axios from "axios";
 import { AxiosError } from "axios";
 import { AuthError } from "./request-errors/errors";
 import { AuthCredentials } from "../store/user/user.slice";
+import { debouncedGetUserSuggestions } from "../utils/debounce";
 export const URL = `http://localhost:8000`;
 
 export type User = {
@@ -44,6 +45,8 @@ export type BlogReactionResponse = {
   userHasDislikedBlog: boolean;
   likeCount: number;
 };
+
+export type UserSuggestions = { suggestedUsers: string[] };
 
 type AuthAction = "signin" | "signup";
 
@@ -238,3 +241,26 @@ export const submitBlogReaction = async (blogReaction: BlogReaction) => {
     throw new Error("An unknown error occurred");
   }
 };
+
+export const getUserSuggestions = debouncedGetUserSuggestions(
+  async (userName: string) => {
+    try {
+      const res = await axios.post<UserSuggestions>(`${URL}/users`, {
+        userName,
+      });
+      return res.data.suggestedUsers;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const statusCode = axiosError.response?.status;
+
+        if (statusCode === 401 || statusCode === 403) throw new AuthError();
+
+        const errorMessage =
+          axiosError.response?.data.error || "An unknown error occurred";
+        throw new Error(errorMessage);
+      }
+      throw new Error("An unknown error occurred");
+    }
+  }
+);
