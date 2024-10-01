@@ -4,11 +4,13 @@ import {
   getUserProfile,
   updateProfile,
   getImageUrl,
+  getUserNameSuggestions,
 } from "../../controllers/user/user.controller.js";
 import { processForm } from "../../middleware/multer/multer.js";
 
 const userRouter = express.Router();
 
+userRouter.post("/", getUserNameSuggestions);
 /**
  * Handle all requests to the /profile endpoint.
  * After successful authentication, the client does not have a username available for POST requests.
