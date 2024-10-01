@@ -46,7 +46,8 @@ const ProfilePage = () => {
          */
         const fetchUserProfilePayload = {
           userName,
-          navigate: navigate("../../authentication/sign-in", { replace: true }),
+          navigate: () =>
+            navigate("../../authentication/sign-in", { replace: true }),
         };
 
         const profileData = await dispatch(
