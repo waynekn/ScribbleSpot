@@ -2,6 +2,7 @@ import { uploadImage, getSignedImageUrl } from "../../services/aws/s3.js";
 import {
   fetchProfileByUserName,
   updateUserName,
+  fetchUserSuggestions,
 } from "../../models/user/user.model.js";
 import { getCache, updateCache } from "../../models/cache/url-cache.model.js";
 
@@ -129,5 +130,34 @@ export const getImageUrl = async (req, res) => {
     } else {
       return res.status(500).json({ error: "An unknown error occurred" });
     }
+  }
+};
+
+/**
+ * Handles searching for users based on the provided username.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} req.user - The authenticated user object.
+ * @param {String} req.user.id - The ID of the authenticated user.
+ * @param {String} req.user.userName - The username of the authenticated user.
+ * @param {Object} req.body - The request body.
+ * @param {String} req.body.userName - The username of the user whose profile is being searched.
+ * @param {Object} res - The response object.
+ * @returns {Array<String>} An array of suggested users.
+ */
+export const getUserSuggestions = async (req, res) => {
+  const userName = req.body.userName;
+  try {
+    const fetchedUsers = await fetchUserSuggestions(userName);
+
+    const suggestedUsers = fetchedUsers.map(
+      (suggestion) => suggestion.userName
+    );
+
+    return res.status(200).json({ suggestedUsers });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while searching for users" });
   }
 };
