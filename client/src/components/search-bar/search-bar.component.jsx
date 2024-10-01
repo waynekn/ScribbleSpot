@@ -1,31 +1,56 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
+import { getUserSuggestions } from "../../api-requests/requests";
+
+import {
+  SearchContainer,
+  SearchInput,
+  SuggestionsList,
+  SuggestionItem,
+  SuggestionLink,
+} from "./search-bar.styles";
 
 const SearchBar = () => {
   const [searchProfile, setSearchProfile] = useState("");
-  const navigate = useNavigate();
+  const [suggestions, setSuggestions] = useState([]);
+  const hasInputText = useRef(false);
 
-  const handleChange = (e) => {
-    const string = e.target.value;
-    setSearchProfile(string);
-  };
+  const handleChange = async (e) => {
+    const userName = e.target.value;
+    setSearchProfile(userName);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const profile = searchProfile.trim();
-    navigate(`profile/${profile}`);
-    setSearchProfile("");
+    if (userName) {
+      hasInputText.current = true;
+      const suggestions = await getUserSuggestions(userName);
+
+      if (hasInputText.current) {
+        setSuggestions(suggestions);
+      }
+    } else {
+      hasInputText.current = false;
+      setSuggestions([]);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <SearchContainer>
+      <SearchInput
         type="text"
         placeholder="Search for a user"
         value={searchProfile}
         onChange={handleChange}
       />
-    </form>
+      {suggestions.length > 0 && (
+        <SuggestionsList>
+          {suggestions.map((username, index) => (
+            <SuggestionItem key={index}>
+              <SuggestionLink to={`profile/${username}`}>
+                {username}
+              </SuggestionLink>
+            </SuggestionItem>
+          ))}
+        </SuggestionsList>
+      )}
+    </SearchContainer>
   );
 };
 
