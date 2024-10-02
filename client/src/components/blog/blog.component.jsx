@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -24,6 +24,9 @@ import {
   LikeCount,
   LikeButton,
   DislikeButton,
+  AuthorInfo,
+  AuthorLink,
+  MetaContainer,
 } from "./blog.styles";
 
 import "../editor/editor.styles.scss";
@@ -145,9 +148,17 @@ const Blog = () => {
   return (
     <BlogContainer>
       <BlogTitle>{blog.title}</BlogTitle>
-      <UserName>
-        Posted by {blog.userName} on {datePosted}
-      </UserName>
+      <AuthorInfo>
+        <p>
+          Author:
+          <Link to={`../profile/${blog.userName}`}>
+            <AuthorLink>{blog.userName}</AuthorLink>
+          </Link>
+        </p>
+      </AuthorInfo>
+      <MetaContainer>
+        <UserName>{datePosted}</UserName>
+      </MetaContainer>
       <BlogContent>
         <EditorContent editor={editor} />
       </BlogContent>
