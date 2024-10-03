@@ -143,12 +143,18 @@ export const getImageUrl = async (req, res) => {
  * @param {Object} req.body - The request body.
  * @param {String} req.body.userName - The username of the user whose profile is being searched.
  * @param {Object} res - The response object.
- * @returns {Array<String>} An array of suggested users.
+ * @returns {Array<String>} res.status(200) An array of suggested users.
+ * @returns {Object} res.status(404) A JSON object with an error message if no matches are found.
+ * @returns {Object} res.status(500) A JSON object with an error message if an error occurs during processing.
  */
 export const getUserSuggestions = async (req, res) => {
   const userName = req.body.userName;
   try {
     const fetchedUsers = await fetchUserSuggestions(userName);
+
+    if (!fetchedUsers) {
+      return res.status(404).json({ error: `Could not find user ${userName}` });
+    }
 
     const suggestedUsers = fetchedUsers.map(
       (suggestion) => suggestion.userName
