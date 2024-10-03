@@ -3,11 +3,13 @@ import {
   postBlog,
   getBlogTitles,
   getBlogContent,
+  getBlogSuggestions,
   handleDelete,
   handleBlogReaction,
 } from "../../controllers/blog/blog.controller.js";
 export const blogRouter = express.Router();
 
+blogRouter.post("/", getBlogSuggestions);
 blogRouter.post("/blog", postBlog);
 blogRouter.post("/titles", getBlogTitles);
 blogRouter.post("/content", getBlogContent);
