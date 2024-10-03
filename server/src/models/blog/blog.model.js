@@ -72,6 +72,32 @@ export const fetchBlogContent = async (blogId) => {
 };
 
 /**
+ * Fetches blog titles that match the input string pattern.
+ *
+ * This function searches for blog titles that match the provided title string,
+ * returning a list of suggestions that include the title, its slug, and an identifier.
+ *
+ * @param {String} title - A string representing a possible title to match against.
+ * @returns {Object[]} - An array of objects, each containing:
+ *   - {String} title - The title of the blog.
+ *   - {String} titleSlug - The slug of the blog title.
+ *   - {String} id - The unique identifier for the blog post.
+ * @throws {Error} - Throws an error if fetching the titles fails.
+ */
+export const fetchBlogSuggestions = async (title) => {
+  const regex = new RegExp(title, "i");
+  const fetchedTitles = await blogs
+    .find({ title: { $regex: regex } }, { title: 1, titleSlug: 1 })
+    .limit(5);
+  return fetchedTitles.map((titleObj) => {
+    title = titleObj.toObject();
+    title = { ...title, id: title._id };
+    delete title._id;
+    return title;
+  });
+};
+
+/**
  * Deletes a blog from the database using the provided authorId and title.
  *
  * @param {String} authorId - The id of the user who wants to delete their blog.
