@@ -11,7 +11,7 @@ import {
 
 const SearchBar = () => {
   const [searchProfile, setSearchProfile] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
   const hasInputText = useRef(false);
 
   const handleChange = async (e) => {
@@ -20,14 +20,14 @@ const SearchBar = () => {
 
     if (userName) {
       hasInputText.current = true;
-      const suggestions = await getUserSuggestions(userName);
+      const suggestedUsers = await getUserSuggestions(userName);
 
       if (hasInputText.current) {
-        setSuggestions(suggestions);
+        setSuggestedUsers(suggestedUsers);
       }
     } else {
       hasInputText.current = false;
-      setSuggestions([]);
+      setSuggestedUsers([]);
     }
   };
 
@@ -39,9 +39,9 @@ const SearchBar = () => {
         value={searchProfile}
         onChange={handleChange}
       />
-      {suggestions.length > 0 && (
+      {suggestedUsers.length > 0 && (
         <SuggestionsList>
-          {suggestions.map((username, index) => (
+          {suggestedUsers.map((username, index) => (
             <SuggestionItem key={index}>
               <SuggestionLink to={`profile/${username}`}>
                 {username}
