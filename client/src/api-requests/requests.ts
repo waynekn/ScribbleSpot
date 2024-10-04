@@ -2,7 +2,10 @@ import axios from "axios";
 import { AxiosError } from "axios";
 import { AuthError } from "./request-errors/errors";
 import { AuthCredentials } from "../store/user/user.slice";
-import { debouncedGetUserSuggestions } from "../utils/debounce";
+import {
+  debouncedGetUserSuggestions,
+  debouncedGetBlogSuggestions,
+} from "../utils/debounce";
 export const URL = `http://localhost:8000`;
 
 export type User = {
@@ -18,7 +21,7 @@ export type ErrorResponse = {
   error: string;
 };
 
-type Title = {
+export type Title = {
   title: string;
   titleSlug: string;
   id: string;
@@ -249,6 +252,32 @@ export const getUserSuggestions = debouncedGetUserSuggestions(
         userName,
       });
       return res.data.suggestedUsers;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const axiosError = error as AxiosError<ErrorResponse>;
+        const statusCode = axiosError.response?.status;
+
+        if (statusCode === 401 || statusCode === 403) throw new AuthError();
+
+        const errorMessage =
+          axiosError.response?.data.error || "An unknown error occurred";
+        throw new Error(errorMessage);
+      }
+      throw new Error("An unknown error occurred");
+    }
+  }
+);
+
+export const getBlogSuggestions = debouncedGetBlogSuggestions(
+  async (title: String) => {
+    try {
+      const res = await axios.post<{ suggestedBlogs: Title[] }>(
+        `${URL}/posts`,
+        {
+          title,
+        }
+      );
+      return res.data.suggestedBlogs;
     } catch (error) {
       if (error instanceof AxiosError) {
         const axiosError = error as AxiosError<ErrorResponse>;
