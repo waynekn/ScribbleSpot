@@ -87,13 +87,13 @@ export const fetchBlogContent = async (blogId) => {
  */
 export const fetchBlogSuggestions = async (title) => {
   const regex = new RegExp(title, "i");
-  const fetchedTitles = await blogs
+  const fetchedBlogTitles = await blogs
     .find({ title: { $regex: regex } }, { title: 1, titleSlug: 1 })
     .limit(5);
 
-  if (!fetchBlogTitles) return null;
+  if (!fetchedBlogTitles) return null;
 
-  return fetchedTitles.map((titleObj) => {
+  return fetchedBlogTitles.map((titleObj) => {
     title = titleObj.toObject();
     title = { ...title, id: title._id };
     delete title._id;
