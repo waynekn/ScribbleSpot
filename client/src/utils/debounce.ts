@@ -8,8 +8,8 @@ export const debouncedGetUserSuggestions = (cb: Function, delay = 500) => {
 
     return new Promise((resolve) => {
       timeout = setTimeout(async () => {
-        const suggestions: UserSuggestions = await cb(args);
-        resolve(suggestions);
+        const suggestedUsers: UserSuggestions = await cb(args);
+        resolve(suggestedUsers);
       }, delay);
     });
   };
