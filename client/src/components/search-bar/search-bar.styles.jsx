@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 export const SearchContainer = styled.div`
   position: relative;
   max-width: 400px;
-  margin: 20px auto;
+  margin: 0 auto;
+  z-index: 2000;
+  height: auto;
 `;
 
 export const SearchInput = styled.input`
@@ -34,7 +36,15 @@ export const SuggestionsList = styled.ul`
   margin: 0;
   padding: 0;
   list-style-type: none;
-  z-index: 1000;
+  z-index: 3000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+export const SuggestionCategory = styled.p`
+  margin: 10px 0 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #555;
 `;
 
 export const SuggestionItem = styled.li`
@@ -50,8 +60,4 @@ export const SuggestionItem = styled.li`
 export const SuggestionLink = styled(Link)`
   text-decoration: none;
   color: #333;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
