@@ -78,6 +78,7 @@ export const fetchBlogContent = async (blogId) => {
  * returning a list of suggestions that include the title, its slug, and an identifier.
  *
  * @param {String} title - A string representing a possible title to match against.
+ * @returns {Promise<Object[]>} A promise which resolves to an array of objects.
  * @returns {Object[]} - An array of objects, each containing:
  *   - {String} title - The title of the blog.
  *   - {String} titleSlug - The slug of the blog title.
@@ -89,6 +90,9 @@ export const fetchBlogSuggestions = async (title) => {
   const fetchedTitles = await blogs
     .find({ title: { $regex: regex } }, { title: 1, titleSlug: 1 })
     .limit(5);
+
+  if (!fetchBlogTitles) return null;
+
   return fetchedTitles.map((titleObj) => {
     title = titleObj.toObject();
     title = { ...title, id: title._id };
