@@ -37,6 +37,8 @@ const comparePasswords = async (plainTextPassword, hashedPassword) => {
  */
 export const signInLocalUser = async (req, res) => {
   const user = req.body.user;
+
+  //Username must be 6-16 alphanumeric characters
   const userNameRegex = /^[0-9A-Za-z]{6,16}$/g;
 
   if (!user || !user.password || !user.emailOrUserName) {
@@ -47,8 +49,6 @@ export const signInLocalUser = async (req, res) => {
 
   const authCredential = user.emailOrUserName;
   const isUserName = userNameRegex.test(authCredential);
-  //Client validation ensures its either an email or username so
-  //we dont need to check both(username and email)
 
   try {
     const profile = isUserName

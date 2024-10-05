@@ -61,7 +61,7 @@ const Editor = () => {
       .unwrap()
       .then(() => {
         disptach(clearBlogNotificationMessage());
-        navigate(`profile/${currentUser.userName}`);
+        navigate(`../profile/${currentUser.userName}`);
       })
       .catch((errorMessage) =>
         disptach(setBlogNotificationMessage(errorMessage))
