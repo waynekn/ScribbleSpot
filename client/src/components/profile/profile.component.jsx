@@ -111,9 +111,7 @@ const ProfilePage = () => {
           <SidebarLink to="posts">Posts</SidebarLink>
           {isOwnAccount && (
             <>
-              <SidebarLink to="../editor" target="_blank">
-                Editor
-              </SidebarLink>
+              <SidebarLink to="../editor">Editor</SidebarLink>
               <SidebarLink to="settings">Settings</SidebarLink>
               <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
             </>
