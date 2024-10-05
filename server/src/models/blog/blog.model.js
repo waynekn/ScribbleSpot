@@ -1,4 +1,8 @@
 import blogs from "../../schemas/blog/blog.schema.js";
+import {
+  updateUsersLikedBlogs,
+  updateUsersDisLikedBlogs,
+} from "../user/user.model.js";
 
 export const checkExistingTitle = async (authorId, title) => {
   return blogs.findOne({ authorId, title });
@@ -143,6 +147,7 @@ export const likeBlog = async (blogId, userId) => {
   }
 
   await blog.save();
+  await updateUsersLikedBlogs(blogId, userId);
 
   userHasLikedBlog = !userHasLikedBlog;
 
@@ -183,6 +188,7 @@ export const disLikeBlog = async (blogId, userId) => {
   }
 
   await blog.save();
+  await updateUsersDisLikedBlogs(blogId, userId);
 
   userHasDislikedBlog = !userHasDislikedBlog;
 
