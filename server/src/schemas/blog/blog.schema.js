@@ -7,8 +7,8 @@ const blogSchema = new mongoose.Schema({
   titleSlug: { type: String, required: true },
   content: { type: String, required: true },
   datePosted: { type: Date, required: true },
-  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }], // Array of user ObjectId,s who liked
-  dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }], // Array of user ObjectId,s who disliked
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }], // Array of user ObjectId's who liked
+  dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }], // Array of user ObjectId's who disliked
 });
 
 blogSchema.index({ authorId: 1, title: 1 }, { unique: true });
