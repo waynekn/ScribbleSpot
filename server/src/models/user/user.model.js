@@ -56,3 +56,67 @@ export const fetchUserSuggestions = (userName) => {
     .find({ userName: { $regex: regex } }, { _id: 0, userName: 1 })
     .limit(5);
 };
+
+/**
+ * Updates a user's liked and disliked blogs.
+ *
+ * Removes the blogId from the user's dislikedBlogs array.
+ *
+ * If the blogId is not present in the likedBlogs array, it is added;
+ * if it is present, it is removed.
+ *
+ * @param {String} blogId - The ObjectId of the blog which the user has liked.
+ * @param {String} userId - The ObjectId of the user who has liked the blog.
+ * @returns {Promise<void>} A promise that resolves when the user's preferences have been saved.
+ */
+export const updateUsersLikedBlogs = async (blogId, userId) => {
+  const user = await users.findById(userId);
+
+  user.dislikedBlogs = user.dislikedBlogs.filter(
+    (dislikedBlogId) => dislikedBlogId.toString() !== blogId
+  );
+
+  const userHadLikedBlog = user.likedBlogs.includes(blogId);
+
+  if (userHadLikedBlog) {
+    user.likedBlogs = user.likedBlogs.filter(
+      (likedBlogId) => likedBlogId.toString() !== blogId
+    );
+  } else {
+    user.likedBlogs.push(blogId);
+  }
+
+  await user.save();
+};
+
+/**
+ * Updates a user's disliked and liked blogs.
+ *
+ * Removes the blogId from the user's likedBlogs array.
+ *
+ * If the blogId is not present in the dislikedBlogs array, it is added;
+ * if it is present, it is removed.
+ *
+ * @param {String} blogId - The ObjectId of the blog which the user has disliked.
+ * @param {String} userId - The ObjectId of the user who has disliked the blog.
+ * @returns {Promise<void>} A promise that resolves when the user's preferences have been saved.
+ */
+export const updateUsersDisLikedBlogs = async (blogId, userId) => {
+  const user = await users.findById(userId);
+
+  user.likedBlogs = user.likedBlogs.filter(
+    (likedBlogId) => likedBlogId.toString() !== blogId
+  );
+
+  const userHadDisLikedBlog = user.dislikedBlogs.includes(blogId);
+
+  if (userHadDisLikedBlog) {
+    user.dislikedBlogs = user.dislikedBlogs.filter(
+      (dislikedBlogId) => dislikedBlogId.toString() !== blogId
+    );
+  } else {
+    user.dislikedBlogs.push(blogId);
+  }
+
+  await user.save();
+};
