@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -16,8 +17,10 @@ import MessageToast from "../toast/toast.component";
 import {
   postBlog,
   setBlogNotificationMessage,
+  clearBlogNotificationMessage,
 } from "../../store/blog/blog.slice";
 import { selectBlogPost } from "../../store/blog/blog.selector";
+import { selectCurrentUser } from "../../store/user/user.selector";
 
 import "./editor.styles.scss";
 
@@ -34,6 +37,8 @@ const Editor = () => {
   const [title, setTitle] = useState("");
   const disptach = useDispatch();
   const blog = useSelector(selectBlogPost);
+  const currentUser = useSelector(selectCurrentUser);
+  const navigate = useNavigate();
 
   const editor = useEditor({
     extensions,
@@ -54,9 +59,10 @@ const Editor = () => {
     };
     disptach(postBlog(doc))
       .unwrap()
-      .then(() =>
-        disptach(setBlogNotificationMessage("Post successfully submitted"))
-      )
+      .then(() => {
+        disptach(clearBlogNotificationMessage());
+        navigate(`profile/${currentUser.userName}`);
+      })
       .catch((errorMessage) =>
         disptach(setBlogNotificationMessage(errorMessage))
       );
