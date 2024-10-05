@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
   userName: { type: String, required: true, unique: true },
   profilePicture: { type: String, required: true },
   dateJoined: { type: Date, required: true },
+  likedBlogs: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "blogs", required: true },
+  ],
+  dislikedBlogs: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "blogs", required: true },
+  ],
   password: String,
 });
 
