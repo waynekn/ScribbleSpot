@@ -131,13 +131,8 @@ export const likeBlog = async (blogId, userId) => {
   }
 
   let userHasLikedBlog = blog.likes.includes(userId);
-  let userHasDislikedBlog = blog.dislikes.includes(userId);
 
-  if (userHasDislikedBlog) {
-    // If the user disliked the blog, remove them from dislikes and add to likes
-    blog.dislikes = blog.dislikes.filter((id) => id.toString() !== userId);
-    userHasDislikedBlog = false;
-  }
+  blog.dislikes = blog.dislikes.filter((id) => id.toString() !== userId);
 
   if (userHasLikedBlog) {
     // If the user already liked the blog, remove them from likes
@@ -153,7 +148,7 @@ export const likeBlog = async (blogId, userId) => {
 
   const blogReactionResult = {
     userHasLikedBlog,
-    userHasDislikedBlog,
+    userHasDislikedBlog: false,
     likeCount: blog.likes.length - blog.dislikes.length,
   };
 
@@ -175,14 +170,9 @@ export const disLikeBlog = async (blogId, userId) => {
     throw new Error("Blog not found");
   }
 
-  let userHasLikedBlog = blog.likes.includes(userId);
   let userHasDislikedBlog = blog.dislikes.includes(userId);
 
-  if (userHasLikedBlog) {
-    // If the user liked the blog, remove them from likes and add to dislikes
-    blog.likes = blog.likes.filter((id) => id.toString() !== userId);
-    userHasLikedBlog = false;
-  }
+  blog.likes = blog.likes.filter((id) => id.toString() !== userId);
 
   if (userHasDislikedBlog) {
     // If the user already disliked the blog, remove them from dislikes
@@ -197,7 +187,7 @@ export const disLikeBlog = async (blogId, userId) => {
   userHasDislikedBlog = !userHasDislikedBlog;
 
   const blogReactionResult = {
-    userHasLikedBlog,
+    userHasLikedBlog: false,
     userHasDislikedBlog,
     likeCount: blog.likes.length - blog.dislikes.length,
   };
