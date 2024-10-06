@@ -147,7 +147,7 @@ export const likeBlog = async (blogId, userId) => {
   }
 
   await blog.save();
-  await updateUsersLikedBlogs(blogId, userId);
+  await updateUsersLikedBlogs(blogId, userId, blog.title, blog.titleSlug);
 
   userHasLikedBlog = !userHasLikedBlog;
 
@@ -188,7 +188,7 @@ export const disLikeBlog = async (blogId, userId) => {
   }
 
   await blog.save();
-  await updateUsersDisLikedBlogs(blogId, userId);
+  await updateUsersDisLikedBlogs(blogId, userId, blog.title, blog.titleSlug);
 
   userHasDislikedBlog = !userHasDislikedBlog;
 
