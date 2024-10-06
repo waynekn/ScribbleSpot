@@ -60,30 +60,39 @@ export const fetchUserSuggestions = (userName) => {
 /**
  * Updates a user's liked and disliked blogs.
  *
- * Removes the blogId from the user's dislikedBlogs array.
+ * Removes any object from the user's dislikedBlogs array whose blogId matches the passed blogId.
  *
  * If the blogId is not present in the likedBlogs array, it is added;
  * if it is present, it is removed.
  *
- * @param {String} blogId - The ObjectId of the blog which the user has liked.
+ * @param {String} blogId - The ObjectId of the blog that the user has liked.
  * @param {String} userId - The ObjectId of the user who has liked the blog.
- * @returns {Promise<void>} A promise that resolves when the user's preferences have been saved.
+ * @param {String} title - The title of the liked blog.
+ * @param {String} titleSlug - The title slug of the liked blog.
+ * @returns {Promise<void>} A promise that resolves when the user's preferences have been updated and saved.
  */
-export const updateUsersLikedBlogs = async (blogId, userId) => {
+export const updateUsersLikedBlogs = async (
+  blogId,
+  userId,
+  title,
+  titleSlug
+) => {
   const user = await users.findById(userId);
 
   user.dislikedBlogs = user.dislikedBlogs.filter(
-    (dislikedBlogId) => dislikedBlogId.toString() !== blogId
+    (dislikedBlog) => dislikedBlog.blogId.toString() !== blogId
   );
 
-  const userHadLikedBlog = user.likedBlogs.includes(blogId);
+  const userHadLikedBlog = user.likedBlogs.find(
+    (likedBlog) => likedBlog.blogId.toString() === blogId
+  );
 
   if (userHadLikedBlog) {
     user.likedBlogs = user.likedBlogs.filter(
-      (likedBlogId) => likedBlogId.toString() !== blogId
+      (likedBlog) => likedBlog.blogId.toString() !== blogId
     );
   } else {
-    user.likedBlogs.push(blogId);
+    user.likedBlogs.push({ title, titleSlug, blogId });
   }
 
   await user.save();
@@ -92,30 +101,39 @@ export const updateUsersLikedBlogs = async (blogId, userId) => {
 /**
  * Updates a user's disliked and liked blogs.
  *
- * Removes the blogId from the user's likedBlogs array.
+ * Removes any object from the user's likedBlogs array whose blogId matches the passed blogId.
  *
  * If the blogId is not present in the dislikedBlogs array, it is added;
  * if it is present, it is removed.
  *
- * @param {String} blogId - The ObjectId of the blog which the user has disliked.
+ * @param {String} blogId - The ObjectId of the blog that the user has disliked.
  * @param {String} userId - The ObjectId of the user who has disliked the blog.
- * @returns {Promise<void>} A promise that resolves when the user's preferences have been saved.
+ * @param {String} title - The title of the disliked blog.
+ * @param {String} titleSlug - The title slug of the disliked blog.
+ * @returns {Promise<void>} A promise that resolves when the user's preferences have been updated and saved.
  */
-export const updateUsersDisLikedBlogs = async (blogId, userId) => {
+export const updateUsersDisLikedBlogs = async (
+  blogId,
+  userId,
+  title,
+  titleSlug
+) => {
   const user = await users.findById(userId);
 
   user.likedBlogs = user.likedBlogs.filter(
-    (likedBlogId) => likedBlogId.toString() !== blogId
+    (likedBlog) => likedBlog.blogId.toString() !== blogId
   );
 
-  const userHadDisLikedBlog = user.dislikedBlogs.includes(blogId);
+  const userHadDisLikedBlog = user.dislikedBlogs.find(
+    (dislikedBlog) => dislikedBlog.blogId.toString() === blogId
+  );
 
   if (userHadDisLikedBlog) {
     user.dislikedBlogs = user.dislikedBlogs.filter(
-      (dislikedBlogId) => dislikedBlogId.toString() !== blogId
+      (dislikedBlog) => dislikedBlog.blogId.toString() !== blogId
     );
   } else {
-    user.dislikedBlogs.push(blogId);
+    user.dislikedBlogs.push({ title, titleSlug, blogId });
   }
 
   await user.save();
