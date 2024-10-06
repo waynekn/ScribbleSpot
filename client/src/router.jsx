@@ -9,6 +9,7 @@ import Editor from "./components/editor/editor.component";
 import SettingsForm from "./components/settings-form/settings-form.component";
 import ProfilePage from "./components/profile/profile.component";
 import BlogPreview from "./components/blog-preview/blog-preview.component";
+import LikesPreview from "./components/likes/likes-preview.component";
 import Home from "./routes/home/home";
 
 export const router = createBrowserRouter([
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "posts",
         element: <BlogPreview index={false} />,
+      },
+      {
+        path: "likes",
+        element: <LikesPreview />,
       },
     ],
   },
