@@ -10,7 +10,8 @@ import users from "../../schemas/user/user.schema.js";
  * @returns {Promise<Object>} - A promise that resolves to the user object if authentication is successful.
  * @throws {Error} - Throws an error if the authentication fails due to invalid email or other issues.
  */
-export const fetchProfileByEmail = (email) => users.findOne({ email });
+export const fetchProfileByEmail = (email) =>
+  users.findOne({ email }, { dislikedBlogs: 0 });
 
 /**
  * Fetches a user by their username.
@@ -21,7 +22,7 @@ export const fetchProfileByEmail = (email) => users.findOne({ email });
  * @throws {Error} - Throws an error if an error occurred during fetching.
  */
 export const fetchProfileByUserName = (userName) =>
-  users.findOne({ userName: userName }, { __v: 0 });
+  users.findOne({ userName: userName }, { __v: 0, dislikedBlogs: 0 });
 
 export const updateUserName = async (id, userName) => {
   return users.findByIdAndUpdate({ _id: id }, { $set: { userName: userName } });
