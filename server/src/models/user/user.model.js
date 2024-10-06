@@ -112,7 +112,7 @@ export const updateUsersLikedBlogs = async (
  * @param {String} titleSlug - The title slug of the disliked blog.
  * @returns {Promise<void>} A promise that resolves when the user's preferences have been updated and saved.
  */
-export const updateUsersDisLikedBlogs = async (
+export const updateUsersDislikedBlogs = async (
   blogId,
   userId,
   title,
