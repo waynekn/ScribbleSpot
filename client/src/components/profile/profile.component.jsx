@@ -113,6 +113,7 @@ const ProfilePage = () => {
             <>
               <SidebarLink to="../editor">Editor</SidebarLink>
               <SidebarLink to="settings">Settings</SidebarLink>
+              <SidebarLink to="likes">Likes</SidebarLink>
               <SidebarButton onClick={handleSignOut}>Sign Out</SidebarButton>
             </>
           )}
