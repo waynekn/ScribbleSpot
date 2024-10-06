@@ -39,6 +39,7 @@ const initialState: ProfileState = {
   profilePicture: "",
   dateJoined: "",
   isLoading: false,
+  likedBlogs: [],
 };
 
 const profileSlice = createSlice({
