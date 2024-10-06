@@ -8,11 +8,18 @@ import {
 } from "../utils/debounce";
 export const URL = `http://localhost:8000`;
 
+export type LikedBlog = {
+  title: string;
+  titleSlug: string;
+  blogId: string;
+};
+
 export type User = {
   email: string;
   userName: string;
   profilePicture: string;
   dateJoined: string;
+  likedBlogs: LikedBlog[];
 };
 
 //Error responses from the server are standardized and guaranteed
