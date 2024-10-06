@@ -1,7 +1,7 @@
 import blogs from "../../schemas/blog/blog.schema.js";
 import {
   updateUsersLikedBlogs,
-  updateUsersDisLikedBlogs,
+  updateUsersDislikedBlogs,
 } from "../user/user.model.js";
 
 export const checkExistingTitle = async (authorId, title) => {
@@ -188,7 +188,7 @@ export const disLikeBlog = async (blogId, userId) => {
   }
 
   await blog.save();
-  await updateUsersDisLikedBlogs(blogId, userId, blog.title, blog.titleSlug);
+  await updateUsersDislikedBlogs(blogId, userId, blog.title, blog.titleSlug);
 
   userHasDislikedBlog = !userHasDislikedBlog;
 
