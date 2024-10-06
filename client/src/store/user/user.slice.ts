@@ -34,6 +34,7 @@ const initialState: CurrentUser = {
   isLoggedIn: false,
   isLoading: false,
   notificationMessage: null,
+  likedBlogs: [],
 };
 
 export const fetchCurrentUser = createAsyncThunk(
