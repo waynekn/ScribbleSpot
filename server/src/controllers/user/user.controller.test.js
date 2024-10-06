@@ -34,6 +34,7 @@ describe("GET /users/profile", () => {
       userName: "testUser",
       profilePicture: "DEFAULT_PROFILE_PICTURE",
       dateJoined: "2024-08-06T12:48:50.257Z",
+      likedBlogs: [],
     };
 
     expect(response.status).toBe(200);
