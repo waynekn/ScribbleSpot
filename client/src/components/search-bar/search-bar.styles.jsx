@@ -60,4 +60,5 @@ export const SuggestionItem = styled.li`
 export const SuggestionLink = styled(Link)`
   text-decoration: none;
   color: #333;
+  display: block;
 `;
