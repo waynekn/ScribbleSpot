@@ -13,12 +13,14 @@ export const NavLink = styled(Link)`
 `;
 
 export const SearchWrapper = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
+  position: fixed;
+  top: 5px;
+  left: 40%;
 `;
 
 export const ButtonWrapper = styled.div`
+  flex: 1;
   display: flex;
+  justify-content: flex-end;
   gap: 5px;
 `;
