@@ -52,7 +52,7 @@ const SearchBar = () => {
     <SearchContainer>
       <SearchInput
         type="text"
-        placeholder="Search for a user"
+        placeholder="Search for users or blogs"
         value={searchSearchBarValue}
         onChange={handleChange}
       />
