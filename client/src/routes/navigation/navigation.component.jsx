@@ -5,35 +5,26 @@ import Button from "react-bootstrap/Button";
 import DropDown from "../../components/dropdown/dropdown.component";
 import SearchBar from "../../components/search-bar/search-bar.component";
 
-import {
-  Nav,
-  NavLink,
-  SearchWrapper,
-  ButtonWrapper,
-} from "./navigation.styles";
+import { Nav, NavLink } from "./navigation.styles";
 const NavBar = () => {
   const currentUser = useSelector(selectCurrentUser);
   return (
     <>
       <Nav>
-        <SearchWrapper>
-          <SearchBar />
-        </SearchWrapper>
-        <ButtonWrapper>
-          <NavLink to="stories">
-            <Button variant="light">Read</Button>
+        <SearchBar />
+        <NavLink to="stories">
+          <Button variant="light">Read</Button>
+        </NavLink>
+        <NavLink to="editor">
+          <Button variant="light">Write</Button>
+        </NavLink>
+        {currentUser.isLoggedIn ? (
+          <DropDown />
+        ) : (
+          <NavLink to="authentication/sign-in">
+            <Button variant="dark">Sign in</Button>
           </NavLink>
-          <NavLink to="editor">
-            <Button variant="light">Write</Button>
-          </NavLink>
-          {currentUser.isLoggedIn ? (
-            <DropDown />
-          ) : (
-            <NavLink to="authentication/sign-in">
-              <Button variant="dark">Sign in</Button>
-            </NavLink>
-          )}
-        </ButtonWrapper>
+        )}
       </Nav>
       <Outlet />
     </>
