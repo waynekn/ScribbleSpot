@@ -11,13 +11,12 @@ import {
   SuggestionsList,
   SuggestionItem,
   SuggestionLink,
-  SuggestionWrapper,
 } from "./search-bar.styles";
 
 const SearchBar = () => {
   const [searchSearchBarValue, setSearchBarValue] = useState("");
-  const [suggestedUsers, setSuggestedUsers] = useState(["Admin"]);
-  const [suggestedBlogs, setSuggestedBlogs] = useState([{ title: "title" }]);
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [suggestedBlogs, setSuggestedBlogs] = useState([]);
   const hasInputText = useRef(false);
 
   const handleChange = async (e) => {
@@ -57,39 +56,36 @@ const SearchBar = () => {
         value={searchSearchBarValue}
         onChange={handleChange}
       />
-      {(suggestedUsers.length > 0 || suggestedBlogs.length > 0) && (
-        <SuggestionWrapper>
-          {suggestedUsers.length > 0 && (
-            <div>
-              <SuggestionCategory>Users</SuggestionCategory>
-              <SuggestionsList>
-                {suggestedUsers.map((username, index) => (
-                  <SuggestionItem key={index}>
-                    <SuggestionLink to={`profile/${username}`}>
-                      {username}
-                    </SuggestionLink>
-                  </SuggestionItem>
-                ))}
-              </SuggestionsList>
-            </div>
-          )}
-          {suggestedBlogs.length > 0 && (
-            <div>
-              <SuggestionCategory>Blogs</SuggestionCategory>
-              <SuggestionsList>
-                {suggestedBlogs.map((blogSuggestion, index) => (
-                  <SuggestionItem key={index}>
-                    <SuggestionLink
-                      to={`blog/${blogSuggestion.titleSlug}/${blogSuggestion.id}`}
-                    >
-                      {blogSuggestion.title}
-                    </SuggestionLink>
-                  </SuggestionItem>
-                ))}
-              </SuggestionsList>
-            </div>
-          )}
-        </SuggestionWrapper>
+
+      {suggestedUsers.length > 0 && (
+        <div>
+          <SuggestionCategory>Users</SuggestionCategory>
+          <SuggestionsList>
+            {suggestedUsers.map((username, index) => (
+              <SuggestionItem key={index}>
+                <SuggestionLink to={`profile/${username}`}>
+                  {username}
+                </SuggestionLink>
+              </SuggestionItem>
+            ))}
+          </SuggestionsList>
+        </div>
+      )}
+      {suggestedBlogs.length > 0 && (
+        <div>
+          <SuggestionCategory>Blogs</SuggestionCategory>
+          <SuggestionsList>
+            {suggestedBlogs.map((blogSuggestion, index) => (
+              <SuggestionItem key={index}>
+                <SuggestionLink
+                  to={`blog/${blogSuggestion.titleSlug}/${blogSuggestion.id}`}
+                >
+                  {blogSuggestion.title}
+                </SuggestionLink>
+              </SuggestionItem>
+            ))}
+          </SuggestionsList>
+        </div>
       )}
     </SearchContainer>
   );
