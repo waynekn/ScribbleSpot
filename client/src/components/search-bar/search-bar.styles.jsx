@@ -26,10 +26,6 @@ export const SearchInput = styled.input`
 `;
 
 export const SuggestionsList = styled.ul`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
   border: 1px solid #ccc;
   border-radius: 4px;
   background: #fff;
