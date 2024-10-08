@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const SearchContainer = styled.div`
-  position: relative;
+  position: fixed;
+  top: 5px;
+  left: 40%;
   max-width: 400px;
   margin: 0 auto;
   z-index: 2000;
