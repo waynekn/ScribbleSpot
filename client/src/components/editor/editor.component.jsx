@@ -55,7 +55,7 @@ const Editor = () => {
 
     /**
      * validate whether the editor has text or not using the plain string returned from getText()
-     * as it's difficult to this from the HTML or JSON representation of the editor.
+     * as it's difficult to know this from the HTML or JSON representation of the editor.
      */
     const textContent = editor.getText().trim();
     if (!textContent) {
