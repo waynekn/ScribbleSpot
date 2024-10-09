@@ -52,6 +52,16 @@ const Editor = () => {
       disptach(setBlogNotificationMessage("Post must have a title"));
       return;
     }
+
+    /**
+     * validate whether the editor has text or not using the plain string returned from getText()
+     * as it's difficult to this from the HTML or JSON representation of the editor.
+     */
+    const textContent = editor.getText().trim();
+    if (!textContent) {
+      return disptach(setBlogNotificationMessage("Blog is empty."));
+    }
+
     const blogContent = editor.getHTML();
     const doc = {
       title: trimmedTitle,
