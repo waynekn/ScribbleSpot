@@ -58,7 +58,7 @@ export const signInLocalUser = async (req, res) => {
     if (!profile) {
       return res
         .status(404)
-        .json({ error: `Could not find ${user.emailOrUserName}` });
+        .json({ error: "Invalid username, email or password" });
     }
 
     const isPasswordValid = await comparePasswords(
@@ -75,7 +75,9 @@ export const signInLocalUser = async (req, res) => {
       return res.status(200).json({ profile });
     }
 
-    res.status(403).json({ error: "Invalid username, email or password" });
+    return res
+      .status(403)
+      .json({ error: "Invalid username, email or password" });
   } catch (error) {
     res.status(500).json({
       error:
