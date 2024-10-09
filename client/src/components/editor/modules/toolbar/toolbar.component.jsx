@@ -1,8 +1,11 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 import "./toolbar.styles.scss";
 
 const Toolbar = ({ editor }) => {
+  const [showExtraOptions, setShowExtraOptions] = useState(false);
+
   if (!editor) return null;
 
   return (
@@ -71,20 +74,6 @@ const Toolbar = ({ editor }) => {
         1.
       </button>
 
-      <button
-        onClick={() => editor.chain().focus().toggleSuperscript().run()}
-        className={editor.isActive("superscript") ? "is-active" : ""}
-      >
-        X<sup>2</sup>
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().toggleSubscript().run()}
-        className={editor.isActive("subscript") ? "is-active" : ""}
-      >
-        X<sub>2</sub>
-      </button>
-
       <input
         type="color"
         onInput={(event) =>
@@ -100,6 +89,42 @@ const Toolbar = ({ editor }) => {
       >
         Unset Color
       </button>
+
+      {/* Toggle Button for Extra Features */}
+      <button
+        onClick={() => setShowExtraOptions(!showExtraOptions)}
+        aria-label="Toggle Extra Options"
+      >
+        {/* Use HTML code because for some reason &plus; isn't rendering properly */}
+        &#43;
+      </button>
+
+      {/* Extra Features */}
+      {showExtraOptions && (
+        <div className="extra-options">
+          <button
+            onClick={() => editor.chain().focus().toggleSubscript().run()}
+            className={editor.isActive("subscript") ? "is-active" : ""}
+            aria-label="Subscript"
+          >
+            X<sub>2</sub>
+          </button>
+          <button
+            onClick={() => editor.chain().focus().toggleSuperscript().run()}
+            className={editor.isActive("superscript") ? "is-active" : ""}
+            aria-label="Superscript"
+          >
+            X<sup>2</sup>
+          </button>
+
+          <button
+            onClick={() => setShowExtraOptions(!showExtraOptions)}
+            aria-label="Toggle Extra Options"
+          >
+            &minus;
+          </button>
+        </div>
+      )}
     </div>
   );
 };
