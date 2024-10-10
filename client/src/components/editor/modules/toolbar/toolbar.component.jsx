@@ -90,7 +90,7 @@ const Toolbar = ({ editor }) => {
         Unset Color
       </button>
 
-      {/* Toggle Button for Extra Features */}
+      {/* Button to show extra features*/}
       <button
         onClick={() => setShowExtraOptions(!showExtraOptions)}
         aria-label="Toggle Extra Options"
@@ -133,6 +133,7 @@ const Toolbar = ({ editor }) => {
             <i className="bi bi-code"></i>
           </button>
 
+          {/* Button to hide extra features */}
           <button
             onClick={() => setShowExtraOptions(!showExtraOptions)}
             aria-label="Toggle Extra Options"
