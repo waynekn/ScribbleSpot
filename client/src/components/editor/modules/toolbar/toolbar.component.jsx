@@ -118,6 +118,30 @@ const Toolbar = ({ editor }) => {
           </button>
 
           <button
+            onClick={() => {
+              const selectedText = editor.getText(
+                editor.state.selection.from,
+                editor.state.selection.to
+              );
+
+              if (!editor.isActive("codeBlock")) {
+                editor.commands.toggleCodeBlock();
+                editor.commands.setContent(`
+        <pre><code>Press Command/Ctrl + Enter to leave the fenced code block.
+        ${selectedText}
+        </code></pre>
+       
+      `);
+              } else {
+                editor.commands.toggleCodeBlock();
+              }
+            }}
+            className={editor.isActive("codeBlock") ? "is-active" : ""}
+          >
+            <i className="bi bi-code-slash"></i>
+          </button>
+
+          <button
             onClick={() => setShowExtraOptions(!showExtraOptions)}
             aria-label="Toggle Extra Options"
           >
