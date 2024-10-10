@@ -8,6 +8,7 @@ import Underline from "@tiptap/extension-underline";
 import TextStyle from "@tiptap/extension-text-style";
 import Superscript from "@tiptap/extension-superscript";
 import Subscript from "@tiptap/extension-subscript";
+import CodeBlock from "@tiptap/extension-code-block";
 
 import BubbleMenuComponent from "./modules/bubble-menu/bubble-menu";
 import Toolbar from "./modules/toolbar/toolbar.component";
@@ -31,6 +32,7 @@ const extensions = [
   Underline,
   Subscript,
   Superscript,
+  CodeBlock,
 ];
 
 const Editor = () => {
