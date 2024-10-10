@@ -63,7 +63,7 @@ const Toolbar = ({ editor }) => {
         className={editor.isActive("bulletList") ? "is-active" : ""}
         aria-label="Bullet List"
       >
-        •
+        <i className="bi bi-list-ul"></i>
       </button>
 
       <button
@@ -71,7 +71,7 @@ const Toolbar = ({ editor }) => {
         className={editor.isActive("orderedList") ? "is-active" : ""}
         aria-label="Ordered List"
       >
-        1.
+        <i className="bi bi-list-ol"></i>
       </button>
 
       <input
