@@ -8,6 +8,14 @@
 .tiptap {
   outline: none;
 
+  code {
+    background-color: rgba(88, 5, 255, 0.05);
+    border-radius: 0.4rem;
+    color: #2e2b29;
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+  }
+
   pre {
     background: #1e1e1e;
     border-radius: 0.5rem;
