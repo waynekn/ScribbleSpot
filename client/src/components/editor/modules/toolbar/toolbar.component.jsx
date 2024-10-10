@@ -142,6 +142,13 @@ const Toolbar = ({ editor }) => {
           </button>
 
           <button
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            className={editor.isActive("code") ? "is-active" : ""}
+          >
+            <i className="bi bi-code"></i>
+          </button>
+
+          <button
             onClick={() => setShowExtraOptions(!showExtraOptions)}
             aria-label="Toggle Extra Options"
           >
