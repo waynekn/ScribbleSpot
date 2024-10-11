@@ -1,6 +1,6 @@
 import express from "express";
 import request from "supertest";
-import userRouter from "../../routes/user/user.router";
+import userRouter from "../../routes/user.router";
 import { mongoConnect, mongoDisconnect } from "../../services/mongodb/mongo";
 
 export const app = express();

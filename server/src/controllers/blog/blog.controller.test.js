@@ -1,6 +1,6 @@
 import request from "supertest";
 import { mongoConnect, mongoDisconnect } from "../../services/mongodb/mongo";
-import { blogRouter } from "../../routes/blog/blog.router";
+import { blogRouter } from "../../routes/blog.router";
 import { app, authenticateJWT } from "../user/user.controller.test";
 
 app.use("/posts", authenticateJWT, blogRouter);
