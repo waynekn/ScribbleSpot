@@ -5,9 +5,9 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import cors from "cors";
-import authRouter from "./routes/authentication/auth.router.js";
-import userRouter from "./routes/user/user.router.js";
-import { blogRouter } from "./routes/blog/blog.router.js";
+import authRouter from "./routes/auth.router.js";
+import userRouter from "./routes/user.router.js";
+import blogRouter from "./routes/blog.router.js";
 
 import { authenticateJWT } from "./middleware/auth/jwt.auth.js";
 
