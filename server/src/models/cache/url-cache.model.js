@@ -1,4 +1,4 @@
-import caches from "../../schemas/cache/url-cache.schema.js";
+import caches from "../../schemas/url-cache.schema.js";
 
 export const getCache = (userName) => caches.findOne({ userName: userName });
 

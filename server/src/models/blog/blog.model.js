@@ -1,4 +1,4 @@
-import blogs from "../../schemas/blog/blog.schema.js";
+import blogs from "../../schemas/blog.schema.js";
 import {
   updateUsersLikedBlogs,
   updateUsersDislikedBlogs,

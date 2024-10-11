@@ -1,4 +1,4 @@
-import users from "../../schemas/user/user.schema.js";
+import users from "../../schemas/user.schema.js";
 
 /**
  * Authenticates a user by their email address.
