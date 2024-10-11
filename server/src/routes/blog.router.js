@@ -6,7 +6,7 @@ import {
   getBlogSuggestions,
   handleDelete,
   handleBlogReaction,
-} from "../../controllers/blog/blog.controller.js";
+} from "../controllers/blog/blog.controller.js";
 export const blogRouter = express.Router();
 
 blogRouter.post("/", getBlogSuggestions);

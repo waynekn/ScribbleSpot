@@ -3,11 +3,8 @@ import {
   googleAuth,
   googleCallback,
   signOutUser,
-} from "../../auth/google/google.auth.js";
-import {
-  signInLocalUser,
-  signUpLocalUser,
-} from "../../auth/local/local.auth.js";
+} from "../auth/google/google.auth.js";
+import { signInLocalUser, signUpLocalUser } from "../auth/local/local.auth.js";
 
 const authRouter = express.Router();
 
