@@ -7,7 +7,8 @@ import {
   handleDelete,
   handleBlogReaction,
 } from "../controllers/blog/blog.controller.js";
-export const blogRouter = express.Router();
+
+const blogRouter = express.Router();
 
 blogRouter.post("/", getBlogSuggestions);
 blogRouter.post("/blog", postBlog);
@@ -15,3 +16,5 @@ blogRouter.post("/titles", getBlogTitles);
 blogRouter.post("/content", getBlogContent);
 blogRouter.post("/blog/delete", handleDelete);
 blogRouter.post("/blog/react", handleBlogReaction);
+
+export default blogRouter;
