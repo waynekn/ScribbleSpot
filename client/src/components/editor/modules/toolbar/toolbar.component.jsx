@@ -8,6 +8,25 @@ const Toolbar = ({ editor }) => {
 
   if (!editor) return null;
 
+  const handleToggleCodeBlock = () => {
+    const selectedText = editor.getText(
+      editor.state.selection.from,
+      editor.state.selection.to
+    );
+
+    if (!editor.isActive("codeBlock")) {
+      editor.commands.toggleCodeBlock();
+      editor.commands.setContent(`
+  <pre><code>Press Command/Ctrl + Enter to leave the fenced code block.
+  ${selectedText}
+  </code></pre>
+  
+  `);
+    } else {
+      editor.commands.toggleCodeBlock();
+    }
+  };
+
   return (
     <div className="toolbar">
       <button
@@ -118,9 +137,7 @@ const Toolbar = ({ editor }) => {
           </button>
 
           <button
-            onClick={() => {
-              handleToggleCodeBlock(editor);
-            }}
+            onClick={handleToggleCodeBlock}
             className={editor.isActive("codeBlock") ? "is-active" : ""}
           >
             <i className="bi bi-code-slash"></i>
@@ -149,24 +166,5 @@ const Toolbar = ({ editor }) => {
 Toolbar.propTypes = {
   editor: PropTypes.object.isRequired,
 };
-
-function handleToggleCodeBlock(editor) {
-  const selectedText = editor.getText(
-    editor.state.selection.from,
-    editor.state.selection.to
-  );
-
-  if (!editor.isActive("codeBlock")) {
-    editor.commands.toggleCodeBlock();
-    editor.commands.setContent(`
-<pre><code>Press Command/Ctrl + Enter to leave the fenced code block.
-${selectedText}
-</code></pre>
-
-`);
-  } else {
-    editor.commands.toggleCodeBlock();
-  }
-}
 
 export default Toolbar;
