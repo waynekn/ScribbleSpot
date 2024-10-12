@@ -53,6 +53,7 @@ describe("test blog controller", () => {
       expect(response.status).toBe(200);
       expect(Array.isArray(response.body.titles)).toBe(true);
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id, ...titleObject } = response.body.titles[0];
       expect(titleObject).toEqual({
         title: "Test-title",
