@@ -1,4 +1,5 @@
 import blogs from "../../schemas/blog.schema.js";
+import users from "../../schemas/user.schema.js";
 import {
   updateUsersLikedBlogs,
   updateUsersDislikedBlogs,
@@ -11,7 +12,6 @@ export const checkExistingTitle = async (authorId, title) => {
  * Uploads a new blog post to the database.
  *
  * @param {String} authorId - The user id of the blog author.
- * @param {String} userName - The username of the author.
  * @param {String} title - The title of the blog.
  * @param {String} titleSlug - The title of the blog in a URL-friendly format,
  *                             e.g., 'my-blog-title'.
@@ -25,7 +25,6 @@ export const checkExistingTitle = async (authorId, title) => {
  */
 export const uploadBlog = async (
   authorId,
-  userName,
   title,
   titleSlug,
   content,
@@ -33,7 +32,6 @@ export const uploadBlog = async (
 ) => {
   return await blogs.create({
     authorId,
-    userName,
     title,
     titleSlug,
     content,
@@ -51,8 +49,10 @@ export const uploadBlog = async (
  * @throws {Error} - Throws an error if the fetch operation fails.
  */
 export const fetchBlogTitles = async (userName) => {
+  const { _id: userId } = await users.findOne({ userName }, { _id: 1 });
+
   const titles = await blogs
-    .find({ userName }, { _id: 1, title: 1, titleSlug: 1 })
+    .find({ authorId: userId }, { _id: 1, title: 1, titleSlug: 1 })
     .sort({ datePosted: -1 });
   return titles.map((title) => title.toObject());
 };
@@ -67,12 +67,24 @@ export const fetchBlogTitles = async (userName) => {
  * @throws {Error} - Throws an error if the fetch operation fails.
  */
 export const fetchBlogContent = async (blogId) => {
-  const blog = await blogs.findById(blogId, {
-    __v: 0,
-    titleSlug: 0,
-    authorId: 0,
-  });
-  return blog.toObject();
+  const blog = await blogs
+    .findById(blogId, {
+      __v: 0,
+      titleSlug: 0,
+    })
+    .populate("authorId", "userName");
+
+  if (!blog) {
+    throw new Error("Blog not found");
+  }
+
+  const blogObject = blog.toObject();
+
+  if (blogObject.authorId) {
+    blogObject.userName = blogObject.authorId.userName;
+    delete blogObject.authorId;
+  }
+  return blogObject;
 };
 
 /**
