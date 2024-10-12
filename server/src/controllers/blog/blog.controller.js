@@ -32,7 +32,6 @@ export const postBlog = async (req, res) => {
     const title = req.body.title;
     const titleSlug = title.replace(/\s+/g, "-").toLowerCase();
     const content = req.body.blogContent;
-    const userName = req.user.userName;
 
     const existingTitle = await checkExistingTitle(authorId, title);
 
@@ -41,7 +40,7 @@ export const postBlog = async (req, res) => {
     }
 
     const datePosted = new Date();
-    await uploadBlog(authorId, userName, title, titleSlug, content, datePosted);
+    await uploadBlog(authorId, title, titleSlug, content, datePosted);
     return res.status(201).json({ message: "Post successfuly uploaded" });
   } catch (error) {
     if (error.name && error.name === "MongoError") {
@@ -67,6 +66,7 @@ export const postBlog = async (req, res) => {
  */
 export const getBlogTitles = async (req, res) => {
   const userName = req.body.userName;
+
   try {
     const fetchedTitles = await fetchBlogTitles(userName);
     if (!fetchedTitles) {
