@@ -9,4 +9,5 @@ const cacheSchema = new mongoose.Schema({
 
 cacheSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 3600 });
 
-export default mongoose.model("Cache", cacheSchema);
+const cache = mongoose.model("Cache", cacheSchema);
+export default cache;
