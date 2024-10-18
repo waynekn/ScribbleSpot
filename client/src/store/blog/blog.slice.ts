@@ -61,8 +61,8 @@ export const deleteBlogByTitle = createAsyncThunk(
   "blog/deleteBlogByTitle",
   async (title: string, { rejectWithValue }) => {
     try {
-      const response = await deleteBlogRequest(title);
-      return response.message;
+      const result = await deleteBlogRequest(title);
+      return result;
     } catch (error) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
