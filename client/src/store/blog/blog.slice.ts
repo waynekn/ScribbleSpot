@@ -46,8 +46,8 @@ export const postBlog = createAsyncThunk(
     try {
       const title = doc.title;
       const blogContent = doc.blogContent;
-      const response = await uploadBlog(title, blogContent);
-      return response.message;
+      const message = await uploadBlog(title, blogContent);
+      return message;
     } catch (error) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
