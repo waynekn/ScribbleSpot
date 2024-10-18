@@ -28,7 +28,7 @@ const BlogPreview = () => {
   useEffect(() => {
     const getTitles = async () => {
       try {
-        const { titles } = await fetchTitles(profile.userName);
+        const titles = await fetchTitles(profile.userName);
         setBlogTitles(titles);
         setIsOwnProfile(currentUser.userName === profile.userName);
       } catch (error) {
