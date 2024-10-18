@@ -202,7 +202,7 @@ export const fetchBlogContent = async (blogId: string) => {
       `${URL}/posts/content`,
       { blogId }
     );
-    return res.data;
+    return res.data.blog;
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
