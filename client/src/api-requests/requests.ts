@@ -77,7 +77,7 @@ export const sendLocalAuthRequest = async (user: AuthCredentials) => {
         user: userWithoutAction,
       }
     );
-    return res.data;
+    return res.data.profile;
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
