@@ -173,7 +173,7 @@ export const uploadBlog = async (title: string, blogContent: string) => {
       title,
       blogContent,
     });
-    return res.data;
+    return res.data.message;
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
