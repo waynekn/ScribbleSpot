@@ -76,7 +76,7 @@ export const getBlog = createAsyncThunk(
   "blog/getBlog",
   async (blogId: string, { rejectWithValue }) => {
     try {
-      const { blog } = await fetchBlogContent(blogId);
+      const blog = await fetchBlogContent(blogId);
       return blog;
     } catch (error) {
       if (error instanceof Error) {
