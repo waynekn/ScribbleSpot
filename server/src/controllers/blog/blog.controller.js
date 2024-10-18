@@ -135,27 +135,31 @@ export const getBlogContent = async (req, res) => {
 };
 
 /**
+ * Fetches blogs from the database whose title matches the regex pattern.
  *
  * @param {Object} req - The request object.
  * @param {Object} req.user - The authenticated user object.
  * @param {String} req.user.id - The ID of the authenticated user.
  * @param {String} req.user.userName - The username of the authenticated user.
  * @param {Object} req.body - The request body.
- * @param {String} req.body.title - The title of the blog being searched for.
+ * @param {String} req.body.title - The title of the blog being searched for (string).
  * @param {Object} res - The response object.
  * @returns {Object} res.status(200) - A JSON object containing the suggested blogs.
+ *    @property {Array} suggestedBlogs - Array of blog objects matching the title.
  * @returns {Object} res.status(404) - A JSON object with an error message if no matches are found.
+ *    @property {String} Error - Error message indicating no blogs found.
  * @returns {Object} res.status(500) - A JSON object with an error message if an error occurs during processing.
+ *    @property {String} error - Error message detailing the processing error.
  */
 export const getBlogSuggestions = async (req, res) => {
   const title = req.body.title;
   try {
     const suggestedBlogs = await fetchBlogSuggestions(title);
 
-    if (!suggestedBlogs) {
+    if (!suggestedBlogs || suggestedBlogs.length === 0) {
       return res
         .status(404)
-        .json({ Error: `Could not find blogs with the title ${title}` });
+        .json({ Error: `Could not find blogs with the title "${title}"` });
     }
 
     return res.status(200).json({ suggestedBlogs });
