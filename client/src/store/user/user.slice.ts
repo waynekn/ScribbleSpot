@@ -42,7 +42,7 @@ export const fetchCurrentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await getUserProfile();
-      const { profile } = res;
+      const profile = res;
       return profile;
     } catch (error) {
       if (error instanceof Error) {
