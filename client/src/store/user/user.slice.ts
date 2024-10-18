@@ -63,7 +63,7 @@ export const authenticateLocalUser = createAsyncThunk(
   "user/authenticateLocalUser",
   async (user: AuthCredentials, { rejectWithValue }) => {
     try {
-      const { profile } = await sendLocalAuthRequest(user);
+      const profile = await sendLocalAuthRequest(user);
       return profile;
     } catch (error) {
       if (error instanceof Error) {
