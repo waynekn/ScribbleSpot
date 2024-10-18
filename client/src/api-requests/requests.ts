@@ -220,7 +220,7 @@ export const deleteBlogRequest = async (title: string) => {
       `${URL}/posts/blog/delete`,
       { title }
     );
-    return res.data;
+    return res.data.message;
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
