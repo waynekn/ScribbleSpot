@@ -20,7 +20,7 @@ export const fetchUserProfile = createAsyncThunk(
   "profile/fetchUserProfile",
   async (payload: FetchUserProfilePayload, { rejectWithValue }) => {
     try {
-      const { profile } = await getUserProfile(payload.userName);
+      const profile = await getUserProfile(payload.userName);
       return profile;
     } catch (error) {
       if (error instanceof AuthError) {
