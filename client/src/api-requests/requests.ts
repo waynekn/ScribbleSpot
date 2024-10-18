@@ -150,7 +150,7 @@ export const getImageUrl = async (imageKey: string, userName: string) => {
         userName,
       }
     );
-    return res.data;
+    return res.data.imageUrl;
   } catch (error) {
     if (error instanceof AxiosError) {
       const axiosError = error as AxiosError<ErrorResponse>;
