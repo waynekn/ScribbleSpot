@@ -16,7 +16,6 @@ import {
  * @param {Object} req - The request object.
  * @param {Object} req.user - The authenticated user object.
  * @param {String} req.user.id - The ID of the user.
- * @param {String} req.user.userName - The username of the user.
  * @param {Object} req.body - The request body.
  * @param {String} req.body.title - The title of the blog.
  * @param {String} req.body.blogContent - The content of the blog in HTML.
@@ -32,7 +31,6 @@ export const postBlog = async (req, res) => {
     const title = req.body.title;
     const titleSlug = title.replace(/\s+/g, "-").toLowerCase();
     const content = req.body.blogContent;
-    const userName = req.user.userName;
 
     const existingTitle = await checkExistingTitle(authorId, title);
 
@@ -41,7 +39,7 @@ export const postBlog = async (req, res) => {
     }
 
     const datePosted = new Date();
-    await uploadBlog(authorId, userName, title, titleSlug, content, datePosted);
+    await uploadBlog(authorId, title, titleSlug, content, datePosted);
     return res.status(201).json({ message: "Post successfuly uploaded" });
   } catch (error) {
     if (error.name && error.name === "MongoError") {
