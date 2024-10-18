@@ -67,7 +67,7 @@ const ProfilePage = () => {
         setAccountAge(formattedDate);
 
         if (profileData.profilePicture && profileData.userName) {
-          const { imageUrl } = await getImageUrl(
+          const imageUrl = await getImageUrl(
             profileData.profilePicture,
             profileData.userName
           );

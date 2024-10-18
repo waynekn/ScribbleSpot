@@ -22,7 +22,7 @@ const DropDown = () => {
   useEffect(() => {
     const updateImageUrl = async (imageKey, userName) => {
       try {
-        const { imageUrl } = await getImageUrl(imageKey, userName);
+        const imageUrl = await getImageUrl(imageKey, userName);
         return imageUrl;
       } catch (error) {
         console.warn(error);
