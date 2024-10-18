@@ -100,10 +100,10 @@ export const getUserProfile = async (userName?: string) => {
       const res = await axios.post<{ profile: User }>(`${URL}/users/profile`, {
         userName,
       });
-      return res.data;
+      return res.data.profile;
     }
     const res = await axios.get<{ profile: User }>(`${URL}/users/profile`);
-    return res.data;
+    return res.data.profile;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<ErrorResponse>;
