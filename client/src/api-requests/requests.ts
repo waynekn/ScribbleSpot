@@ -190,7 +190,7 @@ export const fetchTitles = async (userName: string) => {
     const res = await axios.post<{ titles: Title[] }>(`${URL}/posts/titles`, {
       userName,
     });
-    return res.data;
+    return res.data.titles;
   } catch (error) {
     throw new Error("An error occured when getting titles");
   }
